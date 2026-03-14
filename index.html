@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Market от Ильи — Магазин Игр и Скинов</title>
+    <meta name="description" content="Лучший маркет игр. Покупай скины, золото и читай новости гейминга здесь!">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; color: white; font-family: sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-item.active { color: #6366f1; border-top: 2px solid #6366f1; }
+    </style>
+</head>
+<body class="pb-20">
+    <div id="market" class="tab-content active p-4">
+        <h1 class="text-2xl font-bold mb-6 text-center text-indigo-400">GAME MARKET</h1>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                <i class="fas fa-star text-yellow-400 text-3xl mb-2"></i>
+                <p class="font-bold">Brawl Stars</p>
+                <p class="text-xs text-slate-400">Гемы и скины</p>
+                <button class="mt-3 bg-indigo-600 px-4 py-1 rounded-full text-sm">Купить</button>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                <i class="fas fa-cube text-blue-400 text-3xl mb-2"></i>
+                <p class="font-bold">Roblox</p>
+                <p class="text-xs text-slate-400">Робуксы</p>
+                <button class="mt-3 bg-indigo-600 px-4 py-1 rounded-full text-sm">Купить</button>
+            </div>
+        </div>
+    </div>
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around py-3">
+        <div class="nav-item active flex flex-col items-center">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="text-[10px] mt-1">Маркет</span>
+        </div>
+        <div class="nav-item flex flex-col items-center text-slate-500">
+            <i class="fas fa-newspaper text-xl"></i>
+            <span class="text-[10px] mt-1">Новости</span>
+        </div>
+    </nav>
+</body>
+</html>
