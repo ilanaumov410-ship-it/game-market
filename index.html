@@ -13,58 +13,28 @@
             --text-color: #f8fafc;
             --tg-gold: #fbbf24;
             --steam-light: #66c0f4;
-            --online-green: #22c55e;
+            --roblox-pink: #f472b6;
         }
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding-bottom: 120px; /* Увеличил отступ для футера */
+            padding-bottom: 100px;
         }
-        .online-counter {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 8px 15px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: bold;
-            color: #94a3b8;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-        .online-dot {
-            width: 8px; height: 8px; background-color: var(--online-green);
-            border-radius: 50%; box-shadow: 0 0 10px var(--online-green);
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
         header {
             text-align: center;
-            padding: 20px 20px 30px;
+            padding: 40px 20px 30px;
             background: linear-gradient(to bottom, #1e1b4b, var(--bg-color));
         }
         .logo { font-size: 28px; font-weight: 900; color: var(--accent-color); text-transform: uppercase; letter-spacing: 3px; }
-        
         .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; cursor: pointer; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; cursor: pointer; transition: 0.2s; }
+        .card:active { transform: scale(0.97); }
         .stars-card { grid-column: span 2; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--tg-gold); padding: 25px; border-radius: 25px; cursor: default; }
         .card i { font-size: 40px; margin-bottom: 10px; display: block; }
         
-        /* Блок ВРЕМЯ РАБОТЫ */
-        .work-time {
-            margin: 20px 15px;
-            padding: 15px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px dashed var(--accent-color);
-            border-radius: 15px;
-            text-align: center;
-            font-size: 14px;
-        }
+        .work-time { margin: 20px 15px; padding: 15px; background: rgba(99, 102, 241, 0.1); border: 1px dashed var(--accent-color); border-radius: 15px; text-align: center; font-size: 14px; }
         .work-time i { color: var(--accent-color); margin-right: 5px; }
 
         .btn-buy { background: var(--accent-color); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
@@ -76,15 +46,9 @@
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 12px; cursor: pointer; flex: 1; }
         .review-item { background: #0f172a; padding: 12px; border-radius: 12px; margin-bottom: 10px; text-align: left; font-size: 14px; border-left: 4px solid var(--accent-color); }
-        .review-name { color: var(--accent-color); font-weight: bold; margin-bottom: 4px; display: block; }
     </style>
 </head>
 <body>
-
-<div class="online-counter">
-    <div class="online-dot"></div>
-    Сейчас на сайте: <span id="userCount" style="color: white;">21</span> чел.
-</div>
 
 <header>
     <div class="logo">GAME MARKET</div>
@@ -116,10 +80,10 @@
         <button class="btn-buy">КУПИТЬ</button>
     </div>
 
-    <div class="card" onclick="openModal('Roblox')">
-        <i class="fas fa-gem" style="color: #f472b6;"></i>
+    <div class="card" onclick="openRobloxModal()">
+        <i class="fas fa-gem" style="color: var(--roblox-pink);"></i>
         <h3>Roblox</h3>
-        <button class="btn-buy">КУПИТЬ</button>
+        <button class="btn-buy" style="background: var(--roblox-pink); color: white;">КУПИТЬ</button>
     </div>
 </div>
 
@@ -128,42 +92,35 @@
     <span>График обработки заказов:<br><b>Ежедневно с 10:00 до 22:00 (МСК)</b></span>
 </div>
 
-<div id="newsModal" class="modal">
-    <div class="modal-content">
-        <h2 style="color: var(--accent-color); margin-top:0;">Новости</h2>
-        <div class="review-item"><span class="review-name">Сегодня</span>Добавили информацию о графике работы!</div>
-        <button class="btn-buy" onclick="closeAll()">Закрыть</button>
+<div id="robloxModal" class="modal">
+    <div class="modal-content" style="border-color: var(--roblox-pink);">
+        <h2 style="color: var(--roblox-pink); margin-top:0;">Roblox</h2>
+        <p style="font-size: 13px; color: #f8fafc; font-weight: bold;">Пополнение через геймпасс</p>
+        <p style="font-size: 11px; color: #94a3b8; margin-top: -10px;">Курс: 1.85 ₽ за 1 R$</p>
+        <input type="number" id="rbxAmount" class="input-manual" placeholder="Количество робуксов" oninput="calcRoblox()">
+        <input type="text" id="rbxNick" class="input-manual" placeholder="Ваш ник в Roblox">
+        <div style="display:flex; justify-content:space-between; margin:10px 0; font-weight:bold;">
+            <span>Итого к оплате:</span><span id="rbxFinal" style="color:#4ade80;">0 ₽</span>
+        </div>
+        <button class="btn-buy" onclick="sendRobloxOrder()" style="background: var(--roblox-pink); color: white;">ОПЛАТИТЬ</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Отмена</button>
     </div>
+</div>
+
+<div id="newsModal" class="modal">
+    <div class="modal-content"><h2>Новости</h2><div class="review-item">Теперь робуксы можно купить через геймпасс по курсу 1.85!</div><button class="btn-buy" onclick="closeAll()">Закрыть</button></div>
 </div>
 
 <div id="reviewsModal" class="modal">
-    <div class="modal-content">
-        <h2 style="color: var(--tg-gold); margin-top:0;">Отзывы</h2>
-        <div class="review-item"><span class="review-name">Илья ⭐⭐⭐⭐⭐</span>Всё честно, спасибо за Стим!</div>
-        <button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Закрыть</button>
-    </div>
+    <div class="modal-content"><h2>Отзывы</h2><div class="review-item"><b>Макс:</b> Всё супер, робуксы через геймпасс пришли!</div><button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button></div>
 </div>
 
 <div id="steamModal" class="modal">
-    <div class="modal-content">
-        <h2 style="color: var(--steam-light);">Steam</h2>
-        <input type="number" id="steamAmount" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
-        <input type="text" id="steamLogin" class="input-manual" placeholder="Логин">
-        <div style="display:flex; justify-content:space-between; margin:10px 0;"><span>К оплате:</span><span id="steamFinal" style="color:#4ade80;">0 ₽</span></div>
-        <button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-light); color:black;">ОПЛАТИТЬ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
-    </div>
+    <div class="modal-content"><h2>Steam</h2><input type="number" id="steamAmount" class="input-manual" placeholder="Сумма" oninput="calcSteam()"><input type="text" id="steamLogin" class="input-manual" placeholder="Логин"><div style="display:flex; justify-content:space-between;"><span>Итого:</span><span id="steamFinal" style="color:#4ade80;">0 ₽</span></div><button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-light); color:black;">ОПЛАТИТЬ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button></div>
 </div>
 
 <div id="orderModal" class="modal">
-    <div class="modal-content">
-        <h2 id="modalTitle">Заказ</h2>
-        <select id="itemSelect" class="input-manual"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Ник">
-        <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
-    </div>
+    <div class="modal-content"><h2 id="modalTitle">Заказ</h2><select id="itemSelect" class="input-manual"></select><input type="text" id="userNick" class="input-manual" placeholder="Ник"><button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button></div>
 </div>
 
 <nav class="nav-bar">
@@ -174,24 +131,14 @@
 
 <script>
     const starRate = 1.57;
+    const rbxRate = 1.85;
     const steamFee = 50;
-
-    function updateOnline() {
-        const c = document.getElementById('userCount');
-        let n = parseInt(c.innerText) + (Math.floor(Math.random()*3)-1);
-        if(n<15) n=18; if(n>45) n=30; c.innerText = n;
-    }
-    setInterval(updateOnline, 5000);
-
-    const prices = {
-        'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'},{n:'170 Гемов',p:'1050 ₽'},{n:'Brawl Pass',p:'850 ₽'}],
-        'Roblox': [{n:'400 Robux',p:'550 ₽'},{n:'800 Robux',p:'990 ₽'},{n:'1700 Robux',p:'1950 ₽'}]
-    };
 
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
     function openNews() { closeAll(); document.getElementById('newsModal').style.display = 'flex'; }
     function openReviews() { closeAll(); document.getElementById('reviewsModal').style.display = 'flex'; }
     function openSteamModal() { closeAll(); document.getElementById('steamModal').style.display = 'flex'; }
+    function openRobloxModal() { closeAll(); document.getElementById('robloxModal').style.display = 'flex'; }
 
     function updateStars() {
         const v = document.getElementById('starSlider').value;
@@ -206,6 +153,19 @@
         window.open(`https://t.me/BlameJohn2014?text=Stars: ${v}. Ник: ${n}`);
     }
 
+    function calcRoblox() {
+        const a = parseFloat(document.getElementById('rbxAmount').value) || 0;
+        document.getElementById('rbxFinal').innerText = (a * rbxRate).toFixed(2) + ' ₽';
+    }
+
+    function sendRobloxOrder() {
+        const a = document.getElementById('rbxAmount').value;
+        const n = document.getElementById('rbxNick').value;
+        if(!a || !n) return alert('Заполни поля!');
+        const p = (a * rbxRate).toFixed(2);
+        window.open(`https://t.me/BlameJohn2014?text=Roblox (через геймпасс): ${a} R$. Ник: ${n}. К оплате: ${p} руб.`);
+    }
+
     function calcSteam() {
         const a = parseFloat(document.getElementById('steamAmount').value) || 0;
         document.getElementById('steamFinal').innerText = (a > 0 ? a + steamFee : 0) + ' ₽';
@@ -218,6 +178,7 @@
         window.open(`https://t.me/BlameJohn2014?text=Steam: ${a} руб. Логин: ${l}`);
     }
 
+    const prices = { 'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'},{n:'170 Гемов',p:'1050 ₽'},{n:'Brawl Pass',p:'850 ₽'}] };
     let currentGame = '';
     function openModal(game) {
         closeAll(); currentGame = game;
@@ -228,7 +189,6 @@
         });
         document.getElementById('orderModal').style.display = 'flex';
     }
-
     function sendOrder() {
         const i = document.getElementById('itemSelect').value;
         const n = document.getElementById('userNick').value;
@@ -236,7 +196,6 @@
         window.open(`https://t.me/BlameJohn2014?text=${currentGame}: ${i}. Ник: ${n}`);
     }
 </script>
-
 </body>
-    </html>
-    
+                                   </html>
+                                   
