@@ -39,71 +39,27 @@
             margin-bottom: 20px;
             animation: pulse 2s infinite;
         }
-        .loader-bar {
-            width: 150px;
-            height: 4px;
-            background: #334155;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .loader-progress {
-            width: 0%;
-            height: 100%;
-            background: var(--accent-color);
-            animation: loading 3.5s forwards;
-        }
+        .loader-bar { width: 150px; height: 4px; background: #334155; border-radius: 10px; overflow: hidden; }
+        .loader-progress { width: 0%; height: 100%; background: var(--accent-color); animation: loading 3.5s forwards; }
         @keyframes loading { to { width: 100%; } }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding-bottom: 100px;
-            overflow-x: hidden;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 20px 20px;
-            background: linear-gradient(to bottom, #1e1b4b, var(--bg-color));
-            animation: fadeInDown 1s ease;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; }
+        header { text-align: center; padding: 30px 20px 20px; background: linear-gradient(to bottom, #1e1b4b, var(--bg-color)); }
 
         .online-status {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(34, 197, 94, 0.1);
-            color: #4ade80;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            border: 1px solid rgba(34, 197, 94, 0.2);
+            display: inline-flex; align-items: center; background: rgba(34, 197, 94, 0.1); color: #4ade80;
+            padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; border: 1px solid rgba(34, 197, 94, 0.2);
         }
         .dot { height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 7px; animation: blink 1.5s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        .container { 
-            padding: 15px; 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            animation: fadeInUp 1s ease;
-        }
-
+        .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeInUp 1s ease; }
         .card { 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            padding: 20px; 
-            text-align: center; 
-            border: 1px solid #334155; 
-            cursor: pointer; 
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            background: var(--card-bg); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; 
+            cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent-color); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-color); }
         .stars-card { grid-column: span 2; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--tg-gold); }
         .card i { font-size: 40px; margin-bottom: 10px; display: block; }
         
@@ -111,14 +67,13 @@
         .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 10px 0; text-align: center; font-size: 16px; box-sizing: border-box; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 85vh; overflow-y: auto; animation: zoomIn 0.3s ease; }
-
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 85vh; overflow-y: auto; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 12px; cursor: pointer; flex: 1; }
+        .review-item { background: #0f172a; padding: 12px; border-radius: 12px; margin-bottom: 10px; text-align: left; font-size: 14px; border-left: 4px solid var(--accent-color); }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -126,7 +81,6 @@
 <div id="preloader">
     <div class="loader-logo">GAME MARKET</div>
     <div class="loader-bar"><div class="loader-progress"></div></div>
-    <p style="color: #94a3b8; font-size: 12px; margin-top: 15px;">Загрузка маркета...</p>
 </div>
 
 <header>
@@ -159,6 +113,12 @@
         <button class="btn-buy" style="background: var(--genshin-teal);">КУПИТЬ</button>
     </div>
 
+    <div class="card" onclick="openModal('Brawl Stars')">
+        <i class="fas fa-bolt" style="color: #60a5fa;"></i>
+        <h3>Brawl Stars</h3>
+        <button class="btn-buy" style="background: #60a5fa;">КУПИТЬ</button>
+    </div>
+
     <div class="card" onclick="openModal('Discord Nitro')">
         <i class="fab fa-discord" style="color: var(--discord-blurple);"></i>
         <h3>Nitro</h3>
@@ -177,10 +137,10 @@
         <h2 style="color: var(--roblox-pink);">Roblox</h2>
         <p style="font-size: 11px; color: #94a3b8;">Курс: 1.47 ₽ за 1 R$</p>
         <input type="number" id="rbxAmount" class="input-manual" placeholder="Количество" oninput="calcRoblox()">
-        <input type="text" id="rbxNick" class="input-manual" placeholder="Ник в Roblox">
+        <input type="text" id="rbxNick" class="input-manual" placeholder="Ник">
         <div style="display:flex; justify-content:space-between; font-weight:bold;"><span>Итого:</span><span id="rbxFinal" style="color:#4ade80;">0 ₽</span></div>
         <button class="btn-buy" onclick="sendRobloxOrder()" style="background: var(--roblox-pink);">ОПЛАТИТЬ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Отмена</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
     </div>
 </div>
 
@@ -188,19 +148,38 @@
     <div class="modal-content">
         <h2 id="modalTitle">Заказ</h2>
         <select id="itemSelect" class="input-manual"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Данные (Ник/UID)">
+        <input type="text" id="userNick" class="input-manual" placeholder="Данные аккаунта">
         <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
     </div>
 </div>
 
+<div id="newsModal" class="modal">
+    <div class="modal-content">
+        <h2>Новости</h2>
+        <div class="review-item">🔥 <b>Грандиозное обновление!</b><br>Добавлен Genshin Impact, Spotify и красивая заставка.</div>
+        <div class="review-item">💎 <b>Лучшие цены:</b><br>Robux: 1.47 ₽ | Stars: 1.52 ₽.</div>
+        <button class="btn-buy" onclick="closeAll()">Закрыть</button>
+    </div>
+</div>
+
+<div id="reviewsModal" class="modal">
+    <div class="modal-content">
+        <h2>Отзывы</h2>
+        <div class="review-item"><b>Иван:</b> Гемы в Brawl пришли быстро!</div>
+        <div class="review-item"><b>Дарья:</b> Полая луна дешевле, чем везде.</div>
+        <button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button>
+    </div>
+</div>
+
 <nav class="nav-bar">
     <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i><br>Маркет</div>
-    <div class="nav-item" onclick="alert('Stars: 1.52 | Robux: 1.47 | Genshin Луна: 490')"><i class="fas fa-fire"></i><br>Цены</div>
+    <div class="nav-item" onclick="openNews()"><i class="fas fa-fire"></i><br>Новости</div>
+    <div class="nav-item" onclick="openReviews()"><i class="fas fa-check-circle"></i><br>Отзывы</div>
 </nav>
 
 <script>
-    // Убираем заставку через 4 секунды
     setTimeout(() => {
         const preloader = document.getElementById('preloader');
         preloader.style.opacity = '0';
@@ -211,18 +190,15 @@
     const rbxRate = 1.47;
 
     const prices = { 
-        'Genshin Impact': [
-            {n:'Полая луна',p:'490 ₽'},
-            {n:'Боевой пропуск',p:'950 ₽'},
-            {n:'60 Кристаллов',p:'99 ₽'},
-            {n:'300+30 Кристаллов',p:'450 ₽'},
-            {n:'980+110 Кристаллов',p:'1350 ₽'}
-        ],
+        'Genshin Impact': [{n:'Полая луна',p:'490 ₽'},{n:'Боевой пропуск',p:'950 ₽'},{n:'60 Кристаллов',p:'99 ₽'},{n:'300+30 Кристаллов',p:'450 ₽'}],
+        'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'},{n:'170 Гемов',p:'1050 ₽'},{n:'Brawl Pass',p:'850 ₽'}],
         'Discord Nitro': [{n:'Nitro Basic',p:'249 ₽'},{n:'Nitro Full',p:'590 ₽'}],
         'Spotify Premium': [{n:'Spotify (1 Месяц)',p:'299 ₽'},{n:'Spotify (12 Месяцев)',p:'2790 ₽'}]
     };
 
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function openNews() { closeAll(); document.getElementById('newsModal').style.display = 'flex'; }
+    function openReviews() { closeAll(); document.getElementById('reviewsModal').style.display = 'flex'; }
     function openRobloxModal() { closeAll(); document.getElementById('robloxModal').style.display = 'flex'; }
 
     function updateStars() {
@@ -269,4 +245,4 @@
     }
 </script>
 </body>
-    </html>
+            </html>
