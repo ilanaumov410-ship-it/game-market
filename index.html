@@ -16,21 +16,61 @@
             --roblox-pink: #f472b6;
             --discord-blurple: #5865f2;
             --spotify-green: #1db954;
+            --genshin-teal: #4db2ff;
         }
+
+        /* Заставка (Preloader) */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader-logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--accent-color);
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        .loader-bar {
+            width: 150px;
+            height: 4px;
+            background: #334155;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .loader-progress {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-color);
+            animation: loading 3.5s forwards;
+        }
+        @keyframes loading { to { width: 100%; } }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding-bottom: 100px;
+            overflow-x: hidden;
         }
+
         header {
             text-align: center;
             padding: 30px 20px 20px;
             background: linear-gradient(to bottom, #1e1b4b, var(--bg-color));
+            animation: fadeInDown 1s ease;
         }
-        .logo { font-size: 28px; font-weight: 900; color: var(--accent-color); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
-        
+
         .online-status {
             display: inline-flex;
             align-items: center;
@@ -42,38 +82,56 @@
             font-weight: bold;
             border: 1px solid rgba(34, 197, 94, 0.2);
         }
-        .dot {
-            height: 8px; width: 8px; background-color: #22c55e;
-            border-radius: 50%; display: inline-block; margin-right: 7px;
-            animation: blink 1.5s infinite;
-        }
+        .dot { height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 7px; animation: blink 1.5s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:active { transform: scale(0.97); }
-        .stars-card { grid-column: span 2; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--tg-gold); padding: 25px; border-radius: 25px; cursor: default; }
+        .container { 
+            padding: 15px; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            animation: fadeInUp 1s ease;
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 20px; 
+            padding: 20px; 
+            text-align: center; 
+            border: 1px solid #334155; 
+            cursor: pointer; 
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-color); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+        .stars-card { grid-column: span 2; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--tg-gold); }
         .card i { font-size: 40px; margin-bottom: 10px; display: block; }
-        
-        .work-time { margin: 20px 15px; padding: 15px; background: rgba(99, 102, 241, 0.1); border: 1px dashed var(--accent-color); border-radius: 15px; text-align: center; font-size: 14px; }
         
         .btn-buy { background: var(--accent-color); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
         .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 10px 0; text-align: center; font-size: 16px; box-sizing: border-box; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 85vh; overflow-y: auto; }
-        
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 85vh; overflow-y: auto; animation: zoomIn 0.3s ease; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 12px; cursor: pointer; flex: 1; }
-        .review-item { background: #0f172a; padding: 12px; border-radius: 12px; margin-bottom: 10px; text-align: left; font-size: 14px; border-left: 4px solid var(--accent-color); }
     </style>
 </head>
 <body>
 
+<div id="preloader">
+    <div class="loader-logo">GAME MARKET</div>
+    <div class="loader-bar"><div class="loader-progress"></div></div>
+    <p style="color: #94a3b8; font-size: 12px; margin-top: 15px;">Загрузка маркета...</p>
+</div>
+
 <header>
-    <div class="logo">GAME MARKET</div>
+    <div style="font-size: 28px; font-weight: 900; color: var(--accent-color); letter-spacing: 3px;">GAME MARKET</div>
     <div class="online-status"><span class="dot"></span>ОПЕРАТОР В СЕТИ</div>
-    <p style="font-size: 12px; color: #94a3b8; margin-top: 10px;">@BlameJohn2014</p>
 </header>
 
 <div class="container">
@@ -89,22 +147,16 @@
         <button class="btn-buy" style="background: var(--tg-gold); color: #000;" onclick="buyStars()">КУПИТЬ</button>
     </div>
 
-    <div class="card" onclick="openSteamModal()">
-        <i class="fab fa-steam" style="color: var(--steam-light);"></i>
-        <h3>Steam</h3>
-        <button class="btn-buy" style="background: var(--steam-light); color: #000;">ПОПОЛНИТЬ</button>
-    </div>
-
     <div class="card" onclick="openRobloxModal()">
         <i class="fas fa-gem" style="color: var(--roblox-pink);"></i>
         <h3>Roblox</h3>
-        <button class="btn-buy" style="background: var(--roblox-pink); color: white;">КУПИТЬ</button>
+        <button class="btn-buy" style="background: var(--roblox-pink);">КУПИТЬ</button>
     </div>
 
-    <div class="card" onclick="openModal('Brawl Stars')">
-        <i class="fas fa-bolt" style="color: #60a5fa;"></i>
-        <h3>Brawl Stars</h3>
-        <button class="btn-buy">КУПИТЬ</button>
+    <div class="card" onclick="openModal('Genshin Impact')">
+        <i class="fas fa-wind" style="color: var(--genshin-teal);"></i>
+        <h3>Genshin</h3>
+        <button class="btn-buy" style="background: var(--genshin-teal);">КУПИТЬ</button>
     </div>
 
     <div class="card" onclick="openModal('Discord Nitro')">
@@ -120,22 +172,14 @@
     </div>
 </div>
 
-<div class="work-time">
-    <i class="fas fa-clock" style="color: var(--accent-color);"></i> 
-    <span>График обработки заказов:<br><b>Ежедневно с 10:00 до 22:00 (МСК)</b></span>
-</div>
-
 <div id="robloxModal" class="modal">
     <div class="modal-content" style="border-color: var(--roblox-pink);">
-        <h2 style="color: var(--roblox-pink); margin-top:0;">Roblox</h2>
-        <p style="font-size: 13px; font-weight: bold;">Пополнение через геймпасс</p>
-        <p style="font-size: 11px; color: #94a3b8; margin-top: -10px;">Курс: 1.47 ₽ за 1 R$</p>
-        <input type="number" id="rbxAmount" class="input-manual" placeholder="Количество робуксов" oninput="calcRoblox()">
-        <input type="text" id="rbxNick" class="input-manual" placeholder="Ваш ник в Roblox">
-        <div style="display:flex; justify-content:space-between; margin:10px 0; font-weight:bold;">
-            <span>Итого к оплате:</span><span id="rbxFinal" style="color:#4ade80;">0 ₽</span>
-        </div>
-        <button class="btn-buy" onclick="sendRobloxOrder()" style="background: var(--roblox-pink); color: white;">ОПЛАТИТЬ</button>
+        <h2 style="color: var(--roblox-pink);">Roblox</h2>
+        <p style="font-size: 11px; color: #94a3b8;">Курс: 1.47 ₽ за 1 R$</p>
+        <input type="number" id="rbxAmount" class="input-manual" placeholder="Количество" oninput="calcRoblox()">
+        <input type="text" id="rbxNick" class="input-manual" placeholder="Ник в Roblox">
+        <div style="display:flex; justify-content:space-between; font-weight:bold;"><span>Итого:</span><span id="rbxFinal" style="color:#4ade80;">0 ₽</span></div>
+        <button class="btn-buy" onclick="sendRobloxOrder()" style="background: var(--roblox-pink);">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Отмена</button>
     </div>
 </div>
@@ -144,50 +188,41 @@
     <div class="modal-content">
         <h2 id="modalTitle">Заказ</h2>
         <select id="itemSelect" class="input-manual"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Данные (Ник/Почта)">
+        <input type="text" id="userNick" class="input-manual" placeholder="Данные (Ник/UID)">
         <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
     </div>
 </div>
 
-<div id="newsModal" class="modal">
-    <div class="modal-content">
-        <h2>Новости</h2>
-        <div class="review-item">🎧 <b>Spotify Premium!</b><br>Добавили подписки на 1, 3 и 12 месяцев. Слушай музыку без ограничений!</div>
-        <div class="review-item">💎 <b>Nitro & Robux</b><br>Лучшие цены на рынке обновлены. Оператор на связи!</div>
-        <button class="btn-buy" onclick="closeAll()">Закрыть</button>
-    </div>
-</div>
-
-<div id="reviewsModal" class="modal">
-    <div class="modal-content"><h2>Отзывы</h2><div class="review-item"><b>Артем:</b> Нитро пришло за 5 минут, спасибо!</div><button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button></div>
-</div>
-
-<div id="steamModal" class="modal">
-    <div class="modal-content"><h2>Steam</h2><input type="number" id="steamAmount" class="input-manual" placeholder="Сумма" oninput="calcSteam()"><input type="text" id="steamLogin" class="input-manual" placeholder="Логин"><div style="display:flex; justify-content:space-between;"><span>Итого:</span><span id="steamFinal" style="color:#4ade80;">0 ₽</span></div><button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-light); color:black;">ОПЛАТИТЬ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button></div>
-</div>
-
 <nav class="nav-bar">
     <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i><br>Маркет</div>
-    <div class="nav-item" onclick="openNews()"><i class="fas fa-fire"></i><br>Новости</div>
-    <div class="nav-item" onclick="openReviews()"><i class="fas fa-check-circle"></i><br>Отзывы</div>
+    <div class="nav-item" onclick="alert('Stars: 1.52 | Robux: 1.47 | Genshin Луна: 490')"><i class="fas fa-fire"></i><br>Цены</div>
 </nav>
 
 <script>
+    // Убираем заставку через 4 секунды
+    setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        preloader.style.opacity = '0';
+        setTimeout(() => preloader.style.display = 'none', 500);
+    }, 4000);
+
     const starRate = 1.52;
     const rbxRate = 1.47;
-    const steamFee = 50;
 
     const prices = { 
-        'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'},{n:'170 Гемов',p:'1050 ₽'},{n:'Brawl Pass',p:'850 ₽'}],
-        'Discord Nitro': [{n:'Nitro Basic (Месяц)',p:'249 ₽'},{n:'Nitro Full (Месяц)',p:'590 ₽'},{n:'Nitro Full (Год)',p:'4990 ₽'}],
-        'Spotify Premium': [{n:'Spotify (1 Месяц)',p:'299 ₽'},{n:'Spotify (3 Месяца)',p:'799 ₽'},{n:'Spotify (12 Месяцев)',p:'2790 ₽'}]
+        'Genshin Impact': [
+            {n:'Полая луна',p:'490 ₽'},
+            {n:'Боевой пропуск',p:'950 ₽'},
+            {n:'60 Кристаллов',p:'99 ₽'},
+            {n:'300+30 Кристаллов',p:'450 ₽'},
+            {n:'980+110 Кристаллов',p:'1350 ₽'}
+        ],
+        'Discord Nitro': [{n:'Nitro Basic',p:'249 ₽'},{n:'Nitro Full',p:'590 ₽'}],
+        'Spotify Premium': [{n:'Spotify (1 Месяц)',p:'299 ₽'},{n:'Spotify (12 Месяцев)',p:'2790 ₽'}]
     };
 
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-    function openNews() { closeAll(); document.getElementById('newsModal').style.display = 'flex'; }
-    function openReviews() { closeAll(); document.getElementById('reviewsModal').style.display = 'flex'; }
-    function openSteamModal() { closeAll(); document.getElementById('steamModal').style.display = 'flex'; }
     function openRobloxModal() { closeAll(); document.getElementById('robloxModal').style.display = 'flex'; }
 
     function updateStars() {
@@ -199,7 +234,7 @@
     function buyStars() {
         const v = document.getElementById('starSlider').value;
         const n = document.getElementById('starNick').value;
-        if(!n) return alert('Укажите ник!');
+        if(!n) return alert('Ник!');
         window.open(`https://t.me/BlameJohn2014?text=Stars: ${v}. Ник: ${n}`);
     }
 
@@ -212,19 +247,7 @@
         const a = document.getElementById('rbxAmount').value;
         const n = document.getElementById('rbxNick').value;
         if(!a || !n) return alert('Заполни поля!');
-        window.open(`https://t.me/BlameJohn2014?text=Roblox (геймпасс): ${a} R$. Ник: ${n}. Сумма: ${(a * rbxRate).toFixed(2)} ₽`);
-    }
-
-    function calcSteam() {
-        const a = parseFloat(document.getElementById('steamAmount').value) || 0;
-        document.getElementById('steamFinal').innerText = (a > 0 ? a + steamFee : 0) + ' ₽';
-    }
-
-    function sendSteamOrder() {
-        const a = document.getElementById('steamAmount').value;
-        const l = document.getElementById('steamLogin').value;
-        if(!a || !l) return alert('Заполни!');
-        window.open(`https://t.me/BlameJohn2014?text=Steam: ${a} руб. Логин: ${l}`);
+        window.open(`https://t.me/BlameJohn2014?text=Roblox: ${a} R$. Ник: ${n}. Сумма: ${(a * rbxRate).toFixed(2)} ₽`);
     }
 
     let currentGame = '';
@@ -241,9 +264,9 @@
     function sendOrder() {
         const i = document.getElementById('itemSelect').value;
         const n = document.getElementById('userNick').value;
-        if(!n) return alert('Заполните данные!');
+        if(!n) return alert('Заполни данные!');
         window.open(`https://t.me/BlameJohn2014?text=${currentGame}: ${i}. Данные: ${n}`);
     }
 </script>
 </body>
-</html>
+    </html>
