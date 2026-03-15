@@ -62,11 +62,10 @@
             font-size: 18px; font-weight: bold; margin-bottom: 10px;
         }
         .input-manual {
-            width: 100%; padding: 10px; background: #0f172a;
-            border: 1px solid #334155; color: white; border-radius: 8px;
-            margin: 10px 0; text-align: center; font-size: 16px;
+            width: 100%; padding: 12px; background: #0f172a;
+            border: 1px solid #334155; color: white; border-radius: 10px;
+            margin: 10px 0; text-align: center; font-size: 16px; box-sizing: border-box;
         }
-        /* Стили модального окна */
         .modal {
             display: none; position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -78,7 +77,7 @@
             border-radius: 25px; width: 85%; max-width: 350px;
             border: 1px solid var(--accent-color);
         }
-        select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; background: #0f172a; color: white; }
+        select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; background: #0f172a; color: white; border: 1px solid #475569; }
         
         .nav-bar {
             position: fixed; bottom: 0; width: 100%; background: #1e293b;
@@ -105,7 +104,7 @@
                 <span id="starPrice" style="color: #4ade80;">392.50 ₽</span>
             </div>
             <input type="range" id="starSlider" min="50" max="2500" step="10" value="250" oninput="updateStars()">
-            <input type="number" id="starInput" class="input-manual" placeholder="Количество звёзд" oninput="updateStars(true)">
+            <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звёзд" oninput="updateStars(true)">
             <input type="text" id="starNick" class="input-manual" placeholder="Ваш ник в Telegram">
         </div>
         <button class="btn-buy" style="background: var(--tg-gold); color: #000;" onclick="buyStars()">КУПИТЬ ЗВЁЗДЫ</button>
@@ -175,7 +174,7 @@
         const price = (count * rate).toFixed(2);
         const nick = document.getElementById('starNick').value;
         if(!nick) { alert('Введите ник!'); return; }
-        window.open(`https://t.me/BlameJohn2014?text=Купить ${count} Stars за ${price}₽. Ник: ${nick}`, '_blank');
+        window.open('https://t.me/BlameJohn2014?text=' + encodeURIComponent('Купить ' + count + ' Stars за ' + price + '₽. Ник: ' + nick), '_blank');
     }
 
     function openModal(game) {
@@ -185,8 +184,8 @@
         select.innerHTML = '';
         prices[game].forEach(item => {
             let opt = document.createElement('option');
-            opt.value = `${item.n} за ${item.p}`;
-            opt.innerText = `${item.n} — ${item.p}`;
+            opt.value = item.n + ' за ' + item.p;
+            opt.innerText = item.n + ' — ' + item.p;
             select.appendChild(opt);
         });
         document.getElementById('orderModal').style.display = 'flex';
@@ -198,7 +197,7 @@
         const item = document.getElementById('itemSelect').value;
         const nick = document.getElementById('userNick').value;
         if(!nick) { alert('Введите ник!'); return; }
-        window.open(`https://t.me/BlameJohn2014?text=Купить ${item} в ${currentGame}. Ник: ${nick}`, '_blank');
+        window.open('https://t.me/BlameJohn2014?text=' + encodeURIComponent('Купить ' + item + ' в ' + currentGame + '. Ник: ' + nick), '_blank');
         closeModal();
     }
 </script>
