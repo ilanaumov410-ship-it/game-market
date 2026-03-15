@@ -12,37 +12,23 @@
             --accent-color: #6366f1;
             --text-color: #f8fafc;
             --tg-gold: #fbbf24;
-            --steam-light: #66c0f4;
             --roblox-pink: #f472b6;
-            --discord-blurple: #5865f2;
-            --spotify-green: #1db954;
             --genshin-teal: #4db2ff;
+            --case-gradient: linear-gradient(45deg, #f06, #9f6, #06f, #f06);
         }
 
-        /* Заставка (Preloader) */
+        /* Заставка */
         #preloader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
             transition: opacity 0.5s ease;
         }
-        .loader-logo {
-            font-size: 32px;
-            font-weight: 900;
-            color: var(--accent-color);
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        .loader-bar { width: 150px; height: 4px; background: #334155; border-radius: 10px; overflow: hidden; }
+        .loader-logo { font-size: 32px; font-weight: 900; color: var(--accent-color); letter-spacing: 5px; animation: pulse 2s infinite; }
+        .loader-bar { width: 150px; height: 4px; background: #334155; border-radius: 10px; overflow: hidden; margin-top: 20px; }
         .loader-progress { width: 0%; height: 100%; background: var(--accent-color); animation: loading 3.5s forwards; }
         @keyframes loading { to { width: 100%; } }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; }
         header { text-align: center; padding: 30px 20px 20px; background: linear-gradient(to bottom, #1e1b4b, var(--bg-color)); }
@@ -52,14 +38,29 @@
             padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; border: 1px solid rgba(34, 197, 94, 0.2);
         }
         .dot { height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 7px; animation: blink 1.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeInUp 1s ease; }
+        
         .card { 
             background: var(--card-bg); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; 
             cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         .card:hover { transform: translateY(-10px); border-color: var(--accent-color); }
+
+        /* Стиль Кейса Удачи */
+        .case-card {
+            grid-column: span 2;
+            background: #000;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#000, #000), var(--case-gradient);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            background-size: 400% 400%;
+            animation: gradient-move 5s infinite;
+        }
+        @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
         .stars-card { grid-column: span 2; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--tg-gold); }
         .card i { font-size: 40px; margin-bottom: 10px; display: block; }
         
@@ -89,6 +90,13 @@
 </header>
 
 <div class="container">
+    <div class="card case-card" onclick="openCaseModal()">
+        <i class="fas fa-box-open" style="color: #fff;"></i>
+        <h3 style="margin: 0; color: #fff;">КЕЙС УДАЧИ</h3>
+        <p style="font-size: 12px; color: #ccc;">Испытай удачу! Призы до 80 R$!</p>
+        <button class="btn-buy" style="background: #fff; color: #000;">ОТКРЫТЬ ЗА 79 ₽</button>
+    </div>
+
     <div class="card stars-card">
         <i class="fas fa-star" style="color: var(--tg-gold);"></i>
         <h3>Telegram Stars</h3>
@@ -120,57 +128,50 @@
     </div>
 
     <div class="card" onclick="openModal('Discord Nitro')">
-        <i class="fab fa-discord" style="color: var(--discord-blurple);"></i>
+        <i class="fab fa-discord" style="color: #5865f2;"></i>
         <h3>Nitro</h3>
-        <button class="btn-buy" style="background: var(--discord-blurple);">КУПИТЬ</button>
+        <button class="btn-buy" style="background: #5865f2;">КУПИТЬ</button>
     </div>
+</div>
 
-    <div class="card" onclick="openModal('Spotify Premium')">
-        <i class="fab fa-spotify" style="color: var(--spotify-green);"></i>
-        <h3>Spotify</h3>
-        <button class="btn-buy" style="background: var(--spotify-green);">КУПИТЬ</button>
+<div id="caseModal" class="modal">
+    <div class="modal-content" style="text-align: center; border-color: #fff;">
+        <i class="fas fa-gift" style="font-size: 50px; color: #fbbf24; margin-bottom: 15px;"></i>
+        <h2>Кейс Удачи</h2>
+        <p>Список возможных призов:</p>
+        <ul style="text-align: left; font-size: 14px; color: #94a3b8; line-height: 1.8;">
+            <li>👑 80 Робуксов (ДЖЕКПОТ)</li>
+            <li>💎 50 Робуксов</li>
+            <li>🌟 30 Telegram Stars</li>
+            <li>🔥 20 Робуксов</li>
+        </ul>
+        <input type="text" id="caseNick" class="input-manual" placeholder="Ваш Ник / Тег">
+        <button class="btn-buy" onclick="sendCaseOrder()" style="background: #fff; color: #000;">ОТКРЫТЬ ЗА 79 ₽</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
     </div>
 </div>
 
 <div id="robloxModal" class="modal">
     <div class="modal-content" style="border-color: var(--roblox-pink);">
         <h2 style="color: var(--roblox-pink);">Roblox</h2>
-        <p style="font-size: 11px; color: #94a3b8;">Курс: 1.47 ₽ за 1 R$</p>
         <input type="number" id="rbxAmount" class="input-manual" placeholder="Количество" oninput="calcRoblox()">
         <input type="text" id="rbxNick" class="input-manual" placeholder="Ник">
-        <div style="display:flex; justify-content:space-between; font-weight:bold;"><span>Итого:</span><span id="rbxFinal" style="color:#4ade80;">0 ₽</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Итого:</span><span id="rbxFinal">0 ₽</span></div>
         <button class="btn-buy" onclick="sendRobloxOrder()" style="background: var(--roblox-pink);">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
     </div>
 </div>
 
 <div id="orderModal" class="modal">
-    <div class="modal-content">
-        <h2 id="modalTitle">Заказ</h2>
-        <select id="itemSelect" class="input-manual"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Данные аккаунта">
-        <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
-    </div>
+    <div class="modal-content"><h2 id="modalTitle">Заказ</h2><select id="itemSelect" class="input-manual"></select><input type="text" id="userNick" class="input-manual" placeholder="Данные"><button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button></div>
 </div>
 
 <div id="newsModal" class="modal">
-    <div class="modal-content">
-        <h2>Новости</h2>
-        <div class="review-item">🔥 <b>Грандиозное обновление!</b><br>Добавлен Genshin Impact, Spotify и красивая заставка.</div>
-        <div class="review-item">💎 <b>Лучшие цены:</b><br>Robux: 1.47 ₽ | Stars: 1.52 ₽.</div>
-        <button class="btn-buy" onclick="closeAll()">Закрыть</button>
-    </div>
+    <div class="modal-content"><h2>Новости</h2><div class="review-item">🎉 <b>КЕЙС УДАЧИ!</b><br>Всего за 79₽ испытай удачу и получи до 80 робуксов!</div><button class="btn-buy" onclick="closeAll()">Закрыть</button></div>
 </div>
 
 <div id="reviewsModal" class="modal">
-    <div class="modal-content">
-        <h2>Отзывы</h2>
-        <div class="review-item"><b>Иван:</b> Гемы в Brawl пришли быстро!</div>
-        <div class="review-item"><b>Дарья:</b> Полая луна дешевле, чем везде.</div>
-        <button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button>
-    </div>
+    <div class="modal-content"><h2>Отзывы</h2><div class="review-item"><b>Макс:</b> Выбил 80 робуксов, лучший кейс!</div><button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button></div>
 </div>
 
 <nav class="nav-bar">
@@ -190,13 +191,13 @@
     const rbxRate = 1.47;
 
     const prices = { 
-        'Genshin Impact': [{n:'Полая луна',p:'490 ₽'},{n:'Боевой пропуск',p:'950 ₽'},{n:'60 Кристаллов',p:'99 ₽'},{n:'300+30 Кристаллов',p:'450 ₽'}],
-        'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'},{n:'170 Гемов',p:'1050 ₽'},{n:'Brawl Pass',p:'850 ₽'}],
-        'Discord Nitro': [{n:'Nitro Basic',p:'249 ₽'},{n:'Nitro Full',p:'590 ₽'}],
-        'Spotify Premium': [{n:'Spotify (1 Месяц)',p:'299 ₽'},{n:'Spotify (12 Месяцев)',p:'2790 ₽'}]
+        'Genshin Impact': [{n:'Полая луна',p:'490 ₽'},{n:'60 Кристаллов',p:'99 ₽'}],
+        'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'}],
+        'Discord Nitro': [{n:'Nitro Basic',p:'249 ₽'},{n:'Nitro Full',p:'590 ₽'}]
     };
 
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function openCaseModal() { closeAll(); document.getElementById('caseModal').style.display = 'flex'; }
     function openNews() { closeAll(); document.getElementById('newsModal').style.display = 'flex'; }
     function openReviews() { closeAll(); document.getElementById('reviewsModal').style.display = 'flex'; }
     function openRobloxModal() { closeAll(); document.getElementById('robloxModal').style.display = 'flex'; }
@@ -223,7 +224,13 @@
         const a = document.getElementById('rbxAmount').value;
         const n = document.getElementById('rbxNick').value;
         if(!a || !n) return alert('Заполни поля!');
-        window.open(`https://t.me/BlameJohn2014?text=Roblox: ${a} R$. Ник: ${n}. Сумма: ${(a * rbxRate).toFixed(2)} ₽`);
+        window.open(`https://t.me/BlameJohn2014?text=Roblox: ${a} R$. Ник: ${n}.`);
+    }
+
+    function sendCaseOrder() {
+        const n = document.getElementById('caseNick').value;
+        if(!n) return alert('Укажите ник!');
+        window.open(`https://t.me/BlameJohn2014?text=КЕЙС УДАЧИ за 79р (Макс 80R$). Ник: ${n}`);
     }
 
     let currentGame = '';
@@ -240,9 +247,9 @@
     function sendOrder() {
         const i = document.getElementById('itemSelect').value;
         const n = document.getElementById('userNick').value;
-        if(!n) return alert('Заполни данные!');
+        if(!n) return alert('Заполни!');
         window.open(`https://t.me/BlameJohn2014?text=${currentGame}: ${i}. Данные: ${n}`);
     }
 </script>
 </body>
-            </html>
+    </html>
