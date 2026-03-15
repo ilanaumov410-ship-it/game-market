@@ -11,6 +11,7 @@
             --card-bg: #1e293b;
             --accent-color: #6366f1;
             --text-color: #f8fafc;
+            --tg-gold: #fbbf24;
         }
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -25,180 +26,131 @@
             background: linear-gradient(to bottom, #1e1b4b, var(--bg-color));
         }
         .logo {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            font-size: 28px; font-weight: 900; color: var(--accent-color);
+            text-transform: uppercase; letter-spacing: 3px;
             text-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
         }
-        .container {
-            padding: 15px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+        .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            transition: 0.3s;
-            border: 1px solid #334155;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg); border-radius: 20px; padding: 20px;
+            text-align: center; border: 1px solid #334155;
         }
-        .card i {
-            font-size: 45px;
-            color: #fbbf24;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .card h3 { margin: 10px 0 5px; font-size: 18px; }
-        .card p { font-size: 13px; color: #94a3b8; margin-bottom: 15px; }
-        .btn-buy {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--card-bg);
+        .stars-card {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--tg-gold);
             padding: 25px;
             border-radius: 25px;
-            width: 85%;
-            max-width: 350px;
-            border: 1px solid var(--accent-color);
         }
-        select, input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #475569;
-            background: #0f172a;
-            color: white;
-            box-sizing: border-box;
+        .card i { font-size: 40px; margin-bottom: 10px; display: block; }
+        .btn-buy {
+            background: var(--accent-color); color: white; border: none;
+            padding: 12px; border-radius: 10px; cursor: pointer;
+            width: 100%; font-weight: bold; margin-top: 10px;
+        }
+        /* Стили слайдера */
+        .slider-container { margin: 20px 0; text-align: left; }
+        input[type="range"] {
+            width: 100%; height: 8px; border-radius: 5px;
+            background: #334155; outline: none; -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 20px; height: 20px;
+            border-radius: 50%; background: var(--tg-gold); cursor: pointer;
+            box-shadow: 0 0 10px var(--tg-gold);
+        }
+        .calc-info {
+            display: flex; justify-content: space-between;
+            font-size: 18px; font-weight: bold; margin-bottom: 10px;
+        }
+        .input-manual {
+            width: 100%; padding: 10px; background: #0f172a;
+            border: 1px solid #334155; color: white; border-radius: 8px;
+            margin: 10px 0; text-align: center; font-size: 16px;
         }
         .nav-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #1e293b;
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
+            position: fixed; bottom: 0; width: 100%; background: #1e293b;
+            display: flex; justify-content: space-around; padding: 15px 0;
             border-top: 1px solid #334155;
         }
         .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 12px; }
-        .nav-item.active { color: var(--accent-color); }
-        .nav-item i { display: block; font-size: 22px; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">GAME MARKET</div>
-    <p style="font-size: 12px; color: #94a3b8; margin-top: 5px;">Лучшие цены от @BlameJohn2014</p>
+    <p style="font-size: 12px; color: #94a3b8;">Лучшие цены от @BlameJohn2014</p>
 </header>
 
 <div class="container">
+    <div class="card stars-card">
+        <i class="fas fa-star" style="color: var(--tg-gold);"></i>
+        <h3 style="margin:0;">Telegram Stars</h3>
+        
+        <div class="slider-container">
+            <div class="calc-info">
+                <span id="starCount">250 Звёзд</span>
+                <span id="starPrice" style="color: #4ade80;">447.5 ₽</span>
+            </div>
+            <input type="range" id="starSlider" min="50" max="2500" step="10" value="250" oninput="updateStars()">
+            <input type="number" id="starInput" class="input-manual" placeholder="Или введите количество" oninput="updateStars(true)">
+            <input type="text" id="starNick" class="input-manual" placeholder="Ваш ник/ID в Telegram">
+        </div>
+        
+        <button class="btn-buy" style="background: var(--tg-gold); color: #000;" onclick="buyStars()">КУПИТЬ ЗВЁЗДЫ</button>
+    </div>
+
     <div class="card">
         <i class="fas fa-bolt" style="color: #60a5fa;"></i>
         <h3>Brawl Stars</h3>
-        <p>Гемы и Пассы</p>
-        <button class="btn-buy" onclick="openModal('Brawl Stars')">КУПИТЬ</button>
+        <button class="btn-buy" onclick="alert('Выбери товар в каталоге ниже!')">КУПИТЬ</button>
     </div>
 
     <div class="card">
         <i class="fas fa-gem" style="color: #f472b6;"></i>
         <h3>Roblox</h3>
-        <p>Робуксы (Robux)</p>
-        <button class="btn-buy" onclick="openModal('Roblox')">КУПИТЬ</button>
-    </div>
-</div>
-
-<div id="orderModal" class="modal">
-    <div class="modal-content">
-        <h2 id="modalTitle" style="margin-top:0;">Заказ</h2>
-        <p style="font-size: 14px; color: #94a3b8;">Выберите товар и введите ник:</p>
-        
-        <select id="itemSelect"></select>
-        <input type="text" id="userNick" placeholder="Ваш ник в игре">
-        
-        <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ В TELEGRAM</button>
-        <button style="background:none; border:none; color:#94a3b8; margin-top:15px; width:100%; cursor:pointer;" onclick="closeModal()">Отмена</button>
+        <button class="btn-buy" onclick="alert('Выбери товар в каталоге ниже!')">КУПИТЬ</button>
     </div>
 </div>
 
 <nav class="nav-bar">
-    <a href="#" class="nav-item active"><i class="fas fa-store"></i>Маркет</a>
-    <a href="#" class="nav-item" onclick="alert('Раздел Новости скоро!')"><i class="fas fa-fire"></i>Новости</a>
-    <a href="#" class="nav-item" onclick="alert('Отзывы скоро!')"><i class="fas fa-check-circle"></i>Отзывы</a>
+    <a href="#" class="nav-item"><i class="fas fa-store"></i>Маркет</a>
+    <a href="#" class="nav-item"><i class="fas fa-fire"></i>Новости</a>
+    <a href="#" class="nav-item"><i class="fas fa-check-circle"></i>Отзывы</a>
 </nav>
 
 <script>
-    const prices = {
-        'Brawl Stars': [
-            {n: '30 Гемов', p: '230 ₽'},
-            {n: '80 Гемов', p: '550 ₽'},
-            {n: '170 Гемов', p: '1050 ₽'},
-            {n: 'Brawl Pass', p: '850 ₽'}
-        ],
-        'Roblox': [
-            {n: '400 Robux', p: '550 ₽'},
-            {n: '800 Robux', p: '990 ₽'},
-            {n: '1700 Robux', p: '1950 ₽'}
-        ]
-    };
+    const rate = 1.79;
 
-    let currentGame = '';
-
-    function openModal(game) {
-        currentGame = game;
-        document.getElementById('modalTitle').innerText = game;
-        const select = document.getElementById('itemSelect');
-        select.innerHTML = '';
-        prices[game].forEach(item => {
-            let opt = document.createElement('option');
-            opt.value = `${item.n} за ${item.p}`;
-            opt.innerText = `${item.n} — ${item.p}`;
-            select.appendChild(opt);
-        });
-        document.getElementById('orderModal').style.display = 'flex';
+    function updateStars(fromInput = false) {
+        const slider = document.getElementById('starSlider');
+        const input = document.getElementById('starInput');
+        const countText = document.getElementById('starCount');
+        const priceText = document.getElementById('starPrice');
+        
+        let value = fromInput ? input.value : slider.value;
+        if (value < 0) value = 0;
+        
+        if (!fromInput) input.value = value;
+        else slider.value = value;
+        
+        countText.innerText = value + ' Звёзд';
+        priceText.innerText = (value * rate).toFixed(2) + ' ₽';
     }
 
-    function closeModal() {
-        document.getElementById('orderModal').style.display = 'none';
-    }
-
-    function sendOrder() {
-        const item = document.getElementById('itemSelect').value;
-        const nick = document.getElementById('userNick').value;
+    function buyStars() {
+        const count = document.getElementById('starInput').value || 250;
+        const price = (count * rate).toFixed(2);
+        const nick = document.getElementById('starNick').value;
+        
         if(!nick) {
-            alert('Пожалуйста, введите ваш игровой ник!');
+            alert('Введите ваш ник в Телеграм!');
             return;
         }
         
-        const text = `Привет! Я хочу купить ${item} в игре ${currentGame}. Мой ник: ${nick}`;
-        const url = `https://t.me/BlameJohn2014?text=${encodeURIComponent(text)}`;
-        
-        window.open(url, '_blank');
-        closeModal();
+        const text = `Привет! Я хочу купить ${count} Telegram Stars за ${price} ₽. Мой ник: ${nick}`;
+        window.open(`https://t.me/BlameJohn2014?text=${encodeURIComponent(text)}`, '_blank');
     }
 </script>
 
