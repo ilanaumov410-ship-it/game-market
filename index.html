@@ -62,7 +62,7 @@
         <input type="range" id="starSlider" min="50" max="2500" step="10" value="250" style="width:100%" oninput="updateStars()">
         <div style="display: flex; justify-content: space-between; margin: 10px 0; font-weight: bold;">
             <span id="starCount">250 Звёзд</span>
-            <span id="starPrice" style="color: #4ade80;">392.50 ₽</span>
+            <span id="starPrice" style="color: #4ade80;">422.50 ₽</span>
         </div>
         <input type="text" id="starNick" class="input-manual" placeholder="Ник в Telegram">
         <button class="btn-buy" style="background: var(--tg-gold); color: #000;" onclick="buyStars()">КУПИТЬ</button>
@@ -96,7 +96,7 @@
     <div class="modal-content" style="border-color: var(--roblox-pink);">
         <h2 style="color: var(--roblox-pink); margin-top:0;">Roblox</h2>
         <p style="font-size: 13px; color: #f8fafc; font-weight: bold;">Пополнение через геймпасс</p>
-        <p style="font-size: 11px; color: #94a3b8; margin-top: -10px;">Курс: 1.85 ₽ за 1 R$</p>
+        <p style="font-size: 11px; color: #94a3b8; margin-top: -10px;">Курс: 1.58 ₽ за 1 R$</p>
         <input type="number" id="rbxAmount" class="input-manual" placeholder="Количество робуксов" oninput="calcRoblox()">
         <input type="text" id="rbxNick" class="input-manual" placeholder="Ваш ник в Roblox">
         <div style="display:flex; justify-content:space-between; margin:10px 0; font-weight:bold;">
@@ -108,11 +108,15 @@
 </div>
 
 <div id="newsModal" class="modal">
-    <div class="modal-content"><h2>Новости</h2><div class="review-item">Теперь робуксы можно купить через геймпасс по курсу 1.85!</div><button class="btn-buy" onclick="closeAll()">Закрыть</button></div>
+    <div class="modal-content">
+        <h2>Новости</h2>
+        <div class="review-item">🔥 <b>ЦЕНЫ СНИЖЕНЫ!</b><br>Telegram Stars теперь по 1.69 ₽, а Roblox по 1.58 ₽ через геймпасс! Покупайте выгодно.</div>
+        <button class="btn-buy" onclick="closeAll()">Закрыть</button>
+    </div>
 </div>
 
 <div id="reviewsModal" class="modal">
-    <div class="modal-content"><h2>Отзывы</h2><div class="review-item"><b>Макс:</b> Всё супер, робуксы через геймпасс пришли!</div><button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button></div>
+    <div class="modal-content"><h2>Отзывы</h2><div class="review-item"><b>Макс:</b> С новыми ценами вообще топ стало.</div><button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button><button class="btn-buy" onclick="closeAll()" style="background:none;">Закрыть</button></div>
 </div>
 
 <div id="steamModal" class="modal">
@@ -130,8 +134,8 @@
 </nav>
 
 <script>
-    const starRate = 1.57;
-    const rbxRate = 1.85;
+    const starRate = 1.69;
+    const rbxRate = 1.58;
     const steamFee = 50;
 
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
@@ -197,5 +201,5 @@
     }
 </script>
 </body>
-                                   </html>
-                                   
+    </html>
+    
