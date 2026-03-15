@@ -13,93 +13,95 @@
             --text-color: #f8fafc;
             --tg-gold: #fbbf24;
             --steam-light: #66c0f4;
+            --online-green: #22c55e;
         }
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding-bottom: 80px;
-            overflow-x: hidden;
+            padding-bottom: 120px; /* Увеличил отступ для футера */
         }
+        .online-counter {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: #94a3b8;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .online-dot {
+            width: 8px; height: 8px; background-color: var(--online-green);
+            border-radius: 50%; box-shadow: 0 0 10px var(--online-green);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
         header {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px 20px 30px;
             background: linear-gradient(to bottom, #1e1b4b, var(--bg-color));
         }
-        .logo {
-            font-size: 28px; font-weight: 900; color: var(--accent-color);
-            text-transform: uppercase; letter-spacing: 3px;
-        }
+        .logo { font-size: 28px; font-weight: 900; color: var(--accent-color); text-transform: uppercase; letter-spacing: 3px; }
+        
         .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card {
-            background: var(--card-bg); border-radius: 20px; padding: 20px;
-            text-align: center; border: 1px solid #334155; cursor: pointer;
-            transition: 0.3s;
-        }
-        .card:active { transform: scale(0.95); }
-        .stars-card {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid var(--tg-gold);
-            padding: 25px; border-radius: 25px; cursor: default;
-        }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; cursor: pointer; }
+        .stars-card { grid-column: span 2; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--tg-gold); padding: 25px; border-radius: 25px; cursor: default; }
         .card i { font-size: 40px; margin-bottom: 10px; display: block; }
-        .btn-buy {
-            background: var(--accent-color); color: white; border: none;
-            padding: 12px; border-radius: 10px; cursor: pointer;
-            width: 100%; font-weight: bold; margin-top: 10px;
+        
+        /* Блок ВРЕМЯ РАБОТЫ */
+        .work-time {
+            margin: 20px 15px;
+            padding: 15px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px dashed var(--accent-color);
+            border-radius: 15px;
+            text-align: center;
+            font-size: 14px;
         }
-        .input-manual {
-            width: 100%; padding: 12px; background: #0f172a;
-            border: 1px solid #334155; color: white; border-radius: 10px;
-            margin: 10px 0; text-align: center; font-size: 16px; box-sizing: border-box;
-        }
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--card-bg); padding: 25px; border-radius: 25px;
-            width: 85%; max-width: 350px; border: 1px solid var(--accent-color);
-            max-height: 85vh; overflow-y: auto; position: relative;
-        }
-        .nav-bar {
-            position: fixed; bottom: 0; width: 100%; background: #1e293b;
-            display: flex; justify-content: space-around; padding: 15px 0;
-            border-top: 1px solid #334155; z-index: 999;
-        }
+        .work-time i { color: var(--accent-color); margin-right: 5px; }
+
+        .btn-buy { background: var(--accent-color); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
+        .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 10px 0; text-align: center; font-size: 16px; box-sizing: border-box; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 85vh; overflow-y: auto; }
+        
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 12px; cursor: pointer; flex: 1; }
-        .review-item { 
-            background: #0f172a; padding: 12px; border-radius: 12px; 
-            margin-bottom: 10px; text-align: left; font-size: 14px;
-            border-left: 4px solid var(--accent-color);
-        }
+        .review-item { background: #0f172a; padding: 12px; border-radius: 12px; margin-bottom: 10px; text-align: left; font-size: 14px; border-left: 4px solid var(--accent-color); }
         .review-name { color: var(--accent-color); font-weight: bold; margin-bottom: 4px; display: block; }
     </style>
 </head>
 <body>
 
+<div class="online-counter">
+    <div class="online-dot"></div>
+    Сейчас на сайте: <span id="userCount" style="color: white;">21</span> чел.
+</div>
+
 <header>
     <div class="logo">GAME MARKET</div>
-    <p style="font-size: 12px; color: #94a3b8;">Лучшие цены от @BlameJohn2014</p>
+    <p style="font-size: 12px; color: #94a3b8;">@BlameJohn2014</p>
 </header>
 
 <div class="container">
     <div class="card stars-card">
         <i class="fas fa-star" style="color: var(--tg-gold);"></i>
-        <h3 style="margin:0;">Telegram Stars</h3>
-        <div style="margin: 15px 0;">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
-                <span id="starCount">250 Звёзд</span>
-                <span id="starPrice" style="color: #4ade80;">392.50 ₽</span>
-            </div>
-            <input type="range" id="starSlider" min="50" max="2500" step="10" value="250" style="width:100%" oninput="updateStars()">
-            <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звёзд" oninput="updateStars(true)">
-            <input type="text" id="starNick" class="input-manual" placeholder="Ваш ник в Telegram">
+        <h3>Telegram Stars</h3>
+        <input type="range" id="starSlider" min="50" max="2500" step="10" value="250" style="width:100%" oninput="updateStars()">
+        <div style="display: flex; justify-content: space-between; margin: 10px 0; font-weight: bold;">
+            <span id="starCount">250 Звёзд</span>
+            <span id="starPrice" style="color: #4ade80;">392.50 ₽</span>
         </div>
-        <button class="btn-buy" style="background: var(--tg-gold); color: #000;" onclick="buyStars()">КУПИТЬ ЗВЁЗДЫ</button>
+        <input type="text" id="starNick" class="input-manual" placeholder="Ник в Telegram">
+        <button class="btn-buy" style="background: var(--tg-gold); color: #000;" onclick="buyStars()">КУПИТЬ</button>
     </div>
 
     <div class="card" onclick="openSteamModal()">
@@ -121,17 +123,15 @@
     </div>
 </div>
 
+<div class="work-time">
+    <i class="fas fa-clock"></i> 
+    <span>График обработки заказов:<br><b>Ежедневно с 10:00 до 22:00 (МСК)</b></span>
+</div>
+
 <div id="newsModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--accent-color); margin-top:0;">Новости</h2>
-        <div class="review-item">
-            <span class="review-name">Сегодня</span>
-            Добавили полноценное меню! Теперь работают кнопки Новости и Отзывы.
-        </div>
-        <div class="review-item">
-            <span class="review-name">Вчера</span>
-            Пополнение Steam теперь доступно в один клик. Комиссия всего 50 ₽.
-        </div>
+        <div class="review-item"><span class="review-name">Сегодня</span>Добавили информацию о графике работы!</div>
         <button class="btn-buy" onclick="closeAll()">Закрыть</button>
     </div>
 </div>
@@ -139,41 +139,30 @@
 <div id="reviewsModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--tg-gold); margin-top:0;">Отзывы</h2>
-        <div class="review-item">
-            <span class="review-name">Илья ⭐⭐⭐⭐⭐</span>
-            Лучший сервис! Звезды пришли за пару минут.
-        </div>
-        <div class="review-item">
-            <span class="review-name">Максим ⭐⭐⭐⭐⭐</span>
-            Робуксы покупаю только тут, всё честно.
-        </div>
+        <div class="review-item"><span class="review-name">Илья ⭐⭐⭐⭐⭐</span>Всё честно, спасибо за Стим!</div>
         <button class="btn-buy" style="background: #22c55e;" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Закрыть</button>
     </div>
 </div>
 
 <div id="steamModal" class="modal">
-    <div class="modal-content" style="border-color: var(--steam-light);">
-        <h2 style="margin-top:0; color: var(--steam-light);">Steam</h2>
-        <p style="font-size: 13px; color: #94a3b8;">Комиссия за перевод: 50 ₽</p>
-        <input type="number" id="steamAmount" class="input-manual" placeholder="Сколько нужно на Стим?" oninput="calcSteam()">
-        <input type="text" id="steamLogin" class="input-manual" placeholder="Ваш логин Steam">
-        <div style="display:flex; justify-content:space-between; margin:10px 0; font-weight:bold;">
-            <span>Итого к оплате:</span>
-            <span id="steamFinal" style="color:#4ade80;">0 ₽</span>
-        </div>
-        <button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-light); color: black;">ОПЛАТИТЬ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Отмена</button>
+    <div class="modal-content">
+        <h2 style="color: var(--steam-light);">Steam</h2>
+        <input type="number" id="steamAmount" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
+        <input type="text" id="steamLogin" class="input-manual" placeholder="Логин">
+        <div style="display:flex; justify-content:space-between; margin:10px 0;"><span>К оплате:</span><span id="steamFinal" style="color:#4ade80;">0 ₽</span></div>
+        <button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-light); color:black;">ОПЛАТИТЬ</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
     </div>
 </div>
 
 <div id="orderModal" class="modal">
     <div class="modal-content">
-        <h2 id="modalTitle" style="margin-top:0;">Заказ</h2>
-        <select id="itemSelect" class="input-manual" style="background:#0f172a; color:white;"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Ваш ник в игре">
+        <h2 id="modalTitle">Заказ</h2>
+        <select id="itemSelect" class="input-manual"></select>
+        <input type="text" id="userNick" class="input-manual" placeholder="Ник">
         <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
-        <button class="btn-buy" onclick="closeAll()" style="background:none; color:#94a3b8;">Отмена</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">Отмена</button>
     </div>
 </div>
 
@@ -187,81 +176,67 @@
     const starRate = 1.57;
     const steamFee = 50;
 
+    function updateOnline() {
+        const c = document.getElementById('userCount');
+        let n = parseInt(c.innerText) + (Math.floor(Math.random()*3)-1);
+        if(n<15) n=18; if(n>45) n=30; c.innerText = n;
+    }
+    setInterval(updateOnline, 5000);
+
     const prices = {
-        'Brawl Stars': [
-            {n: '30 Гемов', p: '230 ₽'}, {n: '80 Гемов', p: '550 ₽'}, 
-            {n: '170 Гемов', p: '1050 ₽'}, {n: 'Brawl Pass', p: '850 ₽'}
-        ],
-        'Roblox': [
-            {n: '400 Robux', p: '550 ₽'}, {n: '800 Robux', p: '990 ₽'}, 
-            {n: '1700 Robux', p: '1950 ₽'}
-        ]
+        'Brawl Stars': [{n:'30 Гемов',p:'230 ₽'},{n:'80 Гемов',p:'550 ₽'},{n:'170 Гемов',p:'1050 ₽'},{n:'Brawl Pass',p:'850 ₽'}],
+        'Roblox': [{n:'400 Robux',p:'550 ₽'},{n:'800 Robux',p:'990 ₽'},{n:'1700 Robux',p:'1950 ₽'}]
     };
 
-    function closeAll() { 
-        document.getElementById('newsModal').style.display = 'none';
-        document.getElementById('reviewsModal').style.display = 'none';
-        document.getElementById('steamModal').style.display = 'none';
-        document.getElementById('orderModal').style.display = 'none';
-    }
-    
+    function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
     function openNews() { closeAll(); document.getElementById('newsModal').style.display = 'flex'; }
     function openReviews() { closeAll(); document.getElementById('reviewsModal').style.display = 'flex'; }
     function openSteamModal() { closeAll(); document.getElementById('steamModal').style.display = 'flex'; }
 
-    function updateStars(fromInput = false) {
-        const slider = document.getElementById('starSlider');
-        const input = document.getElementById('starInput');
-        let val = fromInput ? input.value : slider.value;
-        if(!fromInput) input.value = val; else slider.value = val;
-        document.getElementById('starCount').innerText = val + ' Звёзд';
-        document.getElementById('starPrice').innerText = (val * starRate).toFixed(2) + ' ₽';
+    function updateStars() {
+        const v = document.getElementById('starSlider').value;
+        document.getElementById('starCount').innerText = v + ' Звёзд';
+        document.getElementById('starPrice').innerText = (v * starRate).toFixed(2) + ' ₽';
     }
 
     function buyStars() {
-        const val = document.getElementById('starInput').value || 250;
-        const nick = document.getElementById('starNick').value;
-        if(!nick) return alert('Введите ник!');
-        window.open(`https://t.me/BlameJohn2014?text=Купить ${val} Stars. Ник: ${nick}`);
+        const v = document.getElementById('starSlider').value;
+        const n = document.getElementById('starNick').value;
+        if(!n) return alert('Ник!');
+        window.open(`https://t.me/BlameJohn2014?text=Stars: ${v}. Ник: ${n}`);
     }
 
     function calcSteam() {
-        const amt = parseFloat(document.getElementById('steamAmount').value) || 0;
-        document.getElementById('steamFinal').innerText = (amt > 0 ? amt + steamFee : 0) + ' ₽';
+        const a = parseFloat(document.getElementById('steamAmount').value) || 0;
+        document.getElementById('steamFinal').innerText = (a > 0 ? a + steamFee : 0) + ' ₽';
     }
 
     function sendSteamOrder() {
-        const amt = document.getElementById('steamAmount').value;
-        const login = document.getElementById('steamLogin').value;
-        if(!amt || !login) return alert('Заполните все поля!');
-        const total = parseFloat(amt) + steamFee;
-        window.open(`https://t.me/BlameJohn2014?text=Steam: хочу ${amt} руб. К оплате ${total} руб. Логин: ${login}`);
+        const a = document.getElementById('steamAmount').value;
+        const l = document.getElementById('steamLogin').value;
+        if(!a || !l) return alert('Заполни!');
+        window.open(`https://t.me/BlameJohn2014?text=Steam: ${a} руб. Логин: ${l}`);
     }
 
     let currentGame = '';
     function openModal(game) {
-        closeAll(); 
-        currentGame = game;
+        closeAll(); currentGame = game;
         document.getElementById('modalTitle').innerText = game;
-        const select = document.getElementById('itemSelect');
-        select.innerHTML = '';
-        prices[game].forEach(item => {
-            let opt = document.createElement('option');
-            opt.value = item.n + ' за ' + item.p;
-            opt.innerText = item.n + ' — ' + item.p;
-            select.appendChild(opt);
+        const s = document.getElementById('itemSelect'); s.innerHTML = '';
+        prices[game].forEach(i => {
+            let o = document.createElement('option'); o.value = i.n; o.innerText = i.n+' - '+i.p; s.appendChild(o);
         });
         document.getElementById('orderModal').style.display = 'flex';
     }
 
     function sendOrder() {
-        const item = document.getElementById('itemSelect').value;
-        const nick = document.getElementById('userNick').value;
-        if(!nick) return alert('Введите ник!');
-        window.open(`https://t.me/BlameJohn2014?text=Купить ${item} в ${currentGame}. Ник: ${nick}`);
-        closeAll();
+        const i = document.getElementById('itemSelect').value;
+        const n = document.getElementById('userNick').value;
+        if(!n) return alert('Ник!');
+        window.open(`https://t.me/BlameJohn2014?text=${currentGame}: ${i}. Ник: ${n}`);
     }
 </script>
 
 </body>
     </html>
+    
