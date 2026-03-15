@@ -27,21 +27,24 @@
         header { text-align: center; padding: 25px; background: linear-gradient(to bottom, #1e1b4b, var(--bg-color)); }
         
         .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
         .full-width { grid-column: span 2; }
         
         .case-card { background: #000; border: 2px solid transparent; background-image: linear-gradient(#000, #000), var(--case-gradient); background-origin: border-box; background-clip: content-box, border-box; background-size: 400% 400%; animation: gradient-move 5s infinite; }
         @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         .btn-buy { background: var(--accent-color); color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
-        .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 5px 0; text-align: center; box-sizing: border-box; }
+        .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 10px 0; text-align: center; box-sizing: border-box; }
         
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 80vh; overflow-y: auto; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 80vh; overflow-y: auto; text-align: center; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
-        .review-card { background: #0f172a; border-radius: 15px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--accent-color); text-align: left; }
+        
+        /* Стили для красивых новостей и отзывов */
+        .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); }
+        .stars-review { color: var(--tg-gold); font-size: 12px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -103,11 +106,10 @@
 <div id="robloxModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--roblox-pink);">Robux (Gamepass)</h2>
-        <p style="font-size: 12px; margin-bottom: 10px;">Введите количество R$:</p>
-        <input type="number" id="rbxInput" class="input-manual" placeholder="Напр. 500" oninput="calcRbx()">
+        <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
         <div style="font-weight: bold; margin: 10px 0;">Цена: <span id="rbxPriceResult" style="color: #4ade80;">0</span> ₽</div>
         <input type="text" id="rbxNickInput" class="input-manual" placeholder="Ваш Ник">
-        <button class="btn-buy" onclick="sendRbxOrder()" style="background: var(--roblox-pink);">ПЕРЕЙТИ К ОПЛАТЕ</button>
+        <button class="btn-buy" onclick="sendRbxOrder()" style="background: var(--roblox-pink);">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
     </div>
 </div>
@@ -122,11 +124,40 @@
     </div>
 </div>
 
+<div id="newsModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: var(--accent-color);">Новости</h2>
+        <div class="info-item">
+            <b>🚀 Обновление курса!</b><br>Теперь 1 R$ всего за 1.47 ₽. Успей купить выгодно!
+        </div>
+        <div class="info-item">
+            <b>🎁 Кейсы уже тут!</b><br>Добавлен раздел с Кейсом Удачи. Попробуй выбить джекпот.
+        </div>
+        <button class="btn-buy" onclick="closeAll()">ОТЛИЧНО</button>
+    </div>
+</div>
+
+<div id="reviewsModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: var(--tg-gold);">Отзывы</h2>
+        <div class="info-item">
+            <div class="stars-review">⭐⭐⭐⭐⭐</div>
+            <b>@nikita_x:</b> Все пришло за 5 минут, лучший курс!
+        </div>
+        <div class="info-item">
+            <div class="stars-review">⭐⭐⭐⭐⭐</div>
+            <b>@vlad_top:</b> Покупал Бравл Пасс, активировали мгновенно.
+        </div>
+        <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">ЗАКРЫТЬ</button>
+    </div>
+</div>
+
 <div id="orderModal" class="modal">
     <div class="modal-content">
         <h2 id="modalTitle">Заказ</h2>
         <select id="itemSelect" class="input-manual"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Данные (Ник/UID/Почта)">
+        <input type="text" id="userNick" class="input-manual" placeholder="Ник / Данные">
         <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
     </div>
@@ -134,8 +165,8 @@
 
 <nav class="nav-bar">
     <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i><br>Маркет</div>
-    <div class="nav-item" onclick="alert('Новости: У нас лучший курс!')"><i class="fas fa-bullhorn"></i><br>Новости</div>
-    <div class="nav-item" onclick="alert('Отзывы: 5.0 звезд!')"><i class="fas fa-comments"></i><br>Отзывы</div>
+    <div class="nav-item" onclick="document.getElementById('newsModal').style.display='flex'"><i class="fas fa-bullhorn"></i><br>Новости</div>
+    <div class="nav-item" onclick="document.getElementById('reviewsModal').style.display='flex'"><i class="fas fa-comments"></i><br>Отзывы</div>
 </nav>
 
 <script>
@@ -146,8 +177,7 @@
     const prices = { 
         'Genshin Impact': [
             {n:'Благословение луны',p:'490 ₽'}, {n:'БП Гимн',p:'980 ₽'}, {n:'БП Хор',p:'1950 ₽'},
-            {n:'60 Кристаллов',p:'120 ₽'}, {n:'300 Кристаллов',p:'490 ₽'}, {n:'980 Кристаллов',p:'1450 ₽'},
-            {n:'1980 Кристаллов',p:'2850 ₽'}, {n:'6480 Кристаллов',p:'9200 ₽'}
+            {n:'60 Кристаллов',p:'120 ₽'}, {n:'300 Кристаллов',p:'490 ₽'}, {n:'1980 Кристаллов',p:'2850 ₽'}, {n:'6480 Кристаллов',p:'9200 ₽'}
         ],
         'Brawl Stars': [
             {n:'30 Гемов',p:'240 ₽'}, {n:'80 Гемов',p:'590 ₽'}, {n:'170 Гемов',p:'1100 ₽'},
@@ -197,7 +227,7 @@
         const i = document.getElementById('itemSelect').value;
         const n = document.getElementById('userNick').value;
         if(!n) return alert('Введите данные!');
-        window.open(`https://t.me/BlameJohn2014?text=${document.getElementById('modalTitle').innerText}: ${i}. Данные: ${n}`);
+        window.open(`https://t.me/BlameJohn2014?text=${document.getElementById('modalTitle').innerText}: ${i}. Ник: ${n}`);
     }
 
     function openCaseModal() {
@@ -205,4 +235,4 @@
     }
 </script>
 </body>
-            </html>
+</html>
