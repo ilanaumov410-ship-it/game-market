@@ -3,44 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Market от Ильи — Магазин Игр и Скинов</title>
-    <meta name="description" content="Лучший маркет игр. Покупай скины, золото и читай новости гейминга здесь!">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>GAME MARKET | @BlameJohn2014</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .nav-item.active { color: #6366f1; border-top: 2px solid #6366f1; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #6366f1;
+            --text-color: #f8fafc;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding-bottom: 80px;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(to bottom, #1e1b4b, var(--bg-color));
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+        }
+        .container {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .card i {
+            font-size: 45px;
+            color: #fbbf24;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .card h3 { margin: 10px 0 5px; font-size: 18px; }
+        .card p { font-size: 13px; color: #94a3b8; margin-bottom: 15px; }
+        .btn-buy {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 350px;
+            border: 1px solid var(--accent-color);
+        }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            box-sizing: border-box;
+        }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #1e293b;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #334155;
+        }
+        .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 12px; }
+        .nav-item.active { color: var(--accent-color); }
+        .nav-item i { display: block; font-size: 22px; margin-bottom: 4px; }
     </style>
 </head>
-<body class="pb-20">
-    <div id="market" class="tab-content active p-4">
-        <h1 class="text-2xl font-bold mb-6 text-center text-indigo-400">GAME MARKET</h1>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
-                <i class="fas fa-star text-yellow-400 text-3xl mb-2"></i>
-                <p class="font-bold">Brawl Stars</p>
-                <p class="text-xs text-slate-400">Гемы и скины</p>
-                <button class="mt-3 bg-indigo-600 px-4 py-1 rounded-full text-sm">Купить</button>
-            </div>
-            <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
-                <i class="fas fa-cube text-blue-400 text-3xl mb-2"></i>
-                <p class="font-bold">Roblox</p>
-                <p class="text-xs text-slate-400">Робуксы</p>
-                <button class="mt-3 bg-indigo-600 px-4 py-1 rounded-full text-sm">Купить</button>
-            </div>
-        </div>
+<body>
+
+<header>
+    <div class="logo">GAME MARKET</div>
+    <p style="font-size: 12px; color: #94a3b8; margin-top: 5px;">Лучшие цены от @BlameJohn2014</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <i class="fas fa-bolt" style="color: #60a5fa;"></i>
+        <h3>Brawl Stars</h3>
+        <p>Гемы и Пассы</p>
+        <button class="btn-buy" onclick="openModal('Brawl Stars')">КУПИТЬ</button>
     </div>
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around py-3">
-        <div class="nav-item active flex flex-col items-center">
-            <i class="fas fa-shopping-cart text-xl"></i>
-            <span class="text-[10px] mt-1">Маркет</span>
-        </div>
-        <div class="nav-item flex flex-col items-center text-slate-500">
-            <i class="fas fa-newspaper text-xl"></i>
-            <span class="text-[10px] mt-1">Новости</span>
-        </div>
-    </nav>
+
+    <div class="card">
+        <i class="fas fa-gem" style="color: #f472b6;"></i>
+        <h3>Roblox</h3>
+        <p>Робуксы (Robux)</p>
+        <button class="btn-buy" onclick="openModal('Roblox')">КУПИТЬ</button>
+    </div>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="margin-top:0;">Заказ</h2>
+        <p style="font-size: 14px; color: #94a3b8;">Выберите товар и введите ник:</p>
+        
+        <select id="itemSelect"></select>
+        <input type="text" id="userNick" placeholder="Ваш ник в игре">
+        
+        <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ В TELEGRAM</button>
+        <button style="background:none; border:none; color:#94a3b8; margin-top:15px; width:100%; cursor:pointer;" onclick="closeModal()">Отмена</button>
+    </div>
+</div>
+
+<nav class="nav-bar">
+    <a href="#" class="nav-item active"><i class="fas fa-store"></i>Маркет</a>
+    <a href="#" class="nav-item" onclick="alert('Раздел Новости скоро будет доступен!')"><i class="fas fa-fire"></i>Новости</a>
+    <a href="#" class="nav-item" onclick="alert('Отзывы появятся после первых продаж!')"><i class="fas fa-check-circle"></i>Отзывы</a>
+</nav>
+
+<script>
+    const prices = {
+        'Brawl Stars': [
+            {n: '30 Гемов', p: '230 ₽'},
+            {n: '80 Гемов', p: '550 ₽'},
+            {n: '170 Гемов', p: '1050 ₽'},
+            {n: 'Brawl Pass', p: '850 ₽'}
+        ],
+        'Roblox': [
+            {n: '400 Robux', p: '450 ₽'},
+            {n: '800 Robux', p: '890 ₽'},
+            {n: '1700 Robux', p: '1800 ₽'}
+        ]
+    };
+
+    let currentGame = '';
+
+    function openModal(game) {
+        currentGame = game;
+        document.getElementById('modalTitle').innerText = game;
+        const select = document.getElementById('itemSelect');
+        select.innerHTML = '';
+        prices[game].forEach(item => {
+            let opt = document.createElement('option');
+            opt.value = `${item.n} за ${item.p}`;
+            opt.innerText = `${item.n} — ${item.p}`;
+            select.appendChild(opt);
+        });
+        document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('orderModal').style.display = 'none';
+    }
+
+    function sendOrder() {
+        const item = document.getElementById('itemSelect').value;
+        const nick = document.getElementById('userNick').value;
+        if(!nick) {
+            alert('Пожалуйста, введите ваш игровой ник!');
+            return;
+        }
+        
+        const text = `Привет! Я хочу купить ${item} в игре ${currentGame}. Мой ник: ${nick}`;
+        const url = `https://t.me/BlameJohn2014?text=${encodeURIComponent(text)}`;
+        
+        window.open(url, '_blank');
+        closeModal();
+    }
+</script>
+
 </body>
 </html>
