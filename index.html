@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME MARKET | Бонусы</title>
+    <title>GAME MARKET | Full</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -13,6 +13,8 @@
             --text-color: #f8fafc;
             --tg-gold: #fbbf24;
             --roblox-pink: #f472b6;
+            --brawl-yellow: #facc15;
+            --genshin-teal: #4db2ff;
             --spotify-green: #1db954;
             --case-gradient: linear-gradient(45deg, #f06, #9f6, #06f, #f06);
         }
@@ -20,7 +22,7 @@
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
         header { text-align: center; padding: 20px; background: linear-gradient(to bottom, #1e1b4b, var(--bg-color)); }
         
-        .promo-banner { background: linear-gradient(90deg, #6366f1, #a855f7); margin: 10px 15px; padding: 12px; border-radius: 15px; text-align: center; font-size: 13px; font-weight: bold; animation: pulse 2s infinite; cursor: pointer; }
+        .promo-banner { background: linear-gradient(90deg, #6366f1, #a855f7); margin: 10px 15px; padding: 12px; border-radius: 15px; text-align: center; font-size: 13px; font-weight: bold; animation: pulse 2s infinite; cursor: pointer; color: white; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
         .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -34,7 +36,7 @@
         .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 5px 0; text-align: center; outline: none; box-sizing: border-box; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); text-align: center; max-height: 80vh; overflow-y: auto; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); text-align: center; max-height: 85vh; overflow-y: auto; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
@@ -48,8 +50,8 @@
     <div style="font-size: 11px; color: #4ade80;">● ОПЕРАТОР В СЕТИ</div>
 </header>
 
-<div class="promo-banner" onclick="alert('Каждую неделю мы дарим 800 Robux случайному покупателю! Просто сделай любой заказ, чтобы участвовать.')">
-    🎁 АКЦИЯ: Розыгрыш 800 R$ каждую неделю!
+<div class="promo-banner" onclick="openBonus()">
+    🎁 АКЦИЯ: Розыгрыш 800 R$ и Nitro каждую неделю!
 </div>
 
 <div class="container">
@@ -74,6 +76,20 @@
         <button class="btn-buy" style="background: var(--tg-gold); color: #000;">КУПИТЬ</button>
     </div>
 
+    <div class="card" onclick="window.open('https://t.me/BlameJohn2014?text=Нужны Гемы/Pass в Brawl Stars')">
+        <i class="fas fa-bolt" style="color: var(--brawl-yellow); font-size: 24px;"></i>
+        <h3>Brawl Stars</h3>
+        <p style="font-size: 10px; opacity: 0.6;">Гемы / Pass</p>
+        <button class="btn-buy" style="background: var(--brawl-yellow); color: #000;">КУПИТЬ</button>
+    </div>
+
+    <div class="card" onclick="window.open('https://t.me/BlameJohn2014?text=Нужны Кристаллы/Луна в Genshin Impact')">
+        <i class="fas fa-wind" style="color: var(--genshin-teal); font-size: 24px;"></i>
+        <h3>Genshin</h3>
+        <p style="font-size: 10px; opacity: 0.6;">Кристаллы / Луна</p>
+        <button class="btn-buy" style="background: var(--genshin-teal);">КУПИТЬ</button>
+    </div>
+
     <div class="card" onclick="window.open('https://t.me/BlameJohn2014?text=Нужен Discord Nitro')">
         <i class="fab fa-discord" style="color: #5865f2; font-size: 24px;"></i>
         <h3>Discord</h3>
@@ -96,7 +112,7 @@
 </div>
 
 <div id="starsModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--tg-gold);">Stars Telegram</h2>
+    <h2 style="color: var(--tg-gold);">Telegram Stars</h2>
     <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звезд" oninput="calcStars()">
     <div style="margin: 15px 0;">Цена: <span id="starPrice">0</span> ₽</div>
     <button class="btn-buy" onclick="sendOrder('Stars', document.getElementById('starInput').value)">ОПЛАТИТЬ</button>
@@ -123,23 +139,22 @@
 
 <div id="bonusModal" class="modal"><div class="modal-content">
     <h2 style="color: #a855f7;">Бонусы и Акции</h2>
-    <div class="info-item"><b>👥 Партнерская программа</b><br>Приведи друга и получи 50 R$ на баланс после его первой покупки!</div>
-    <div class="info-item"><b>🎟 Промокоды</b><br>Вводи промокод в ЛС оператору и получай скидку до 15%.</div>
-    <div class="info-item"><b>🔥 Акция недели</b><br>Каждое воскресенье мы дарим Nitro случайному подписчику.</div>
-    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014?text=Хочу стать партнером / Есть промокод')">СВЯЗАТЬСЯ</button>
+    <div class="info-item"><b>👥 Партнерка:</b> Приведи друга — получи 50 R$!</div>
+    <div class="info-item"><b>🎟 Промокоды:</b> Скидки до 15% в ЛС.</div>
+    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014?text=Хочу бонус')">УЗНАТЬ ПОДРОБНЕЕ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="newsModal" class="modal"><div class="modal-content">
     <h2>Новости</h2>
-    <div class="info-item"><b>✅ Мы работаем!</b><br>Все заказы выдаются в течение 5-15 минут.</div>
+    <div class="info-item"><b>🔥 Обновление:</b> Добавлены Genshin и Brawl Stars!</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
 <div id="reviewsModal" class="modal"><div class="modal-content">
     <h2>Отзывы</h2>
-    <div class="info-item">⭐⭐⭐⭐⭐<br>Лучший магазин, всё честно!</div>
-    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">СМОТРЕТЬ ВСЕ</button>
+    <div class="info-item">⭐⭐⭐⭐⭐<br>Все честно и быстро!</div>
+    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">ЗАКРЫТЬ</button>
 </div></div>
 
@@ -164,7 +179,7 @@
     function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = v + 40; }
 
     function sendOrder(item, val, nick = '') {
-        if(!val) return alert('Введите количество!');
+        if(!val) return alert('Заполните поле!');
         window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`);
     }
 </script>
