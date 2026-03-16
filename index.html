@@ -15,6 +15,7 @@
             --roblox-pink: #f472b6;
             --genshin-teal: #4db2ff;
             --brawl-yellow: #facc15;
+            --steam-blue: #171a21;
             --spotify-green: #1db954;
             --case-gradient: linear-gradient(45deg, #f06, #9f6, #06f, #f06);
         }
@@ -42,7 +43,6 @@
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
         
-        /* Стили для красивых новостей и отзывов */
         .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); }
         .stars-review { color: var(--tg-gold); font-size: 12px; margin-bottom: 5px; }
     </style>
@@ -90,16 +90,22 @@
         <button class="btn-buy" style="background: var(--brawl-yellow); color: #000;">УСЛУГИ</button>
     </div>
 
+    <div class="card" onclick="openModal('Steam')">
+        <i class="fab fa-steam" style="color: #66c0f4;"></i>
+        <h3>Steam</h3>
+        <button class="btn-buy" style="background: #66c0f4;">УСЛУГИ</button>
+    </div>
+
     <div class="card" onclick="openModal('Discord')">
         <i class="fab fa-discord" style="color: #5865f2;"></i>
         <h3>Discord</h3>
         <button class="btn-buy" style="background: #5865f2;">NITRO</button>
     </div>
 
-    <div class="card" onclick="openModal('Spotify')">
+    <div class="card full-width" onclick="openModal('Spotify')">
         <i class="fab fa-spotify" style="color: var(--spotify-green);"></i>
-        <h3>Spotify</h3>
-        <button class="btn-buy" style="background: var(--spotify-green);">PREMIUM</button>
+        <h3>Spotify Premium</h3>
+        <button class="btn-buy" style="background: var(--spotify-green);">ВЫБРАТЬ ПОДПИСКУ</button>
     </div>
 </div>
 
@@ -127,12 +133,8 @@
 <div id="newsModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--accent-color);">Новости</h2>
-        <div class="info-item">
-            <b>🚀 Обновление курса!</b><br>Теперь 1 R$ всего за 1.47 ₽. Успей купить выгодно!
-        </div>
-        <div class="info-item">
-            <b>🎁 Кейсы уже тут!</b><br>Добавлен раздел с Кейсом Удачи. Попробуй выбить джекпот.
-        </div>
+        <div class="info-item"><b>🎮 Добавлен Steam!</b><br>Теперь вы можете пополнить баланс или купить игры через нас.</div>
+        <div class="info-item"><b>🚀 Курс 1.47!</b><br>Лучшая цена на робуксы в этом сезоне.</div>
         <button class="btn-buy" onclick="closeAll()">ОТЛИЧНО</button>
     </div>
 </div>
@@ -140,14 +142,8 @@
 <div id="reviewsModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--tg-gold);">Отзывы</h2>
-        <div class="info-item">
-            <div class="stars-review">⭐⭐⭐⭐⭐</div>
-            <b>@nikita_x:</b> Все пришло за 5 минут, лучший курс!
-        </div>
-        <div class="info-item">
-            <div class="stars-review">⭐⭐⭐⭐⭐</div>
-            <b>@vlad_top:</b> Покупал Бравл Пасс, активировали мгновенно.
-        </div>
+        <div class="info-item"><div class="stars-review">⭐⭐⭐⭐⭐</div><b>@gamer:</b> Стим пополнили быстро, спасибо!</div>
+        <div class="info-item"><div class="stars-review">⭐⭐⭐⭐⭐</div><b>@rbx_fan:</b> 500 робуксов пришли за вечер.</div>
         <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">ЗАКРЫТЬ</button>
     </div>
@@ -177,12 +173,18 @@
     const prices = { 
         'Genshin Impact': [
             {n:'Благословение луны',p:'490 ₽'}, {n:'БП Гимн',p:'980 ₽'}, {n:'БП Хор',p:'1950 ₽'},
-            {n:'60 Кристаллов',p:'120 ₽'}, {n:'300 Кристаллов',p:'490 ₽'}, {n:'1980 Кристаллов',p:'2850 ₽'}, {n:'6480 Кристаллов',p:'9200 ₽'}
+            {n:'60 Кристаллов',p:'120 ₽'}, {n:'300 Кристаллов',p:'490 ₽'}, {n:'1980 Кристаллов',p:'2850 ₽'}
         ],
         'Brawl Stars': [
             {n:'30 Гемов',p:'240 ₽'}, {n:'80 Гемов',p:'590 ₽'}, {n:'170 Гемов',p:'1100 ₽'},
-            {n:'360 Гемов',p:'2300 ₽'}, {n:'950 Гемов',p:'5800 ₽'},
             {n:'Brawl Pass',p:'850 ₽'}, {n:'Brawl Pass Plus',p:'1150 ₽'}
+        ],
+        'Steam': [
+            {n:'Пополнение баланса (РФ)',p:'Курс +15%'},
+            {n:'Пополнение баланса (КЗ)',p:'Курс +10%'},
+            {n:'Пополнение баланса (Турция)',p:'Курс +12%'},
+            {n:'Смена региона на Турцию',p:'800 ₽'},
+            {n:'Любая игра гифтом',p:'Цена в Steam + 10%'}
         ],
         'Discord': [{n:'Nitro Basic',p:'250 ₽'}, {n:'Nitro Full',p:'590 ₽'}],
         'Spotify': [{n:'Premium 1 Месяц',p:'299 ₽'}, {n:'Premium 12 Месяцев',p:'2800 ₽'}]
@@ -227,7 +229,7 @@
         const i = document.getElementById('itemSelect').value;
         const n = document.getElementById('userNick').value;
         if(!n) return alert('Введите данные!');
-        window.open(`https://t.me/BlameJohn2014?text=${document.getElementById('modalTitle').innerText}: ${i}. Ник: ${n}`);
+        window.open(`https://t.me/BlameJohn2014?text=${document.getElementById('modalTitle').innerText}: ${i}. Ник/Логин: ${n}`);
     }
 
     function openCaseModal() {
@@ -235,4 +237,5 @@
     }
 </script>
 </body>
-</html>
+            </html>
+    
