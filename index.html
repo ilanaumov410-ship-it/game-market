@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME MARKET | @BlameJohn2014</title>
+    <title>GAME MARKET | Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -13,230 +13,157 @@
             --text-color: #f8fafc;
             --tg-gold: #fbbf24;
             --roblox-pink: #f472b6;
-            --genshin-teal: #4db2ff;
-            --brawl-yellow: #facc15;
-            --steam-blue: #66c0f4;
-            --spotify-green: #1db954;
-            --case-gradient: linear-gradient(45deg, #f06, #9f6, #06f, #f06);
         }
 
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .loader-logo { font-size: 32px; font-weight: 900; color: var(--accent-color); letter-spacing: 5px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .light-theme {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --accent-color: #4f46e5;
+        }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
-        header { text-align: center; padding: 25px; background: linear-gradient(to bottom, #1e1b4b, var(--bg-color)); }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; transition: 0.3s; }
         
+        /* Живая лента */
+        #live-feed { position: fixed; top: 20px; right: 20px; background: var(--accent-color); color: white; padding: 10px 20px; border-radius: 12px; font-size: 12px; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: none; animation: slideIn 0.5s; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* Плавающая кнопка ТГ */
+        .fab-support { position: fixed; bottom: 85px; right: 20px; width: 50px; height: 50px; background: #229ED9; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 998; cursor: pointer; }
+
+        header { text-align: center; padding: 20px; position: relative; }
+        .theme-toggle { position: absolute; top: 20px; left: 20px; cursor: pointer; font-size: 20px; }
+
         .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; cursor: pointer; }
         .full-width { grid-column: span 2; }
         
-        .case-card { background: #000; border: 2px solid transparent; background-image: linear-gradient(#000, #000), var(--case-gradient); background-origin: border-box; background-clip: content-box, border-box; background-size: 400% 400%; animation: gradient-move 5s infinite; }
-        @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .btn-buy { background: var(--accent-color); color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
-        .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 5px 0; text-align: center; box-sizing: border-box; outline: none; }
+        .promo-block { background: linear-gradient(90deg, #6366f1, #a855f7); color: white; margin: 10px 15px; padding: 15px; border-radius: 15px; text-align: center; }
         
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); max-height: 80vh; overflow-y: auto; text-align: center; }
+        .btn-buy { background: var(--accent-color); color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .input-manual { width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid #334155; color: inherit; border-radius: 8px; margin: 5px 0; text-align: center; }
 
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
-        .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
-        
-        .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); }
-        .stars-review { color: var(--tg-gold); font-size: 12px; margin-bottom: 5px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 1001; }
+        .modal-content { background: var(--card-bg); padding: 20px; border-radius: 20px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); }
 
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .status-dot { font-size: 8px; color: #4ade80; animation: blink 1.5s infinite; margin-right: 5px; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { font-size: 10px; text-align: center; opacity: 0.7; }
     </style>
 </head>
 <body>
 
-<div id="preloader"><div class="loader-logo">GAME MARKET</div></div>
+<div id="live-feed">Иван купил 100 Stars ⚡</div>
+
+<div class="theme-toggle" onclick="toggleTheme()">☀️</div>
 
 <header>
-    <div style="font-size: 26px; font-weight: 900; color: var(--accent-color);">GAME MARKET</div>
-    <div style="font-size: 11px; color: #4ade80;"><i class="fas fa-circle status-dot"></i> ОПЕРАТОР В СЕТИ</div>
+    <div style="font-size: 24px; font-weight: 900;">GAME MARKET</div>
+    <div style="color: #4ade80; font-size: 12px;">● Оператор онлайн</div>
 </header>
 
+<div class="promo-block" onclick="alert('Для участия просто совершите любую покупку на этой неделе!')">
+    <div style="font-size: 14px; font-weight: bold;">🎁 РОЗЫГРЫШ НЕДЕЛИ</div>
+    <div style="font-size: 11px;">Приз: 800 Robux среди покупателей!</div>
+</div>
+
 <div class="container">
-    <div class="card full-width case-card" onclick="openCaseModal()">
-        <i class="fas fa-box-open" style="font-size: 30px; color: white;"></i>
-        <h3 style="color: white; margin: 10px 0;">КЕЙС УДАЧИ</h3>
-        <p style="font-size: 11px; color: #ccc;">Приз до 80 R$ | 79 ₽</p>
-        <button class="btn-buy" style="background: #fff; color: #000;">ОТКРЫТЬ</button>
+    <div class="card" onclick="openStarsModal()">
+        <i class="fas fa-star" style="color: var(--tg-gold);"></i>
+        <h3>Stars</h3>
+        <button class="btn-buy" style="background:var(--tg-gold); color:black">КУПИТЬ</button>
     </div>
 
     <div class="card" onclick="openRobloxModal()">
-        <i class="fas fa-gem" style="color: var(--roblox-pink); font-size: 24px;"></i>
+        <i class="fas fa-gem" style="color: var(--roblox-pink);"></i>
         <h3>Roblox</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Gamepass</p>
-        <button class="btn-buy" style="background: var(--roblox-pink);">КУПИТЬ</button>
+        <button class="btn-buy" style="background:var(--roblox-pink)">КУПИТЬ</button>
     </div>
 
-    <div class="card" onclick="openStarsModal()">
-        <i class="fas fa-star" style="color: var(--tg-gold); font-size: 24px;"></i>
-        <h3>Stars</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Telegram</p>
-        <button class="btn-buy" style="background: var(--tg-gold); color: #000;">КУПИТЬ</button>
+    <div class="card full-width" onclick="openSteamModal()" style="border: 1px solid #66c0f4;">
+        <i class="fab fa-steam" style="color: #66c0f4; font-size: 30px;"></i>
+        <h3>Steam (Пополнение +40₽)</h3>
+        <button class="btn-buy" style="background:#66c0f4">ПОПОЛНИТЬ</button>
     </div>
 
-    <div class="card" onclick="openSteamModal()">
-        <i class="fab fa-steam" style="color: var(--steam-blue); font-size: 24px;"></i>
-        <h3>Steam</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Баланс (+40₽)</p>
-        <button class="btn-buy" style="background: var(--steam-blue);">ПОПОЛНИТЬ</button>
-    </div>
-
-    <div class="card" onclick="openModal('Brawl Stars')">
-        <i class="fas fa-bolt" style="color: var(--brawl-yellow); font-size: 24px;"></i>
-        <h3>Brawl Stars</h3>
-        <button class="btn-buy" style="background: var(--brawl-yellow); color: #000;">УСЛУГИ</button>
-    </div>
-
-    <div class="card" onclick="openModal('Genshin Impact')">
-        <i class="fas fa-wind" style="color: var(--genshin-teal); font-size: 24px;"></i>
-        <h3>Genshin</h3>
-        <button class="btn-buy" style="background: var(--genshin-teal);">УСЛУГИ</button>
-    </div>
-
-    <div class="card" onclick="openModal('Discord')">
-        <i class="fab fa-discord" style="color: #5865f2; font-size: 24px;"></i>
-        <h3>Discord</h3>
-        <button class="btn-buy" style="background: #5865f2;">NITRO</button>
-    </div>
-
-    <div class="card full-width" onclick="openModal('Spotify')">
-        <i class="fab fa-spotify" style="color: var(--spotify-green); font-size: 24px;"></i>
-        <h3 style="margin: 5px 0;">Spotify Premium</h3>
-        <button class="btn-buy" style="background: var(--spotify-green);">ПОДКЛЮЧИТЬ</button>
+    <div class="card full-width" style="background: linear-gradient(45deg, #1e293b, #334155);" onclick="openPacks()">
+        <i class="fas fa-layer-group" style="color: #4ade80;"></i>
+        <h3>ВЫГОДНЫЕ НАБОРЫ (Экономия 15%)</h3>
+        <p style="font-size: 10px; opacity: 0.7;">Roblox + Discord / Stars + Genshin</p>
     </div>
 </div>
 
 <div id="starsModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--tg-gold);">Telegram Stars</h2>
+    <h2>Stars Telegram</h2>
     <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звезд" oninput="calcStars()">
-    <div style="font-weight: bold; margin: 15px 0;">Цена: <span id="starPriceResult" style="color: #4ade80;">0</span> ₽</div>
-    <button class="btn-buy" onclick="sendStarsOrder()" style="background: var(--tg-gold); color: #000;">ОПЛАТИТЬ</button>
-    <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
+    <div id="starPriceResult">0 ₽</div>
+    <input type="text" id="promoStars" class="input-manual" placeholder="Промокод (если есть)">
+    <button class="btn-buy" onclick="sendOrder('Stars', document.getElementById('starInput').value)">ОПЛАТИТЬ</button>
+    <button onclick="closeAll()" class="btn-buy" style="background:none">Назад</button>
 </div></div>
 
 <div id="steamModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--steam-blue);">Steam Пополнение</h2>
+    <h2>Steam Пополнение</h2>
     <input type="number" id="steamInput" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
-    <div style="font-weight: bold; margin: 15px 0;">К оплате (+40₽): <span id="steamPriceResult" style="color: #4ade80;">0</span> ₽</div>
-    <input type="text" id="steamNickInput" class="input-manual" placeholder="Логин Steam">
-    <button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-blue);">ОПЛАТИТЬ</button>
-    <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
+    <div>К оплате: <span id="steamPriceResult">40</span> ₽</div>
+    <input type="text" id="steamNick" class="input-manual" placeholder="Логин Steam">
+    <button class="btn-buy" onclick="sendOrder('Steam', document.getElementById('steamInput').value, document.getElementById('steamNick').value)">ОПЛАТИТЬ</button>
+    <button onclick="closeAll()" class="btn-buy" style="background:none">Назад</button>
 </div></div>
 
 <div id="robloxModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--roblox-pink);">Robux (Gamepass)</h2>
+    <h2>Robux (1.47)</h2>
     <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
-    <div style="font-weight: bold; margin: 15px 0;">Цена (1.47): <span id="rbxPriceResult" style="color: #4ade80;">0</span> ₽</div>
-    <input type="text" id="rbxNickInput" class="input-manual" placeholder="Ник Roblox">
-    <button class="btn-buy" onclick="sendRbxOrder()" style="background: var(--roblox-pink);">КУПИТЬ</button>
-    <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
+    <div id="rbxPriceResult">0 ₽</div>
+    <input type="text" id="rbxNick" class="input-manual" placeholder="Ник Roblox">
+    <button class="btn-buy" onclick="sendOrder('Roblox', document.getElementById('rbxInput').value, document.getElementById('rbxNick').value)">ОПЛАТИТЬ</button>
+    <button onclick="closeAll()" class="btn-buy" style="background:none">Назад</button>
 </div></div>
 
-<div id="newsModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--accent-color);">Новости</h2>
-    <div class="info-item"><b>🔥 Мы открылись!</b><br>Лучшие цены на игры и подписки только у нас.</div>
-    <div class="info-item"><b>🎮 Steam за 40₽</b><br>Комиссия на пополнение всего 40 рублей.</div>
-    <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="reviewsModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--tg-gold);">Отзывы</h2>
-    <div class="info-item"><div class="stars-review">⭐⭐⭐⭐⭐</div><b>@nik:</b> Купил робуксы, все честно!</div>
-    <div class="info-item"><div class="stars-review">⭐⭐⭐⭐⭐</div><b>@mira:</b> Стим пополнили быстро.</div>
-    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
-    <button class="btn-buy" onclick="closeAll()" style="background:none;">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="orderModal" class="modal"><div class="modal-content">
-    <h2 id="modalTitle">Заказ</h2>
-    <select id="itemSelect" class="input-manual"></select>
-    <input type="text" id="userNick" class="input-manual" placeholder="Данные">
-    <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
-    <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
-</div></div>
+<a href="https://t.me/BlameJohn2014" target="_blank" class="fab-support">
+    <i class="fab fa-telegram-plane"></i>
+</a>
 
 <nav class="nav-bar">
-    <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i><br>Маркет</div>
-    <div class="nav-item" onclick="openNews()"><i class="fas fa-bullhorn"></i><br>Новости</div>
-    <div class="nav-item" onclick="openReviews()"><i class="fas fa-comments"></i><br>Отзывы</div>
+    <div class="nav-item" onclick="closeAll()"><i class="fas fa-home"></i><br>Главная</div>
+    <div class="nav-item" onclick="alert('Партнерка: Приведи друга и получи 50 Robux! Напиши оператору ник друга.')"><i class="fas fa-users"></i><br>Партнерам</div>
+    <div class="nav-item" onclick="alert('Промокоды: Ищите в нашем ТГ канале!')"><i class="fas fa-ticket-alt"></i><br>Промо</div>
 </nav>
 
 <script>
-    setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 2000);
+    // Живая лента
+    const sales = ["Никита купил 400 R$", "Анна купила Nitro", "Мага пополнил Steam", "Vex купил 50 Stars", "Dima купил набор 'Геймер'"];
+    setInterval(() => {
+        const feed = document.getElementById('live-feed');
+        feed.innerText = sales[Math.floor(Math.random()*sales.length)];
+        feed.style.display = 'block';
+        setTimeout(() => feed.style.display = 'none', 3000);
+    }, 8000);
 
-    const rbxRate = 1.47;
-    const starRate = 1.52;
-    const prices = { 
-        'Genshin Impact': [{n:'Луна',p:'490 ₽'}, {n:'БП Гимн',p:'980 ₽'}, {n:'60 Кристаллов',p:'120 ₽'}],
-        'Brawl Stars': [{n:'30 Гемов',p:'240 ₽'}, {n:'80 Гемов',p:'590 ₽'}, {n:'Brawl Pass',p:'850 ₽'}],
-        'Discord': [{n:'Nitro Basic',p:'250 ₽'}, {n:'Nitro Full',p:'590 ₽'}],
-        'Spotify': [{n:'Premium 1 мес',p:'299 ₽'}]
-    };
-
-    function calcStars() {
-        let v = parseInt(document.getElementById('starInput').value) || 0;
-        document.getElementById('starPriceResult').innerText = Math.round(v * starRate);
-    }
-    function sendStarsOrder() {
-        let v = document.getElementById('starInput').value;
-        if(!v) return alert('Введите количество!');
-        window.open(`https://t.me/BlameJohn2014?text=Stars: ${v} шт.`);
-    }
-
-    function calcSteam() {
-        let v = parseInt(document.getElementById('steamInput').value) || 0;
-        document.getElementById('steamPriceResult').innerText = v + 40;
-    }
-    function sendSteamOrder() {
-        let v = document.getElementById('steamInput').value;
-        let n = document.getElementById('steamNickInput').value;
-        if(!v || !n) return alert('Заполните данные!');
-        window.open(`https://t.me/BlameJohn2014?text=Steam: ${v}р. (+40 комиссия). Логин: ${n}`);
-    }
-
-    function calcRbx() {
-        let v = parseInt(document.getElementById('rbxInput').value) || 0;
-        document.getElementById('rbxPriceResult').innerText = Math.round(v * rbxRate);
-    }
-    function sendRbxOrder() {
-        let v = document.getElementById('rbxInput').value;
-        let n = document.getElementById('rbxNickInput').value;
-        if(!v || !n) return alert('Заполните данные!');
-        window.open(`https://t.me/BlameJohn2014?text=Roblox: ${v} R$. Ник: ${n}`);
-    }
-
-    function openStarsModal() { closeAll(); document.getElementById('starsModal').style.display = 'flex'; }
-    function openSteamModal() { closeAll(); document.getElementById('steamModal').style.display = 'flex'; }
-    function openRobloxModal() { closeAll(); document.getElementById('robloxModal').style.display = 'flex'; }
-    function openNews() { closeAll(); document.getElementById('newsModal').style.display = 'flex'; }
-    function openReviews() { closeAll(); document.getElementById('reviewsModal').style.display = 'flex'; }
+    // Функции как раньше
+    function toggleTheme() { document.body.classList.toggle('light-theme'); }
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-    
-    function openModal(game) {
-        closeAll();
-        document.getElementById('modalTitle').innerText = game;
-        const s = document.getElementById('itemSelect'); s.innerHTML = '';
-        prices[game].forEach(i => {
-            let o = document.createElement('option'); o.value = i.n; o.innerText = i.n+' - '+i.p; s.appendChild(o);
-        });
-        document.getElementById('orderModal').style.display = 'flex';
+    function openStarsModal() { document.getElementById('starsModal').style.display = 'flex'; }
+    function openRobloxModal() { document.getElementById('robloxModal').style.display = 'flex'; }
+    function openSteamModal() { document.getElementById('steamModal').style.display = 'flex'; }
+    function openPacks() { alert('Набор ГЕЙМЕР: 400 R$ + Nitro = 890₽. Пишите оператору!'); }
+
+    function calcStars() { 
+        let v = document.getElementById('starInput').value; 
+        document.getElementById('starPriceResult').innerText = Math.round(v * 1.52) + ' ₽'; 
+    }
+    function calcSteam() { 
+        let v = parseInt(document.getElementById('steamInput').value) || 0; 
+        document.getElementById('steamPriceResult').innerText = v + 40; 
+    }
+    function calcRbx() { 
+        let v = document.getElementById('rbxInput').value; 
+        document.getElementById('rbxPriceResult').innerText = Math.round(v * 1.47) + ' ₽'; 
     }
 
-    function sendOrder() {
-        const i = document.getElementById('itemSelect').value;
-        const n = document.getElementById('userNick').value;
-        if(!n) return alert('Введите ник!');
-        window.open(`https://t.me/BlameJohn2014?text=${document.getElementById('modalTitle').innerText}: ${i}. Ник: ${n}`);
+    function sendOrder(item, val, nick = '') {
+        if(!val) return alert('Введите данные!');
+        window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} на сумму/кол-во ${val}. Данные: ${nick}`);
     }
-
-    function openCaseModal() { window.open(`https://t.me/BlameJohn2014?text=Хочу открыть КЕЙС УДАЧИ за 79р`); }
 </script>
 </body>
-    </html>
+</html>
