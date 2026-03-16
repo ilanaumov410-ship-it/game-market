@@ -44,7 +44,6 @@
         .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
         
         .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); }
-        .stars-review { color: var(--tg-gold); font-size: 12px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -81,7 +80,7 @@
     <div class="card" onclick="openSteamModal()">
         <i class="fab fa-steam" style="color: var(--steam-blue);"></i>
         <h3>Steam</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Баланс</p>
+        <p style="font-size: 10px; opacity: 0.6;">Баланс (+40₽)</p>
         <button class="btn-buy" style="background: var(--steam-blue);">ПОПОЛНИТЬ</button>
     </div>
 
@@ -110,12 +109,22 @@
     </div>
 </div>
 
+<div id="starsModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: var(--tg-gold);">Telegram Stars</h2>
+        <p style="font-size: 12px; margin-bottom: 10px;">Введите количество звезд:</p>
+        <input type="number" id="starInput" class="input-manual" placeholder="Напр. 50" oninput="calcStars()">
+        <div style="font-weight: bold; margin: 10px 0;">Цена: <span id="starPriceResult" style="color: #4ade80;">0</span> ₽</div>
+        <button class="btn-buy" onclick="sendStarsOrder()" style="background: var(--tg-gold); color: #000;">ОПЛАТИТЬ</button>
+        <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
+    </div>
+</div>
+
 <div id="steamModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--steam-blue);">Steam Пополнение</h2>
-        <p style="font-size: 12px; margin-bottom: 10px;">Сумма (Комиссия 40 ₽):</p>
-        <input type="number" id="steamInput" class="input-manual" placeholder="Напр. 500" oninput="calcSteam()">
-        <div style="font-weight: bold; margin: 10px 0;">К оплате: <span id="steamPriceResult" style="color: #4ade80;">0</span> ₽</div>
+        <input type="number" id="steamInput" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
+        <div style="font-weight: bold; margin: 10px 0;">К оплате (+40₽): <span id="steamPriceResult" style="color: #4ade80;">0</span> ₽</div>
         <input type="text" id="steamNickInput" class="input-manual" placeholder="Логин Steam">
         <button class="btn-buy" onclick="sendSteamOrder()" style="background: var(--steam-blue);">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -127,7 +136,7 @@
         <h2 style="color: var(--roblox-pink);">Robux (Gamepass)</h2>
         <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
         <div style="font-weight: bold; margin: 10px 0;">Цена: <span id="rbxPriceResult" style="color: #4ade80;">0</span> ₽</div>
-        <input type="text" id="rbxNickInput" class="input-manual" placeholder="Ваш Ник">
+        <input type="text" id="rbxNickInput" class="input-manual" placeholder="Ник Roblox">
         <button class="btn-buy" onclick="sendRbxOrder()" style="background: var(--roblox-pink);">КУПИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
     </div>
@@ -135,15 +144,15 @@
 
 <div id="newsModal" class="modal"><div class="modal-content">
     <h2 style="color: var(--accent-color);">Новости</h2>
-    <div class="info-item"><b>🎮 Steam +40₽</b><br>Теперь можно пополнить Стим на любую сумму с фикс комиссией!</div>
-    <div class="info-item"><b>💎 Роблоксы 1.47₽</b><br>Самый низкий курс.</div>
-    <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
+    <div class="info-item"><b>🎉 Исправлены ошибки!</b><br>Теперь все кнопки калькуляторов работают корректно.</div>
+    <div class="info-item"><b>🎮 Steam +40₽</b><br>Любая сумма пополнения.</div>
+    <button class="btn-buy" onclick="closeAll()">ОК</button>
 </div></div>
 
 <div id="reviewsModal" class="modal"><div class="modal-content">
     <h2 style="color: var(--tg-gold);">Отзывы</h2>
-    <div class="info-item"><b>@vova:</b> Пополнил Стим на 300р, все четко!</div>
-    <div class="info-item"><b>@dima:</b> Робаксы пришли быстро.</div>
+    <div class="info-item"><b>@alex:</b> Звезды пришли за минуту!</div>
+    <div class="info-item"><b>@miras:</b> Лучший сервис, все быстро.</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
@@ -151,7 +160,7 @@
     <div class="modal-content">
         <h2 id="modalTitle">Заказ</h2>
         <select id="itemSelect" class="input-manual"></select>
-        <input type="text" id="userNick" class="input-manual" placeholder="Ник / Данные">
+        <input type="text" id="userNick" class="input-manual" placeholder="Данные">
         <button class="btn-buy" onclick="sendOrder()" style="background: #22c55e;">ОПЛАТИТЬ</button>
         <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
     </div>
@@ -167,12 +176,23 @@
     setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 2000);
 
     const rbxRate = 1.47;
+    const starRate = 1.52; // Твой курс на звезды
     const prices = { 
-        'Genshin Impact': [{n:'Луна',p:'490 ₽'}, {n:'БП',p:'980 ₽'}, {n:'60 Кристаллов',p:'120 ₽'}],
+        'Genshin Impact': [{n:'Луна',p:'490 ₽'}, {n:'БП Гимн',p:'980 ₽'}, {n:'6480 Кристаллов',p:'9200 ₽'}],
         'Brawl Stars': [{n:'30 Гемов',p:'240 ₽'}, {n:'80 Гемов',p:'590 ₽'}, {n:'Brawl Pass',p:'850 ₽'}],
         'Discord': [{n:'Nitro Basic',p:'250 ₽'}, {n:'Nitro Full',p:'590 ₽'}],
-        'Spotify': [{n:'Premium',p:'299 ₽'}]
+        'Spotify': [{n:'Premium 1 мес',p:'299 ₽'}]
     };
+
+    function calcStars() {
+        let v = parseInt(document.getElementById('starInput').value) || 0;
+        document.getElementById('starPriceResult').innerText = Math.round(v * starRate);
+    }
+    function sendStarsOrder() {
+        let v = document.getElementById('starInput').value;
+        if(!v) return alert('Введите кол-во!');
+        window.open(`https://t.me/BlameJohn2014?text=Telegram Stars: ${v} шт. (Цена: ${Math.round(v * starRate)} ₽)`);
+    }
 
     function calcSteam() {
         let v = parseInt(document.getElementById('steamInput').value) || 0;
@@ -182,11 +202,11 @@
         let v = document.getElementById('steamInput').value;
         let n = document.getElementById('steamNickInput').value;
         if(!v || !n) return alert('Заполните поля!');
-        window.open(`https://t.me/BlameJohn2014?text=Steam пополнение: ${v} руб. (К оплате: ${parseInt(v)+40} руб). Логин: ${n}`);
+        window.open(`https://t.me/BlameJohn2014?text=Steam: ${v} руб. (+40 комиссия). Логин: ${n}`);
     }
 
     function calcRbx() {
-        let v = document.getElementById('rbxInput').value;
+        let v = parseInt(document.getElementById('rbxInput').value) || 0;
         document.getElementById('rbxPriceResult').innerText = Math.round(v * rbxRate);
     }
     function sendRbxOrder() {
@@ -196,6 +216,7 @@
         window.open(`https://t.me/BlameJohn2014?text=Roblox: ${v} R$. Ник: ${n}`);
     }
 
+    function openStarsModal() { closeAll(); document.getElementById('starsModal').style.display = 'flex'; }
     function openSteamModal() { closeAll(); document.getElementById('steamModal').style.display = 'flex'; }
     function openRobloxModal() { closeAll(); document.getElementById('robloxModal').style.display = 'flex'; }
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
@@ -213,11 +234,12 @@
     function sendOrder() {
         const i = document.getElementById('itemSelect').value;
         const n = document.getElementById('userNick').value;
-        if(!n) return alert('Введите ник!');
+        if(!n) return alert('Введите данные!');
         window.open(`https://t.me/BlameJohn2014?text=${document.getElementById('modalTitle').innerText}: ${i}. Ник: ${n}`);
     }
 
     function openCaseModal() { window.open(`https://t.me/BlameJohn2014?text=Хочу открыть КЕЙС УДАЧИ за 79р`); }
 </script>
 </body>
-</html>
+    </html>
+    
