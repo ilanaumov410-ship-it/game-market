@@ -101,7 +101,7 @@
 
     <div class="card full-width" onclick="openModal('steamModal')">
         <i class="fab fa-steam" style="color: #66c0f4; font-size: 24px;"></i>
-        <h3>Steam (+8%)</h3>
+        <h3>Steam (+7%)</h3>
         <button class="btn-buy" style="background: #66c0f4;">ПОПОЛНИТЬ</button>
     </div>
 </div>
@@ -183,7 +183,7 @@
 
 <div id="newsModal" class="modal"><div class="modal-content">
     <h2>Новости</h2>
-    <div class="info-item">🔥 Обновили комиссию на Steam до 8%.</div>
+    <div class="info-item">🔥 Обновили комиссию на Steam до 7%.</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
@@ -207,13 +207,12 @@
     function calcStars() { let v = document.getElementById('starInput').value; document.getElementById('starPrice').innerText = Math.round(v * 1.52); }
     function calcRbx() { let v = document.getElementById('rbxInput').value; document.getElementById('rbxPrice').innerText = Math.round(v * 1.47); }
     
-    // ЛОГИКА STEAM (8%)
     function calcSteam() { 
         let v = parseInt(document.getElementById('steamInput').value) || 0; 
-        document.getElementById('steamPrice').innerText = Math.round(v * 1.08); 
+        document.getElementById('steamPrice').innerText = Math.round(v * 1.07); 
     }
 
     function sendOrder(item, val, nick = '') { window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); }
 </script>
 </body>
-</html>
+                           </html>
