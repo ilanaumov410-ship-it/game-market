@@ -101,7 +101,7 @@
 
     <div class="card full-width" onclick="openModal('steamModal')">
         <i class="fab fa-steam" style="color: #66c0f4; font-size: 24px;"></i>
-        <h3>Steam (+40₽)</h3>
+        <h3>Steam (+65₽)</h3>
         <button class="btn-buy" style="background: #66c0f4;">ПОПОЛНИТЬ</button>
     </div>
 </div>
@@ -135,10 +135,10 @@
 <div id="brawlModal" class="modal"><div class="modal-content">
     <h2>Brawl Stars</h2>
     <select id="brawlSelect" class="select-style">
-        <option value="30 Гемов - 150">30 Гемов — 150 ₽</option>
-        <option value="80 Гемов - 420">80 Гемов — 420 ₽</option>
-        <option value="170 Гемов - 860">170 Гемов — 860 ₽</option>
-        <option value="Brawl Pass - 620">Brawl Pass — 620 ₽</option>
+        <option value="30 Гемов - 190">30 Гемов — 190 ₽</option>
+        <option value="80 Гемов - 460">80 Гемов — 460 ₽</option>
+        <option value="170 Гемов - 900">170 Гемов — 900 ₽</option>
+        <option value="Brawl Pass - 660">Brawl Pass — 660 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Brawl Stars', document.getElementById('brawlSelect').value)">КУПИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -147,8 +147,8 @@
 <div id="genshinModal" class="modal"><div class="modal-content">
     <h2>Genshin Impact</h2>
     <select id="genshinSelect" class="select-style">
+        <option value="60 Кристаллов - 65">60 Кристаллов — 65 ₽</option>
         <option value="Благословение Луны - 420">Благословение Луны — 420 ₽</option>
-        <option value="60 Кристаллов - 50">60 Кристаллов — 50 ₽</option>
         <option value="300 Кристаллов - 380">300 Кристаллов — 380 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value)">КУПИТЬ</button>
@@ -177,19 +177,19 @@
 
 <div id="bonusModal" class="modal"><div class="modal-content">
     <h2>Бонусы</h2>
-    <div class="info-item"><b>👥 Партнерка:</b> Приведи друга — получи 50 R$!</div>
+    <div class="info-item">👥 Приведи друга — получи 50 R$!</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
 <div id="newsModal" class="modal"><div class="modal-content">
     <h2>Новости</h2>
-    <div class="info-item"><b>⬇️ СНИЖЕНИЕ ЦЕН:</b> Гемы и Луна стали еще доступнее!</div>
+    <div class="info-item">🔥 Обновление цен в магазине!</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
 <div id="reviewsModal" class="modal"><div class="modal-content">
     <h2>Отзывы</h2>
-    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@nik:</b> Пришло за 5 минут.</div>
+    <div class="info-item">⭐⭐⭐⭐⭐<br>Всё быстро и честно!</div>
     <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">СМОТРЕТЬ ВСЕ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">ЗАКРЫТЬ</button>
 </div></div>
@@ -206,9 +206,9 @@
     function openModal(id) { closeAll(); document.getElementById(id).style.display = 'flex'; }
     function calcStars() { let v = document.getElementById('starInput').value; document.getElementById('starPrice').innerText = Math.round(v * 1.52); }
     function calcRbx() { let v = document.getElementById('rbxInput').value; document.getElementById('rbxPrice').innerText = Math.round(v * 1.47); }
-    function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = v + 40; }
+    function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = v + 65; }
     function sendOrder(item, val, nick = '') { window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); }
 </script>
 </body>
-                                        </html>
-    
+                                                                                                     </html>
+                                         
