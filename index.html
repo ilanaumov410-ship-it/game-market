@@ -101,7 +101,7 @@
 
     <div class="card full-width" onclick="openModal('steamModal')">
         <i class="fab fa-steam" style="color: #66c0f4; font-size: 24px;"></i>
-        <h3>Steam (+65₽)</h3>
+        <h3>Steam (+60₽)</h3>
         <button class="btn-buy" style="background: #66c0f4;">ПОПОЛНИТЬ</button>
     </div>
 </div>
@@ -183,7 +183,7 @@
 
 <div id="newsModal" class="modal"><div class="modal-content">
     <h2>Новости</h2>
-    <div class="info-item">🔥 Обновление цен в магазине!</div>
+    <div class="info-item">🔥 Обновили комиссию на Steam — теперь выгоднее!</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
@@ -206,9 +206,9 @@
     function openModal(id) { closeAll(); document.getElementById(id).style.display = 'flex'; }
     function calcStars() { let v = document.getElementById('starInput').value; document.getElementById('starPrice').innerText = Math.round(v * 1.52); }
     function calcRbx() { let v = document.getElementById('rbxInput').value; document.getElementById('rbxPrice').innerText = Math.round(v * 1.47); }
-    function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = v + 65; }
+    function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = v + 60; }
     function sendOrder(item, val, nick = '') { window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); }
 </script>
 </body>
-                                                                                                     </html>
-                                         
+        </html>
+        
