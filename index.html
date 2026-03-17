@@ -35,11 +35,11 @@
         .input-manual, .select-style { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 5px 0; text-align: center; box-sizing: border-box; outline: none; appearance: none; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); text-align: center; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); text-align: center; max-height: 80vh; overflow-y: auto; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
-        .price-tag { font-size: 18px; font-weight: bold; color: #4ade80; margin: 10px 0; }
+        .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); font-size: 13px; }
     </style>
 </head>
 <body>
@@ -109,7 +109,7 @@
 <div id="starsModal" class="modal"><div class="modal-content">
     <h2>Telegram Stars</h2>
     <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звезд" oninput="calcStars()">
-    <div class="price-tag"><span id="starPrice">0</span> ₽</div>
+    <div style="margin:10px 0; font-weight:bold; color:#4ade80;"><span id="starPrice">0</span> ₽</div>
     <button class="btn-buy" onclick="sendOrder('Stars', document.getElementById('starInput').value)">ОПЛАТИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
@@ -117,7 +117,7 @@
 <div id="robloxModal" class="modal"><div class="modal-content">
     <h2>Robux (Gamepass)</h2>
     <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
-    <div class="price-tag"><span id="rbxPrice">0</span> ₽</div>
+    <div style="margin:10px 0; font-weight:bold; color:#4ade80;"><span id="rbxPrice">0</span> ₽</div>
     <input type="text" id="rbxNick" class="input-manual" placeholder="Ник в Roblox">
     <button class="btn-buy" onclick="sendOrder('Roblox', document.getElementById('rbxInput').value, document.getElementById('rbxNick').value)">ОПЛАТИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -126,7 +126,7 @@
 <div id="steamModal" class="modal"><div class="modal-content">
     <h2>Steam</h2>
     <input type="number" id="steamInput" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
-    <div class="price-tag"><span id="steamPrice">0</span> ₽</div>
+    <div style="margin:10px 0; font-weight:bold; color:#4ade80;"><span id="steamPrice">0</span> ₽</div>
     <input type="text" id="steamNick" class="input-manual" placeholder="Логин Steam">
     <button class="btn-buy" onclick="sendOrder('Steam', document.getElementById('steamInput').value, document.getElementById('steamNick').value)">ОПЛАТИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -139,7 +139,6 @@
         <option value="80 Гемов - 450">80 Гемов — 450 ₽</option>
         <option value="170 Гемов - 890">170 Гемов — 890 ₽</option>
         <option value="Brawl Pass - 650">Brawl Pass — 650 ₽</option>
-        <option value="Brawl Pass Plus - 990">Brawl Pass Plus — 990 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Brawl Stars', document.getElementById('brawlSelect').value)">КУПИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -151,7 +150,6 @@
         <option value="Благословение Луны - 490">Благословение Луны — 490 ₽</option>
         <option value="60 Кристаллов - 120">60 Кристаллов — 120 ₽</option>
         <option value="300 Кристаллов - 450">300 Кристаллов — 450 ₽</option>
-        <option value="980 Кристаллов - 1350">980 Кристаллов — 1350 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value)">КУПИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -160,9 +158,8 @@
 <div id="discordModal" class="modal"><div class="modal-content">
     <h2>Discord Nitro</h2>
     <select id="discordSelect" class="select-style">
-        <option value="Nitro Basic (Месяц) - 250">Nitro Basic (1 мес) — 250 ₽</option>
-        <option value="Nitro Full (Месяц) - 550">Nitro Full (1 мес) — 550 ₽</option>
-        <option value="Nitro Full (Год) - 4900">Nitro Full (1 год) — 4900 ₽</option>
+        <option value="Nitro Basic - 250">Nitro Basic — 250 ₽</option>
+        <option value="Nitro Full - 550">Nitro Full — 550 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Discord', document.getElementById('discordSelect').value)">ОФОРМИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
@@ -171,23 +168,39 @@
 <div id="spotifyModal" class="modal"><div class="modal-content">
     <h2>Spotify Premium</h2>
     <select id="spotifySelect" class="select-style">
-        <option value="Индивидуальная (Месяц) - 350">Индивидуальная (1 мес) — 350 ₽</option>
-        <option value="Семья (Месяц) - 600">Семья (1 мес) — 600 ₽</option>
-        <option value="Индивидуальная (Год) - 2500">Индивидуальная (1 год) — 2500 ₽</option>
+        <option value="1 месяц - 350">1 месяц — 350 ₽</option>
+        <option value="12 месяцев - 2500">12 месяцев — 2500 ₽</option>
     </select>
-    <button class="btn-buy" onclick="sendOrder('Spotify', document.getElementById('spotifySelect').value)">ПОДПИСАТЬСЯ</button>
+    <button class="btn-buy" onclick="sendOrder('Spotify', document.getElementById('spotifySelect').value)">КУПИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="bonusModal" class="modal"><div class="modal-content">
     <h2>Бонусы</h2>
-    <p>Приведи друга — получи 50 R$!</p>
+    <div class="info-item"><b>👥 Партнерка:</b> Приведи друга — получи 50 R$!</div>
+    <div class="info-item"><b>🎟 Промокоды:</b> Скидки до 15% в ЛС.</div>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="newsModal" class="modal"><div class="modal-content">
+    <h2>Новости</h2>
+    <div class="info-item"><b>🔥 Обновление:</b> Добавлен выбор товаров для всех игр!</div>
+    <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="reviewsModal" class="modal"><div class="modal-content">
+    <h2>Отзывы</h2>
+    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@nik:</b> Купил робуксы, пришли за 5 минут.</div>
+    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@max:</b> Лучший курс на рынке!</div>
+    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">ОСТАВИТЬ ОТЗЫВ</button>
+    <button class="btn-buy" onclick="closeAll()" style="background:none;">ЗАКРЫТЬ</button>
 </div></div>
 
 <nav class="nav-bar">
     <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i><br>Маркет</div>
     <div class="nav-item" onclick="openModal('bonusModal')"><i class="fas fa-gift"></i><br>Бонусы</div>
+    <div class="nav-item" onclick="openModal('newsModal')"><i class="fas fa-bullhorn"></i><br>Новости</div>
+    <div class="nav-item" onclick="openModal('reviewsModal')"><i class="fas fa-comments"></i><br>Отзывы</div>
 </nav>
 
 <script>
@@ -203,5 +216,4 @@
     }
 </script>
 </body>
-    </html>
-    
+</html>
