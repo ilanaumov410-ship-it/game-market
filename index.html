@@ -32,14 +32,14 @@
         @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         .btn-buy { background: var(--accent-color); color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
-        .input-manual { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 5px 0; text-align: center; box-sizing: border-box; outline: none; }
+        .input-manual, .select-style { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 5px 0; text-align: center; box-sizing: border-box; outline: none; appearance: none; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
         .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid var(--accent-color); text-align: center; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; z-index: 999; }
         .nav-item { text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; flex: 1; }
-        .info-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; text-align: left; border-left: 3px solid var(--accent-color); font-size: 13px; }
+        .price-tag { font-size: 18px; font-weight: bold; color: #4ade80; margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -49,7 +49,7 @@
     <div style="font-size: 11px; color: #4ade80;">● ОПЕРАТОР ОНЛАЙН</div>
 </header>
 
-<div class="promo-banner" onclick="openBonus()">
+<div class="promo-banner" onclick="openModal('bonusModal')">
     🎁 АКЦИЯ: Розыгрыш 800 R$ каждую неделю!
 </div>
 
@@ -78,116 +78,116 @@
     <div class="card" onclick="openModal('brawlModal')">
         <i class="fas fa-bolt" style="color: var(--brawl-yellow); font-size: 24px;"></i>
         <h3>Brawl Stars</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Гемы и Pass</p>
-        <button class="btn-buy" style="background: var(--brawl-yellow); color: #000;">КУПИТЬ</button>
+        <button class="btn-buy" style="background: var(--brawl-yellow); color: #000;">ГЕМЫ</button>
     </div>
 
     <div class="card" onclick="openModal('genshinModal')">
         <i class="fas fa-wind" style="color: var(--genshin-teal); font-size: 24px;"></i>
         <h3>Genshin</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Кристаллы / Луна</p>
-        <button class="btn-buy" style="background: var(--genshin-teal);">КУПИТЬ</button>
+        <button class="btn-buy" style="background: var(--genshin-teal);">ЛУНА / КРИСТАЛЛЫ</button>
     </div>
 
     <div class="card" onclick="openModal('discordModal')">
         <i class="fab fa-discord" style="color: #5865f2; font-size: 24px;"></i>
         <h3>Discord</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Nitro / Basic</p>
-        <button class="btn-buy" style="background: #5865f2;">КУПИТЬ</button>
+        <button class="btn-buy" style="background: #5865f2;">NITRO</button>
     </div>
 
     <div class="card" onclick="openModal('spotifyModal')">
         <i class="fab fa-spotify" style="color: var(--spotify-green); font-size: 24px;"></i>
         <h3>Spotify</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Premium</p>
-        <button class="btn-buy" style="background: var(--spotify-green);">КУПИТЬ</button>
+        <button class="btn-buy" style="background: var(--spotify-green);">PREMIUM</button>
     </div>
 
     <div class="card full-width" onclick="openModal('steamModal')">
         <i class="fab fa-steam" style="color: #66c0f4; font-size: 24px;"></i>
-        <h3>Steam (Пополнение +40₽)</h3>
+        <h3>Steam (+40₽)</h3>
         <button class="btn-buy" style="background: #66c0f4;">ПОПОЛНИТЬ</button>
     </div>
 </div>
 
 <div id="starsModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--tg-gold);">Telegram Stars</h2>
+    <h2>Telegram Stars</h2>
     <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звезд" oninput="calcStars()">
-    <div>Цена: <span id="starPrice">0</span> ₽</div>
+    <div class="price-tag"><span id="starPrice">0</span> ₽</div>
     <button class="btn-buy" onclick="sendOrder('Stars', document.getElementById('starInput').value)">ОПЛАТИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="robloxModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--roblox-pink);">Robux (Gamepass)</h2>
+    <h2>Robux (Gamepass)</h2>
     <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
-    <div>Цена: <span id="rbxPrice">0</span> ₽</div>
+    <div class="price-tag"><span id="rbxPrice">0</span> ₽</div>
     <input type="text" id="rbxNick" class="input-manual" placeholder="Ник в Roblox">
     <button class="btn-buy" onclick="sendOrder('Roblox', document.getElementById('rbxInput').value, document.getElementById('rbxNick').value)">ОПЛАТИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="steamModal" class="modal"><div class="modal-content">
-    <h2 style="color: #66c0f4;">Steam</h2>
+    <h2>Steam</h2>
     <input type="number" id="steamInput" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
-    <div>К оплате (+40₽): <span id="steamPrice">0</span> ₽</div>
+    <div class="price-tag"><span id="steamPrice">0</span> ₽</div>
     <input type="text" id="steamNick" class="input-manual" placeholder="Логин Steam">
     <button class="btn-buy" onclick="sendOrder('Steam', document.getElementById('steamInput').value, document.getElementById('steamNick').value)">ОПЛАТИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="brawlModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--brawl-yellow);">Brawl Stars</h2>
-    <p>Для покупки Гемов или Pass напишите оператору желаемый товар.</p>
-    <button class="btn-buy" onclick="sendOrder('Brawl Stars', 'Гемы/Pass')">НАПИСАТЬ ОПЕРАТОРУ</button>
+    <h2>Brawl Stars</h2>
+    <select id="brawlSelect" class="select-style">
+        <option value="30 Гемов - 180">30 Гемов — 180 ₽</option>
+        <option value="80 Гемов - 450">80 Гемов — 450 ₽</option>
+        <option value="170 Гемов - 890">170 Гемов — 890 ₽</option>
+        <option value="Brawl Pass - 650">Brawl Pass — 650 ₽</option>
+        <option value="Brawl Pass Plus - 990">Brawl Pass Plus — 990 ₽</option>
+    </select>
+    <button class="btn-buy" onclick="sendOrder('Brawl Stars', document.getElementById('brawlSelect').value)">КУПИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="genshinModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--genshin-teal);">Genshin Impact</h2>
-    <p>Кристаллы сотворения и Полая луна по выгодным ценам.</p>
-    <button class="btn-buy" onclick="sendOrder('Genshin', 'Кристаллы/Луна')">КУПИТЬ</button>
+    <h2>Genshin Impact</h2>
+    <select id="genshinSelect" class="select-style">
+        <option value="Благословение Луны - 490">Благословение Луны — 490 ₽</option>
+        <option value="60 Кристаллов - 120">60 Кристаллов — 120 ₽</option>
+        <option value="300 Кристаллов - 450">300 Кристаллов — 450 ₽</option>
+        <option value="980 Кристаллов - 1350">980 Кристаллов — 1350 ₽</option>
+    </select>
+    <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value)">КУПИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="discordModal" class="modal"><div class="modal-content">
-    <h2 style="color: #5865f2;">Discord Nitro</h2>
-    <p>Nitro Full и Basic через вход или подарок.</p>
-    <button class="btn-buy" onclick="sendOrder('Discord', 'Nitro')">ВЫБРАТЬ NITRO</button>
+    <h2>Discord Nitro</h2>
+    <select id="discordSelect" class="select-style">
+        <option value="Nitro Basic (Месяц) - 250">Nitro Basic (1 мес) — 250 ₽</option>
+        <option value="Nitro Full (Месяц) - 550">Nitro Full (1 мес) — 550 ₽</option>
+        <option value="Nitro Full (Год) - 4900">Nitro Full (1 год) — 4900 ₽</option>
+    </select>
+    <button class="btn-buy" onclick="sendOrder('Discord', document.getElementById('discordSelect').value)">ОФОРМИТЬ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="spotifyModal" class="modal"><div class="modal-content">
-    <h2 style="color: var(--spotify-green);">Spotify Premium</h2>
-    <p>Подписка на ваш аккаунт (Индивидуальная/Семья).</p>
-    <button class="btn-buy" onclick="sendOrder('Spotify', 'Premium')">КУПИТЬ ПРЕМИУМ</button>
+    <h2>Spotify Premium</h2>
+    <select id="spotifySelect" class="select-style">
+        <option value="Индивидуальная (Месяц) - 350">Индивидуальная (1 мес) — 350 ₽</option>
+        <option value="Семья (Месяц) - 600">Семья (1 мес) — 600 ₽</option>
+        <option value="Индивидуальная (Год) - 2500">Индивидуальная (1 год) — 2500 ₽</option>
+    </select>
+    <button class="btn-buy" onclick="sendOrder('Spotify', document.getElementById('spotifySelect').value)">ПОДПИСАТЬСЯ</button>
     <button class="btn-buy" onclick="closeAll()" style="background:none;">Назад</button>
 </div></div>
 
 <div id="bonusModal" class="modal"><div class="modal-content">
     <h2>Бонусы</h2>
-    <div class="info-item"><b>👥 Партнерка:</b> Приведи друга — получи 50 R$!</div>
-    <div class="info-item"><b>🎟 Промокоды:</b> Скидки в ЛС.</div>
-    <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="newsModal" class="modal"><div class="modal-content">
-    <h2>Новости</h2>
-    <div class="info-item">Добавлены Brawl Stars и Genshin Impact! 🚀</div>
-    <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="reviewsModal" class="modal"><div class="modal-content">
-    <h2>Отзывы</h2>
-    <div class="info-item">⭐⭐⭐⭐⭐<br>Всё супер, рекомендую!</div>
+    <p>Приведи друга — получи 50 R$!</p>
     <button class="btn-buy" onclick="closeAll()">ЗАКРЫТЬ</button>
 </div></div>
 
 <nav class="nav-bar">
     <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i><br>Маркет</div>
     <div class="nav-item" onclick="openModal('bonusModal')"><i class="fas fa-gift"></i><br>Бонусы</div>
-    <div class="nav-item" onclick="openModal('newsModal')"><i class="fas fa-bullhorn"></i><br>Новости</div>
-    <div class="nav-item" onclick="openModal('reviewsModal')"><i class="fas fa-comments"></i><br>Отзывы</div>
 </nav>
 
 <script>
@@ -203,5 +203,5 @@
     }
 </script>
 </body>
-        </html>
-                                                                                              
+    </html>
+    
