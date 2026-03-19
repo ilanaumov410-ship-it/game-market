@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME MARKET</title>
+    <title>GAME MARKET | FULL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -11,12 +11,12 @@
             --card-bg: #1e293b;
             --accent-color: #6366f1;
             --text-color: #f8fafc;
-            --tg-gold: #fbbf24;
+            --gold: #fbbf24;
             --roblox-pink: #f472b6;
             --brawl-yellow: #facc15;
             --genshin-teal: #4db2ff;
             --spotify-green: #1db954;
-            --case-gradient: linear-gradient(45deg, #f06, #9f6, #06f, #f06);
+            --box-gradient: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6, #f59e0b);
         }
 
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
@@ -26,7 +26,8 @@
         .card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid #334155; cursor: pointer; transition: 0.3s; position: relative; }
         .full-width { grid-column: span 2; }
         
-        .case-card { background: #000; border: 2px solid transparent; background-image: linear-gradient(#000, #000), var(--case-gradient); background-origin: border-box; background-clip: content-box, border-box; background-size: 400% 400%; animation: gradient-move 5s infinite; }
+        /* Анимированный бокс */
+        .box-card { background: #000; border: 2px solid transparent; background-image: linear-gradient(#000, #000), var(--box-gradient); background-origin: border-box; background-clip: content-box, border-box; background-size: 400% 400%; animation: gradient-move 5s infinite; overflow: hidden; }
         @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         .btn-buy { background: var(--accent-color); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
@@ -37,11 +38,14 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(10px); }
         .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid #334155; text-align: center; max-height: 90vh; overflow-y: auto; }
 
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 999; }
-        .nav-item { text-align: center; color: #94a3b8; font-size: 10px; cursor: pointer; flex: 1; transition: 0.2s; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; display: block; }
-        .nav-item:active { color: var(--accent-color); }
+        #prizeDisplay { font-size: 22px; font-weight: 900; color: var(--gold); margin: 20px 0; min-height: 30px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
+        .win-anim { animation: win-glow 0.5s ease-in-out infinite alternate; }
+        @keyframes win-glow { from { transform: scale(1); } to { transform: scale(1.1); } }
 
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 999; }
+        .nav-item { text-align: center; color: #94a3b8; font-size: 10px; cursor: pointer; flex: 1; }
+        .nav-item i { font-size: 18px; margin-bottom: 4px; display: block; }
+        
         .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); font-size: 13px; }
     </style>
 </head>
@@ -49,15 +53,15 @@
 
 <header>
     <div style="font-size: 26px; font-weight: 900; color: var(--accent-color);">GAME MARKET</div>
-    <div style="font-size: 11px; color: #4ade80; letter-spacing: 1px;">● ОПЕРАТОР ОНЛАЙН</div>
+    <div style="font-size: 11px; color: #4ade80;">● ОПЕРАТОР ОНЛАЙН</div>
 </header>
 
 <div class="container">
-    <div class="card full-width case-card" onclick="window.open('https://t.me/BlameJohn2014?text=Хочу открыть КЕЙС УДАЧИ за 79р')">
-        <i class="fas fa-box-open" style="font-size: 30px; color: white;"></i>
-        <h3 style="margin: 10px 0;">КЕЙС УДАЧИ</h3>
-        <p style="font-size: 11px; color: #ccc;">Приз до 80 R$ | 79 ₽</p>
-        <button class="btn-buy" style="background: #fff; color: #000;">ОТКРЫТЬ</button>
+    <div class="card full-width box-card" onclick="openModal('boxModal')">
+        <i class="fas fa-parachute-box" style="font-size: 35px; color: var(--gold); margin-bottom: 5px;"></i>
+        <h2 style="margin: 5px 0; color: #fff;">GOLD BOX</h2>
+        <p style="font-size: 11px; color: #ccc;">Цена открытия: <b>200 ₽</b></p>
+        <button class="btn-buy" style="background: var(--gold); color: #000;">ОТКРЫТЬ НА САЙТЕ</button>
     </div>
 
     <div class="card" onclick="openModal('robloxModal')">
@@ -68,10 +72,10 @@
     </div>
 
     <div class="card" onclick="openModal('starsModal')">
-        <i class="fas fa-star" style="color: var(--tg-gold); font-size: 24px;"></i>
+        <i class="fas fa-star" style="color: var(--gold); font-size: 24px;"></i>
         <h3>Stars</h3>
         <p style="font-size: 10px; opacity: 0.6;">Курс 1.52</p>
-        <button class="btn-buy" style="background: var(--tg-gold); color: #000;">КУПИТЬ</button>
+        <button class="btn-buy" style="background: var(--gold); color: #000;">КУПИТЬ</button>
     </div>
 
     <div class="card" onclick="openModal('brawlModal')">
@@ -105,6 +109,16 @@
     </div>
 </div>
 
+<div id="boxModal" class="modal"><div class="modal-content">
+    <i class="fas fa-gift" style="font-size: 40px; color: var(--gold);"></i>
+    <h2 id="boxTitle">Ваш Бокс</h2>
+    <div id="prizeDisplay">???</div>
+    <div id="boxDesc" style="font-size: 12px; opacity: 0.8; margin-bottom: 15px;">После оплаты вы сможете нажать кнопку "Крутить" и выбить приз!</div>
+    <button class="btn-buy" onclick="sendOrder('GOLD BOX', '200 ₽')">ОПЛАТИТЬ 200 ₽</button>
+    <button onclick="startSpinning()" style="background:none; border:none; color:#444; font-size:10px; cursor:pointer; margin-top:15px;">(демо-открытие)</button>
+    <button class="btn-cancel" onclick="closeAll()">Назад</button>
+</div></div>
+
 <div id="robloxModal" class="modal"><div class="modal-content">
     <h2>Roblox (Gamepass)</h2>
     <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
@@ -116,8 +130,7 @@
 
 <div id="steamModal" class="modal"><div class="modal-content">
     <h2>Steam</h2>
-    <p style="font-size: 11px; opacity: 0.7;">Комиссия сервиса 7%</p>
-    <input type="number" id="steamInput" class="input-manual" placeholder="Сумма пополнения" oninput="calcSteam()">
+    <input type="number" id="steamInput" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
     <div style="margin:10px 0; font-size: 20px; font-weight:bold; color:#4ade80;"><span id="steamPrice">0</span> ₽</div>
     <input type="text" id="steamNick" class="input-manual" placeholder="Логин (не ник!)">
     <button class="btn-buy" onclick="sendOrder('Steam', document.getElementById('steamInput').value, document.getElementById('steamNick').value)">ОПЛАТИТЬ</button>
@@ -131,21 +144,17 @@
         <option value="80 Гемов - 460">80 Гемов — 460 ₽</option>
         <option value="170 Гемов - 900">170 Гемов — 900 ₽</option>
         <option value="Brawl Pass - 660">Brawl Pass — 660 ₽</option>
-        <option value="Brawl Pass Plus - 990">Brawl Pass Plus — 990 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Brawl Stars', document.getElementById('brawlSelect').value)">КУПИТЬ</button>
     <button class="btn-cancel" onclick="closeAll()">Назад</button>
 </div></div>
 
 <div id="genshinModal" class="modal"><div class="modal-content">
-    <h2>Genshin Impact</h2>
+    <h2>Genshin</h2>
     <select id="genshinSelect" class="select-style">
-        <option value="Благословение Луны - 420">Благословение Луны — 420 ₽</option>
-        <option value="60 Кристаллов - 65">60 Кристаллов — 65 ₽</option>
-        <option value="300 Кристаллов - 380">300 Кристаллов — 380 ₽</option>
-        <option value="980 Кристаллов - 1100">980 Кристаллов — 1100 ₽</option>
-        <option value="1980 Кристаллов - 2200">1980 Кристаллов — 2200 ₽</option>
-        <option value="БП (Жемчужный гимн) - 890">Жемчужный гимн — 890 ₽</option>
+        <option value="Луна - 420">Благословение Луны — 420 ₽</option>
+        <option value="60 Крист - 65">60 Кристаллов — 65 ₽</option>
+        <option value="300 Крист - 380">300 Кристаллов — 380 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value)">КУПИТЬ</button>
     <button class="btn-cancel" onclick="closeAll()">Назад</button>
@@ -154,10 +163,8 @@
 <div id="discordModal" class="modal"><div class="modal-content">
     <h2>Discord Nitro</h2>
     <select id="discordSelect" class="select-style">
-        <option value="Nitro Basic (1 мес) - 250">Nitro Basic (1 мес) — 250 ₽</option>
-        <option value="Nitro Full (1 мес) - 550">Nitro Full (1 мес) — 550 ₽</option>
-        <option value="Nitro Basic (1 год) - 2200">Nitro Basic (1 год) — 2200 ₽</option>
-        <option value="Nitro Full (1 год) - 4900">Nitro Full (1 год) — 4900 ₽</option>
+        <option value="Basic (1 мес) - 250">Nitro Basic (1 мес) — 250 ₽</option>
+        <option value="Full (1 мес) - 550">Nitro Full (1 мес) — 550 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Discord', document.getElementById('discordSelect').value)">ОФОРМИТЬ</button>
     <button class="btn-cancel" onclick="closeAll()">Назад</button>
@@ -166,10 +173,8 @@
 <div id="spotifyModal" class="modal"><div class="modal-content">
     <h2>Spotify Premium</h2>
     <select id="spotifySelect" class="select-style">
-        <option value="Premium (1 мес) - 350">Individual (1 мес) — 350 ₽</option>
-        <option value="Premium (3 мес) - 950">Individual (3 мес) — 950 ₽</option>
-        <option value="Premium (6 мес) - 1700">Individual (6 мес) — 1700 ₽</option>
-        <option value="Premium (12 мес) - 2800">Individual (12 мес) — 2800 ₽</option>
+        <option value="1 мес - 350">Individual (1 мес) — 350 ₽</option>
+        <option value="12 мес - 2800">Individual (12 мес) — 2800 ₽</option>
     </select>
     <button class="btn-buy" onclick="sendOrder('Spotify', document.getElementById('spotifySelect').value)">КУПИТЬ</button>
     <button class="btn-cancel" onclick="closeAll()">Назад</button>
@@ -185,16 +190,16 @@
 
 <div id="newsModal" class="modal"><div class="modal-content">
     <h2>Новости</h2>
+    <div class="info-item">🎁 Добавлен GOLD BOX за 200 ₽! Испытай удачу.</div>
     <div class="info-item">🔥 Комиссия Steam снижена до 7%.</div>
-    <div class="info-item">💎 Новые тарифы на Discord и Spotify доступны.</div>
     <button class="btn-cancel" onclick="closeAll()">Закрыть</button>
 </div></div>
 
 <div id="reviewsModal" class="modal"><div class="modal-content">
     <h2>Отзывы</h2>
-    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@dima_v:</b> Закинул 800 робуксов, пришли за 5 минут.</div>
-    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@lena_star:</b> Луна в Геншине дешевле чем в игре.</div>
-    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">СМОТРЕТЬ ВСЕ</button>
+    <div class="info-item">⭐⭐⭐⭐⭐ @dima_v: Пришли за 5 мин.</div>
+    <div class="info-item">⭐⭐⭐⭐⭐ @lena: Дешевле чем в игре.</div>
+    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">ВСЕ ОТЗЫВЫ</button>
     <button class="btn-cancel" onclick="closeAll()">Назад</button>
 </div></div>
 
@@ -207,14 +212,31 @@
 <script>
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
     function openModal(id) { closeAll(); document.getElementById(id).style.display = 'flex'; }
-    
     function calcRbx() { let v = document.getElementById('rbxInput').value; document.getElementById('rbxPrice').innerText = Math.round(v * 1.47); }
     function calcStars() { let v = document.getElementById('starInput').value; document.getElementById('starPrice').innerText = Math.round(v * 1.52); }
     function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = Math.round(v * 1.07); }
+    function sendOrder(item, val, nick = '') { window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); }
 
-    function sendOrder(item, val, nick = '') { 
-        window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); 
+    function startSpinning() {
+        const prizes = ["400 Robux 💎", "170 Гемов ✨", "Discord Nitro Full 👾", "1000 ₽ на Steam 💳", "Brawl Pass Plus 🏆", "800 Robux 💎"];
+        const display = document.getElementById('prizeDisplay');
+        const boxTitle = document.getElementById('boxTitle');
+        document.getElementById('boxDesc').innerText = "Удача на твоей стороне...";
+        display.classList.remove('win-anim');
+        let counter = 0;
+        let interval = setInterval(() => {
+            display.innerText = prizes[Math.floor(Math.random() * prizes.length)];
+            counter++;
+            if (counter > 20) {
+                clearInterval(interval);
+                const finalPrize = prizes[Math.floor(Math.random() * prizes.length)];
+                display.innerText = finalPrize;
+                display.classList.add('win-anim');
+                boxTitle.innerText = "ПОЗДРАВЛЯЕМ!";
+                document.getElementById('boxDesc').innerHTML = "Пришли скриншот админу:<br><button class='btn-buy' onclick='sendOrder(\"ВЫИГРЫШ\", \""+finalPrize+"\")'>ЗАБРАТЬ ПРИЗ</button>";
+            }
+        }, 100);
     }
 </script>
 </body>
-</html>
+            </html>
