@@ -1,255 +1,149 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME MARKET</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #6366f1;
-            --text-color: #f8fafc;
-            --tg-gold: #fbbf24;
-            --roblox-pink: #f472b6;
-            --brawl-yellow: #facc15;
-            --genshin-teal: #4db2ff;
-            --spotify-green: #1db954;
-            --case-gradient: linear-gradient(45deg, #f06, #9f6, #06f, #f06);
-        }
+<style>
+    /* Стили для рулетки кейса */
+    .case-container {
+        position: relative;
+        width: 100%;
+        height: 100px;
+        background: #0f172a;
+        border: 2px solid var(--accent-color);
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 20px 0;
+    }
+    .case-line {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        background: var(--tg-gold);
+        z-index: 10;
+        box-shadow: 0 0 10px var(--tg-gold);
+    }
+    #caseCarousel {
+        display: flex;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+        will-change: transform;
+    }
+    .case-item {
+        min-width: 80px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #1e293b;
+        background: #1e293b;
+    }
+    .case-item i { font-size: 20px; margin-bottom: 5px; }
+    .case-item span { font-size: 10px; font-weight: bold; }
+    
+    /* Цвета редкости */
+    .rarity-common { border-bottom: 4px solid #94a3b8; }
+    .rarity-rare { border-bottom: 4px solid #6366f1; }
+    .rarity-legendary { border-bottom: 4px solid var(--tg-gold); }
+</style>
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
-        header { text-align: center; padding: 25px; background: linear-gradient(to bottom, #1e1b4b, var(--bg-color)); }
-        
-        .container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid #334155; cursor: pointer; transition: 0.3s; position: relative; }
-        .full-width { grid-column: span 2; }
-        
-        .case-card { background: #000; border: 2px solid transparent; background-image: linear-gradient(#000, #000), var(--case-gradient); background-origin: border-box; background-clip: content-box, border-box; background-size: 400% 400%; animation: gradient-move 5s infinite; }
-        @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .btn-buy { background: var(--accent-color); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
-        .btn-cancel { background: transparent; color: #94a3b8; border: 1px solid #334155; padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 8px; font-size: 13px; }
-        
-        .input-manual, .select-style { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; margin: 8px 0; text-align: center; box-sizing: border-box; outline: none; font-size: 14px; }
-        
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(10px); }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 85%; max-width: 350px; border: 1px solid #334155; text-align: center; max-height: 90vh; overflow-y: auto; }
-
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 999; }
-        .nav-item { text-align: center; color: #94a3b8; font-size: 10px; cursor: pointer; flex: 1; transition: 0.2s; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; display: block; }
-        .nav-item:active { color: var(--accent-color); }
-
-        .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-left: 3px solid var(--accent-color); font-size: 13px; }
-
-        /* Колесо */
-        #wheel { width: 200px; height: 200px; border: 5px solid #334155; border-radius: 50%; margin: 20px auto; position: relative; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); background: conic-gradient(#6366f1 0deg 60deg, #a855f7 60deg 120deg, #f472b6 120deg 180deg, #fbbf24 180deg 240deg, #4ade80 240deg 300deg, #f87171 300deg 360deg); }
-        .wheel-pointer { width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid white; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); z-index: 10; }
-    </style>
-</head>
-<body>
-
-<header>
-    <div style="font-size: 26px; font-weight: 900; color: var(--accent-color);">GAME MARKET</div>
-    <div style="font-size: 11px; color: #4ade80; letter-spacing: 1px;">● ОПЕРАТОР ОНЛАЙН</div>
-</header>
-
-<div class="container">
-    <div class="card full-width case-card" onclick="window.open('https://t.me/BlameJohn2014?text=Хочу открыть КЕЙС УДАЧИ за 79р')">
-        <i class="fas fa-box-open" style="font-size: 30px; color: white;"></i>
-        <h3 style="margin: 10px 0;">КЕЙС УДАЧИ</h3>
-        <p style="font-size: 11px; color: #ccc;">Приз до 80 R$ | 79 ₽</p>
-        <button class="btn-buy" style="background: #fff; color: #000;">ОТКРЫТЬ</button>
+<div id="caseOpenModal" class="modal"><div class="modal-content">
+    <h2 id="caseTitle">КЕЙС УДАЧИ</h2>
+    <p style="font-size: 11px; opacity: 0.7;">Испытай удачу! Стоимость открытия: 79 ₽</p>
+    
+    <div class="case-container">
+        <div class="case-line"></div>
+        <div id="caseCarousel"></div>
     </div>
 
-    <div class="card" onclick="openModal('robloxModal')">
-        <i class="fas fa-gem" style="color: var(--roblox-pink); font-size: 24px;"></i>
-        <h3>Robux</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Курс 1.47</p>
-        <button class="btn-buy" style="background: var(--roblox-pink);">КУПИТЬ</button>
-    </div>
-
-    <div class="card" onclick="openModal('starsModal')">
-        <i class="fas fa-star" style="color: var(--tg-gold); font-size: 24px;"></i>
-        <h3>Stars</h3>
-        <p style="font-size: 10px; opacity: 0.6;">Курс 1.52</p>
-        <button class="btn-buy" style="background: var(--tg-gold); color: #000;">КУПИТЬ</button>
-    </div>
-
-    <div class="card" onclick="openModal('brawlModal')">
-        <i class="fas fa-bolt" style="color: var(--brawl-yellow); font-size: 24px;"></i>
-        <h3>Brawl Stars</h3>
-        <button class="btn-buy" style="background: var(--brawl-yellow); color: #000;">ГЕМЫ</button>
-    </div>
-
-    <div class="card" onclick="openModal('genshinModal')">
-        <i class="fas fa-wind" style="color: var(--genshin-teal); font-size: 24px;"></i>
-        <h3>Genshin</h3>
-        <button class="btn-buy" style="background: var(--genshin-teal);">ЛУНА / КРИСТ.</button>
-    </div>
-
-    <div class="card" onclick="openModal('discordModal')">
-        <i class="fab fa-discord" style="color: #5865f2; font-size: 24px;"></i>
-        <h3>Discord</h3>
-        <button class="btn-buy" style="background: #5865f2;">NITRO</button>
-    </div>
-
-    <div class="card" onclick="openModal('spotifyModal')">
-        <i class="fab fa-spotify" style="color: var(--spotify-green); font-size: 24px;"></i>
-        <h3>Spotify</h3>
-        <button class="btn-buy" style="background: var(--spotify-green);">PREMIUM</button>
-    </div>
-
-    <div class="card full-width" onclick="openModal('steamModal')">
-        <i class="fab fa-steam" style="color: #66c0f4; font-size: 24px;"></i>
-        <h3>Steam (+7%)</h3>
-        <button class="btn-buy" style="background: #66c0f4;">ПОПОЛНИТЬ</button>
-    </div>
-</div>
-
-<div id="robloxModal" class="modal"><div class="modal-content">
-    <h2>Roblox (Gamepass)</h2>
-    <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
-    <div style="margin:10px 0; font-size: 20px; font-weight:bold; color:#4ade80;"><span id="rbxPrice">0</span> ₽</div>
-    <input type="text" id="rbxNick" class="input-manual" placeholder="Ник в Roblox">
-    <button class="btn-buy" onclick="sendOrder('Roblox', document.getElementById('rbxInput').value, document.getElementById('rbxNick').value)">ОПЛАТИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
+    <div id="caseStatus" style="margin: 10px; font-weight: bold; color: #4ade80; min-height: 20px;"></div>
+    
+    <button class="btn-buy" id="startCaseBtn" onclick="startOpening()">КРУТИТЬ ЗА 79 ₽</button>
+    <button class="btn-buy" id="claimBtn" style="display:none; background: #4ade80;">ЗАБРАТЬ ПРИЗ</button>
+    <button class="btn-cancel" id="closeCaseBtn" onclick="closeAll()">Назад</button>
 </div></div>
-
-<div id="steamModal" class="modal"><div class="modal-content">
-    <h2>Steam</h2>
-    <p style="font-size: 11px; opacity: 0.7;">Комиссия сервиса 7%</p>
-    <input type="number" id="steamInput" class="input-manual" placeholder="Сумма пополнения" oninput="calcSteam()">
-    <div style="margin:10px 0; font-size: 20px; font-weight:bold; color:#4ade80;"><span id="steamPrice">0</span> ₽</div>
-    <input type="text" id="steamNick" class="input-manual" placeholder="Логин (не ник!)">
-    <button class="btn-buy" onclick="sendOrder('Steam', document.getElementById('steamInput').value, document.getElementById('steamNick').value)">ОПЛАТИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="brawlModal" class="modal"><div class="modal-content">
-    <h2>Brawl Stars</h2>
-    <select id="brawlSelect" class="select-style">
-        <option value="30 Гемов - 190">30 Гемов — 190 ₽</option>
-        <option value="80 Гемов - 460">80 Гемов — 460 ₽</option>
-        <option value="170 Гемов - 900">170 Гемов — 900 ₽</option>
-        <option value="Brawl Pass - 660">Brawl Pass — 660 ₽</option>
-        <option value="Brawl Pass Plus - 990">Brawl Pass Plus — 990 ₽</option>
-    </select>
-    <button class="btn-buy" onclick="sendOrder('Brawl Stars', document.getElementById('brawlSelect').value)">КУПИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="genshinModal" class="modal"><div class="modal-content">
-    <h2>Genshin Impact</h2>
-    <select id="genshinSelect" class="select-style">
-        <option value="Благословение Луны - 420">Благословение Луны — 420 ₽</option>
-        <option value="60 Кристаллов - 65">60 Кристаллов — 65 ₽</option>
-        <option value="300 Кристаллов - 380">300 Кристаллов — 380 ₽</option>
-        <option value="980 Кристаллов - 1100">980 Кристаллов — 1100 ₽</option>
-        <option value="1980 Кристаллов - 2200">1980 Кристаллов — 2200 ₽</option>
-        <option value="БП (Жемчужный гимн) - 890">Жемчужный гимн — 890 ₽</option>
-    </select>
-    <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value)">КУПИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="discordModal" class="modal"><div class="modal-content">
-    <h2>Discord Nitro</h2>
-    <select id="discordSelect" class="select-style">
-        <option value="Nitro Basic (1 мес) - 250">Nitro Basic (1 мес) — 250 ₽</option>
-        <option value="Nitro Full (1 мес) - 550">Nitro Full (1 мес) — 550 ₽</option>
-        <option value="Nitro Basic (1 год) - 2200">Nitro Basic (1 год) — 2200 ₽</option>
-        <option value="Nitro Full (1 год) - 4900">Nitro Full (1 год) — 4900 ₽</option>
-    </select>
-    <button class="btn-buy" onclick="sendOrder('Discord', document.getElementById('discordSelect').value)">ОФОРМИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="spotifyModal" class="modal"><div class="modal-content">
-    <h2>Spotify Premium</h2>
-    <select id="spotifySelect" class="select-style">
-        <option value="Premium (1 мес) - 350">Individual (1 мес) — 350 ₽</option>
-        <option value="Premium (3 мес) - 950">Individual (3 мес) — 950 ₽</option>
-        <option value="Premium (6 мес) - 1700">Individual (6 мес) — 1700 ₽</option>
-        <option value="Premium (12 мес) - 2800">Individual (12 мес) — 2800 ₽</option>
-    </select>
-    <button class="btn-buy" onclick="sendOrder('Spotify', document.getElementById('spotifySelect').value)">КУПИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="wheelModal" class="modal"><div class="modal-content">
-    <h2>Колесо Удачи</h2>
-    <p style="font-size: 11px;">Крути и получай бонус к заказу!</p>
-    <div style="position: relative;">
-        <div class="wheel-pointer"></div>
-        <div id="wheel"></div>
-    </div>
-    <div id="wheelResult" style="margin: 10px; font-weight: bold; color: #fbbf24; min-height: 20px;"></div>
-    <button class="btn-buy" id="spinBtn" onclick="spinWheel()">КРУТИТЬ БЕСПЛАТНО</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="starsModal" class="modal"><div class="modal-content">
-    <h2>Telegram Stars</h2>
-    <input type="number" id="starInput" class="input-manual" placeholder="Кол-во звезд" oninput="calcStars()">
-    <div style="margin:10px 0; font-size: 20px; font-weight:bold; color:#fbbf24;"><span id="starPrice">0</span> ₽</div>
-    <button class="btn-buy" onclick="sendOrder('Stars', document.getElementById('starInput').value)">ОПЛАТИТЬ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<div id="newsModal" class="modal"><div class="modal-content">
-    <h2>Новости</h2>
-    <div class="info-item">✅ Добавлено «Колесо Удачи»! Испытай удачу перед покупкой.</div>
-    <div class="info-item">🔥 Комиссия Steam снижена до 7%.</div>
-    <div class="info-item">💳 Новые тарифы на Discord и Spotify доступны.</div>
-    <button class="btn-cancel" onclick="closeAll()">Закрыть</button>
-</div></div>
-
-<div id="reviewsModal" class="modal"><div class="modal-content">
-    <h2>Отзывы</h2>
-    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@dima_v:</b> Закинул 800 робуксов, пришли за 5 минут. Лучший курс!</div>
-    <div class="info-item">⭐⭐⭐⭐⭐<br><b>@lena_star:</b> Луна в Геншине дешевле чем в игре. Рекомендую.</div>
-    <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">СМОТРЕТЬ ВСЕ</button>
-    <button class="btn-cancel" onclick="closeAll()">Назад</button>
-</div></div>
-
-<nav class="nav-bar">
-    <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i>Маркет</div>
-    <div class="nav-item" onclick="openModal('wheelModal')"><i class="fas fa-dharmachakra"></i>Колесо</div>
-    <div class="nav-item" onclick="openModal('newsModal')"><i class="fas fa-bullhorn"></i>Новости</div>
-    <div class="nav-item" onclick="openModal('reviewsModal')"><i class="fas fa-star"></i>Отзывы</div>
-</nav>
 
 <script>
-    function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-    function openModal(id) { closeAll(); document.getElementById(id).style.display = 'flex'; }
-    
-    function calcRbx() { let v = document.getElementById('rbxInput').value; document.getElementById('rbxPrice').innerText = Math.round(v * 1.47); }
-    function calcStars() { let v = document.getElementById('starInput').value; document.getElementById('starPrice').innerText = Math.round(v * 1.52); }
-    function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = Math.round(v * 1.07); }
+    // Настройки призов (название, иконка, редкость, шанс в %)
+    const CASE_PRIZES = [
+        { name: "5 R$", icon: "fa-gem", rarity: "common", color: "#f472b6", chance: 50 },
+        { name: "10 R$", icon: "fa-gem", rarity: "common", color: "#f472b6", chance: 30 },
+        { name: "20 R$", icon: "fa-gem", rarity: "rare", color: "#6366f1", chance: 10 },
+        { name: "40 R$", icon: "fa-gem", rarity: "rare", color: "#6366f1", chance: 7 },
+        { name: "80 R$", icon: "fa-crown", rarity: "legendary", color: "#fbbf24", chance: 3 }
+    ];
 
-    let spinning = false;
-    function spinWheel() {
-        if (spinning) return;
-        spinning = true;
-        const wheel = document.getElementById('wheel');
-        const deg = Math.floor(5000 + Math.random() * 5000);
-        wheel.style.transform = `rotate(${deg}deg)`;
-        document.getElementById('wheelResult').innerText = "Крутим...";
+    let isOpening = false;
+
+    function startOpening() {
+        if (isOpening) return;
+        isOpening = true;
         
+        const carousel = document.getElementById('caseCarousel');
+        const status = document.getElementById('caseStatus');
+        const startBtn = document.getElementById('startCaseBtn');
+        const claimBtn = document.getElementById('claimBtn');
+        
+        status.innerText = "Удача выбирает приз...";
+        startBtn.disabled = true;
+        startBtn.style.opacity = "0.5";
+        
+        // Генерируем ленту (80 случайных предметов)
+        carousel.innerHTML = '';
+        carousel.style.transition = 'none';
+        carousel.style.transform = 'translateX(0)';
+        
+        let itemsHTML = '';
+        for (let i = 0; i < 80; i++) {
+            const p = CASE_PRIZES[Math.floor(Math.random() * CASE_PRIZES.length)];
+            itemsHTML += `
+                <div class="case-item rarity-${p.rarity}">
+                    <i class="fas ${p.icon}" style="color:${p.color}"></i>
+                    <span>${p.name}</span>
+                </div>`;
+        }
+        carousel.innerHTML = itemsHTML;
+
+        // Определяем финальный приз (через твои шансы)
+        const winningPrize = getWinningPrize();
+        
+        // Вставляем выигрышный предмет на 75-ю позицию
+        const winIndex = 75; 
+        const items = document.querySelectorAll('.case-item');
+        items[winIndex].innerHTML = `<i class="fas ${winningPrize.icon}" style="color:${winningPrize.color}"></i><span>${winningPrize.name}</span>`;
+        items[winIndex].className = `case-item rarity-${winningPrize.rarity}`;
+
+        // Запускаем анимацию
         setTimeout(() => {
-            spinning = false;
-            const rewards = ["Скидка 3% на Стим", "Бонус +10 R$", "Подарок к покупке", "Скидка 5% на Nitro", "Удача сегодня с тобой!", "Бонус +5 гемов"];
-            const result = rewards[Math.floor(Math.random() * rewards.length)];
-            document.getElementById('wheelResult').innerText = "ПРИЗ: " + result;
-        }, 4000);
+            carousel.style.transition = 'transform 5s cubic-bezier(0.15, 0, 0.15, 1)';
+            // Сдвиг: (ширина айтема 80px * индекс) - центровка
+            const offset = (winIndex * 80) - (document.querySelector('.case-container').offsetWidth / 2) + 40;
+            carousel.style.transform = `translateX(-${offset}px)`;
+        }, 100);
+
+        // Конец анимации
+        setTimeout(() => {
+            status.innerHTML = `ВЫ ВЫИГРАЛИ: <span style="color:${winningPrize.color}">${winningPrize.name}</span>`;
+            claimBtn.style.display = 'block';
+            claimBtn.onclick = () => {
+                window.open(`https://t.me/BlameJohn2014?text=Я открыл кейс и выиграл: ${winningPrize.name}`);
+            };
+            isOpening = false;
+        }, 5200);
     }
 
-    function sendOrder(item, val, nick = '') { 
-        window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); 
+    function getWinningPrize() {
+        let rand = Math.random() * 100;
+        let cumulative = 0;
+        for (let p of CASE_PRIZES) {
+            cumulative += p.chance;
+            if (rand < cumulative) return p;
+        }
+        return CASE_PRIZES[0];
     }
+
+    // Обнови старую функцию клика по кейсу на главной:
+    // Найди в HTML: onclick="window.open('https://t.me/...')" 
+    // Замени на: onclick="openModal('caseOpenModal')"
 </script>
-</body>
-</html>
