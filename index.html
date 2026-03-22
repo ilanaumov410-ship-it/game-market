@@ -30,7 +30,6 @@
             overflow-x: hidden;
         }
 
-        /* Баннер розыгрыша */
         .giveaway-banner {
             background: var(--giveaway-bg);
             background-size: 200% auto;
@@ -84,7 +83,6 @@
             grid-column: span 2;
         }
 
-        /* Анимация золотого бокса */
         .box-card {
             background: #000;
             border: 2px solid transparent;
@@ -181,7 +179,6 @@
             to { transform: scale(1.15); }
         }
 
-        /* Навигация */
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -295,8 +292,8 @@
             <option value="325 UC - 408">325 UC — 408 ₽</option>
             <option value="660 UC - 854">660 UC — 854 ₽</option>
             <option value="1800 UC - 2104">1800 UC — 2104 ₽</option>
-            <option value="3850 UC - 4155">3850 UC — 4155 ₽</option>
-            <option value="8100 UC - 8367">8100 UC — 8367 ₽</option>
+            <option value="3850 UC - 4160">3850 UC — 4160 ₽</option>
+            <option value="8100 UC - 8372">8100 UC — 8372 ₽</option>
             <option value="Elite Pass - 927">Elite Pass — 927 ₽</option>
         </select>
         <input type="text" id="pubgId" class="input-manual" placeholder="Ваш ID в игре">
@@ -309,9 +306,7 @@
     <div class="modal-content">
         <h2>Roblox (Gamepass)</h2>
         <input type="number" id="rbxInput" class="input-manual" placeholder="Кол-во R$" oninput="calcRbx()">
-        <div style="font-size:22px; font-weight:bold; color:#4ade80;">
-            <span id="rbxPrice">0</span> ₽
-        </div>
+        <div style="font-size:22px; font-weight:bold; color:#4ade80;"><span id="rbxPrice">0</span> ₽</div>
         <input type="text" id="rbxNick" class="input-manual" placeholder="Ваш ник">
         <button class="btn-buy" onclick="sendOrder('Roblox Gamepass', document.getElementById('rbxInput').value, document.getElementById('rbxNick').value)">КУПИТЬ</button>
         <button class="btn-cancel" onclick="closeAll()">Назад</button>
@@ -320,12 +315,33 @@
 
 <div id="genshinModal" class="modal">
     <div class="modal-content">
-        <h2>Genshin Impact</h2>
+        <h2>Genshin Impact (+10₽)</h2>
         <select id="genshinSelect" class="select-style">
-            <option value="Луна - 420">Луна — 420 ₽</option>
-            <option value="300 Кристаллов - 380">300 Кристаллов — 380 ₽</option>
+            <optgroup label="Популярное">
+                <option value="Луна - 318">Луна — 318 ₽</option>
+                <option value="Луна x3 - 932">Луна x3 — 932 ₽</option>
+            </optgroup>
+            <optgroup label="Кристаллы сотворения">
+                <option value="60 Crystals - 75">60 Кристаллов — 75 ₽</option>
+                <option value="330 Crystals - 319">330 Кристаллов — 319 ₽</option>
+                <option value="1090 Crystals - 963">1090 Кристаллов — 963 ₽</option>
+                <option value="2240 Crystals - 2010">2240 Кристаллов — 2010 ₽</option>
+                <option value="3880 Crystals - 3317">3880 Кристаллов — 3317 ₽</option>
+                <option value="8080 Crystals - 6386">8080 Кристаллов — 6386 ₽</option>
+                <option value="All Sets - 11460">Все наборы кристаллов — 11460 ₽</option>
+            </optgroup>
+            <optgroup label="Гранулы времени">
+                <option value="60 Granules - 71">60 Гранул — 71 ₽</option>
+                <option value="330 Granules - 322">330 Гранул — 322 ₽</option>
+                <option value="1090 Granules - 993">1090 Гранул — 993 ₽</option>
+                <option value="2240 Granules - 1976">2240 Гранул — 1976 ₽</option>
+                <option value="3880 Granules - 3128">3880 Гранул — 3128 ₽</option>
+                <option value="8080 Granules - 5965">8080 Гранул — 5965 ₽</option>
+            </optgroup>
+            <option value="Legendary - 20511">Гарант Леги — 20511 ₽</option>
         </select>
-        <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value)">КУПИТЬ</button>
+        <input type="text" id="genshinUID" class="input-manual" placeholder="Введите UID">
+        <button class="btn-buy" onclick="sendOrder('Genshin', document.getElementById('genshinSelect').value, document.getElementById('genshinUID').value)">КУПИТЬ</button>
         <button class="btn-cancel" onclick="closeAll()">Назад</button>
     </div>
 </div>
@@ -368,9 +384,7 @@
     <div class="modal-content">
         <h2>Steam (+7%)</h2>
         <input type="number" id="steamInput" class="input-manual" placeholder="Сумма" oninput="calcSteam()">
-        <div style="font-size:22px; font-weight:bold; color:#4ade80;">
-            <span id="steamPrice">0</span> ₽
-        </div>
+        <div style="font-size:22px; font-weight:bold; color:#4ade80;"><span id="steamPrice">0</span> ₽</div>
         <button class="btn-buy" onclick="sendOrder('Steam', document.getElementById('steamInput').value)">КУПИТЬ</button>
         <button class="btn-cancel" onclick="closeAll()">Назад</button>
     </div>
@@ -380,9 +394,7 @@
     <div class="modal-content">
         <h2>Telegram Stars</h2>
         <input type="number" id="starInput" class="input-manual" placeholder="Кол-во" oninput="calcStars()">
-        <div style="font-size:22px; font-weight:bold; color:#fbbf24;">
-            <span id="starPrice">0</span> ₽
-        </div>
+        <div style="font-size:22px; font-weight:bold; color:#fbbf24;"><span id="starPrice">0</span> ₽</div>
         <button class="btn-buy" onclick="sendOrder('Stars', document.getElementById('starInput').value)">КУПИТЬ</button>
         <button class="btn-cancel" onclick="closeAll()">Назад</button>
     </div>
@@ -404,8 +416,8 @@
     <div class="modal-content">
         <h2>Новости Маркета</h2>
         <div class="info-item">🔫 PUBG Mobile теперь в наличии по ID!</div>
-        <div class="info-item">⭐ Telegram Stars по курсу 1.52.</div>
-        <div class="info-item">🏆 Розыгрыш на 800 Robux в самом разгаре.</div>
+        <div class="info-item">💎 Добавили Гранулы времени в Genshin Impact.</div>
+        <div class="info-item">⭐ Telegram Stars по самому выгодному курсу.</div>
         <button class="btn-cancel" onclick="closeAll()">Закрыть</button>
     </div>
 </div>
@@ -413,8 +425,8 @@
 <div id="reviewsModal" class="modal">
     <div class="modal-content">
         <h2>Отзывы покупателей</h2>
-        <div class="info-item">⭐⭐⭐⭐⭐ <b>@user67:</b> Бокс окупился с первого раза, спасибо!</div>
-        <div class="info-item">⭐⭐⭐⭐⭐ <b>@alex:</b> Геймпасс пришел быстро, очень удобно.</div>
+        <div class="info-item">⭐⭐⭐⭐⭐ <b>@user67:</b> Бокс окупился с первого раза!</div>
+        <div class="info-item">⭐⭐⭐⭐⭐ <b>@alex:</b> Геймпасс пришел быстро.</div>
         <div class="info-item">⭐⭐⭐⭐⭐ <b>@misha:</b> Пубг доставили за 5 минут.</div>
         <button class="btn-buy" onclick="window.open('https://t.me/BlameJohn2014')">СМОТРЕТЬ ВСЕ</button>
         <button class="btn-cancel" onclick="closeAll()">Назад</button>
@@ -422,46 +434,18 @@
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-item" onclick="closeAll()">
-        <i class="fas fa-store"></i>Маркет
-    </div>
-    <div class="nav-item" onclick="openModal('newsModal')">
-        <i class="fas fa-bullhorn"></i>Новости
-    </div>
-    <div class="nav-item" onclick="openModal('reviewsModal')">
-        <i class="fas fa-star"></i>Отзывы
-    </div>
+    <div class="nav-item" onclick="closeAll()"><i class="fas fa-store"></i>Маркет</div>
+    <div class="nav-item" onclick="openModal('newsModal')"><i class="fas fa-bullhorn"></i>Новости</div>
+    <div class="nav-item" onclick="openModal('reviewsModal')"><i class="fas fa-star"></i>Отзывы</div>
 </nav>
 
 <script>
-    function closeAll() {
-        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-    }
-
-    function openModal(id) {
-        closeAll();
-        document.getElementById(id).style.display = 'flex';
-    }
-
-    function calcRbx() {
-        let v = document.getElementById('rbxInput').value;
-        document.getElementById('rbxPrice').innerText = Math.round(v * 1.47);
-    }
-
-    function calcStars() {
-        let v = document.getElementById('starInput').value;
-        document.getElementById('starPrice').innerText = Math.round(v * 1.52);
-    }
-
-    function calcSteam() {
-        let v = parseInt(document.getElementById('steamInput').value) || 0;
-        document.getElementById('steamPrice').innerText = Math.round(v * 1.07);
-    }
-
-    function sendOrder(item, val, nick = '') {
-        window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`);
-    }
-
+    function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function openModal(id) { closeAll(); document.getElementById(id).style.display = 'flex'; }
+    function calcRbx() { let v = document.getElementById('rbxInput').value; document.getElementById('rbxPrice').innerText = Math.round(v * 1.47); }
+    function calcStars() { let v = document.getElementById('starInput').value; document.getElementById('starPrice').innerText = Math.round(v * 1.52); }
+    function calcSteam() { let v = parseInt(document.getElementById('steamInput').value) || 0; document.getElementById('steamPrice').innerText = Math.round(v * 1.07); }
+    function sendOrder(item, val, nick = '') { window.open(`https://t.me/BlameJohn2014?text=Заказ: ${item} (${val}). Данные: ${nick}`); }
     function startSpinning() {
         const prizes = ["800 Robux 💎", "170 Гемов ✨", "60 UC 🔫", "400 Robux 💎"];
         const display = document.getElementById('prizeDisplay');
@@ -470,24 +454,16 @@
         let interval = setInterval(() => {
             display.innerText = prizes[Math.floor(Math.random() * prizes.length)];
             counter++;
-            if (counter > 20) {
-                clearInterval(interval);
-                display.innerText = prizes[Math.floor(Math.random() * prizes.length)];
-                display.classList.add('win-anim');
-            }
+            if (counter > 20) { clearInterval(interval); display.innerText = prizes[Math.floor(Math.random() * prizes.length)]; display.classList.add('win-anim'); }
         }, 100);
     }
-
     let seconds = 10800; 
     setInterval(() => {
-        let h = Math.floor(seconds / 3600);
-        let m = Math.floor((seconds % 3600) / 60);
-        let s = seconds % 60;
+        let h = Math.floor(seconds / 3600); let m = Math.floor((seconds % 3600) / 60); let s = seconds % 60;
         document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         if(seconds > 0) seconds--;
     }, 1000);
 </script>
 
 </body>
-    </html>
-    
+            </html>
