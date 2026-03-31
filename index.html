@@ -3,487 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME CURRENCY ELITE SHOP</title>
+    <title>ELITE GAME SHOP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
         :root {
-            --bg: #05070a;
-            --card-bg: #11141d;
-            --accent: #00ff88;
-            --text-main: #ffffff;
-            --text-dim: #8b949e;
-            --border: #1f2937;
+            --bg: #05070a; --card: #11141d; --accent: #00ff88; --text: #ffffff;
+            --dim: #8b949e; --border: #1f2937;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            margin: 0;
-            padding-bottom: 120px;
-            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text);
+            margin: 0; padding-bottom: 100px; overflow-x: hidden;
         }
 
-        /* Шапка сайта */
-        header {
-            padding: 50px 20px 30px;
-            text-align: center;
-            background: radial-gradient(circle at top, #1a2a22 0%, #05070a 100%);
-        }
-
-        header h1 {
-            font-size: 34px;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -1px;
-            background: linear-gradient(90deg, #00ff88, #00ffee);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header p {
-            color: var(--text-dim);
-            font-size: 13px;
-            margin-top: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+        header { padding: 40px 20px; text-align: center; background: radial-gradient(circle at top, #1a2a22 0%, #05070a 100%); }
+        header h1 { font-size: 30px; font-weight: 900; margin: 0; color: var(--accent); text-transform: uppercase; }
 
         /* Блок Доверия */
-        .trust-section {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            padding: 0 20px 30px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .trust-line { display: flex; gap: 10px; padding: 0 15px 20px; max-width: 600px; margin: 0 auto; }
+        .trust-item { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px; text-align: center; font-size: 10px; }
+        .trust-item i { color: var(--accent); font-size: 18px; margin-bottom: 5px; display: block; }
 
-        .trust-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 15px 5px;
-            text-align: center;
-        }
-
-        .trust-item i {
-            color: var(--accent);
-            font-size: 20px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .trust-item span {
-            font-size: 10px;
-            font-weight: 700;
-            display: block;
-        }
-
-        /* Блок Новостей */
-        .news-block {
-            margin: 0 20px 30px;
-            background: linear-gradient(135deg, #11141d, #1a1f2e);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            max-width: 560px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .news-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .news-header h4 {
-            margin: 0;
-            color: var(--accent);
-            font-size: 14px;
-        }
-
-        .news-block p {
-            font-size: 12px;
-            color: var(--text-dim);
-            line-height: 1.5;
-            margin: 0;
-        }
+        /* Новости - Прямо на сайте */
+        .section-title { padding: 20px 20px 10px; max-width: 600px; margin: 0 auto; font-weight: 900; color: var(--accent); font-size: 14px; text-transform: uppercase; }
+        .news-container { margin: 0 15px 20px; padding: 15px; background: var(--card); border-radius: 15px; border-left: 4px solid var(--accent); max-width: 570px; margin-left: auto; margin-right: auto; }
+        .news-container p { margin: 0; font-size: 12px; color: var(--dim); line-height: 1.5; }
 
         /* Сетка товаров */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 0 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; max-width: 600px; margin: 0 auto; }
+        .card { background: var(--card); border-radius: 20px; padding: 15px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: 0.2s; }
+        .card:active { transform: scale(0.95); }
+        .full { grid-column: span 2; }
+        .card i { font-size: 32px; margin-bottom: 10px; display: block; }
+        .btn-buy { background: var(--accent); color: #000; border: none; padding: 10px; width: 100%; border-radius: 10px; font-weight: 800; font-size: 11px; margin-top: 8px; }
 
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
-        }
-
-        .product-card i {
-            font-size: 40px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .product-card h3 {
-            font-size: 16px;
-            margin: 0 0 10px;
-        }
-
-        .full-width { grid-column: span 2; }
-
-        /* Кнопки покупки */
-        .buy-action {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 12px;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        /* Отзывы */
-        .reviews-header {
-            padding: 40px 20px 15px;
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 18px;
-            font-weight: 900;
-        }
-
-        .review-card {
-            background: var(--card-bg);
-            margin: 0 20px 10px;
-            padding: 15px;
-            border-radius: 15px;
-            border-left: 3px solid var(--accent);
-            max-width: 570px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .rev-top {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-
+        /* Отзывы - Прямо на сайте */
+        .reviews-container { padding: 0 15px 30px; max-width: 600px; margin: 0 auto; }
+        .rev-card { background: var(--card); padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .rev-head { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 11px; }
         .rev-name { color: var(--accent); font-weight: 700; }
-        .rev-text { font-size: 13px; color: var(--text-dim); line-height: 1.4; }
+        .rev-stars { color: #f1c40f; }
+        .rev-body { font-size: 12px; color: var(--dim); font-style: italic; }
 
-        /* МОДАЛЬНЫЕ ОКНА */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            backdrop-filter: blur(10px);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #0a0d14;
-            width: 90%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .modal-content i { font-size: 60px; margin-bottom: 20px; color: var(--accent); }
-        .modal-content h2 { font-size: 24px; margin-bottom: 10px; }
-
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { font-size: 12px; color: var(--text-dim); margin-left: 10px; font-weight: 700; }
-
-        input, select {
-            width: 100%;
-            padding: 16px;
-            background: #11141d;
-            border: 1px solid var(--border);
-            color: #fff;
-            border-radius: 15px;
-            margin-top: 5px;
-            font-family: inherit;
-            font-size: 16px;
-            box-sizing: border-box;
-            outline: none;
-            text-align: center;
-        }
-
-        input:focus { border-color: var(--accent); }
-
-        .price-display {
-            font-size: 36px;
-            font-weight: 900;
-            color: var(--accent);
-            margin: 20px 0;
-        }
-
-        .cancel-btn {
-            background: #222;
-            color: #777;
-            border: none;
-            padding: 14px;
-            width: 100%;
-            border-radius: 12px;
-            margin-top: 10px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        /* Модальные окна */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .m-box { background: #0a0d14; width: 85%; max-width: 350px; padding: 25px; border-radius: 25px; border: 1px solid var(--border); text-align: center; }
+        .m-box i { font-size: 50px; color: var(--accent); margin-bottom: 15px; display: block; }
+        input, select { width: 100%; padding: 14px; background: var(--card); border: 1px solid var(--border); color: #fff; border-radius: 12px; margin-top: 10px; font-family: inherit; outline: none; text-align: center; box-sizing: border-box; }
+        .price { font-size: 32px; font-weight: 900; color: var(--accent); margin: 15px 0; }
+        .btn-send { background: var(--accent); color: #000; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 10px; }
+        .btn-back { background: #222; color: #777; border: none; padding: 12px; width: 100%; border-radius: 12px; margin-top: 8px; cursor: pointer; }
 
         /* Навигация */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #0a0d14;
-            display: flex;
-            padding: 15px 0 25px;
-            border-top: 1px solid var(--border);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            color: #4b5563;
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .nav-item.active { color: var(--accent); }
-
+        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0d14; display: flex; padding: 15px 0 25px; border-top: 1px solid var(--border); }
+        .nav-link { flex: 1; text-align: center; color: #4b5563; font-size: 22px; }
+        .nav-link.active { color: var(--accent); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>CURRENCY ELITE</h1>
-    <p>Premium Digital Store • 2024</p>
+    <h1>ELITE SHOP</h1>
 </header>
 
-<div class="trust-section">
+<div class="trust-line">
     <div class="trust-item"><i class="fas fa-shield-alt"></i><span>ЗАЩИТА</span></div>
-    <div class="trust-item"><i class="fas fa-bolt"></i><span>СКОРОСТЬ</span></div>
-    <div class="trust-item"><i class="fas fa-award"></i><span>ОТЗЫВЫ</span></div>
+    <div class="trust-item"><i class="fas fa-bolt"></i><span>БЫСТРО</span></div>
+    <div class="trust-item"><i class="fas fa-star"></i><span>ОТЗЫВЫ</span></div>
 </div>
 
-<div class="news-block">
-    <div class="news-header">
-        <i class="fas fa-bullhorn" style="color: var(--accent);"></i>
-        <h4>НОВОСТИ МАГАЗИНА</h4>
-    </div>
-    <p>Завтра 1 апреля! В честь праздника курс Roblox будет снижен до 1.5, а на Telegram Stars будут действовать секретные бонусы.</p>
+<div class="section-title">Важные Новости</div>
+<div class="news-container">
+    <p>🔥 <b>31.03.2024:</b> Завтра 1 апреля! Мы подготовили для вас праздничные скидки на Telegram Stars и сниженный курс на Robux (1.5). Следите за обновлениями!</p>
 </div>
 
-<div class="shop-grid">
-    <div class="product-card full-width" onclick="openModal('starsM')" style="border-color: #00d4ff;">
+<div class="section-title">Каталог товаров</div>
+<div class="grid">
+    <div class="card full" onclick="openM('starsM')">
         <i class="fas fa-star" style="color: #00d4ff;"></i>
         <h3>Telegram Stars</h3>
-        <button class="buy-action" style="background: #00d4ff; color: #fff;">Купить (Калькулятор)</button>
+        <button class="btn-buy">ОТ 100 ШТ</button>
     </div>
-
-    <div class="product-card full-width" onclick="openModal('steamM')" style="border-color: var(--accent);">
-        <i class="fab fa-steam" style="color: var(--accent);"></i>
-        <h3>Steam Пополнение</h3>
-        <button class="buy-action">Комиссия +7%</button>
+    <div class="card full" onclick="openM('steamM')">
+        <i class="fab fa-steam" style="color: #ffffff;"></i>
+        <h3>Steam РФ/СНГ (+7%)</h3>
+        <button class="btn-buy">ПОПОЛНИТЬ</button>
     </div>
-
-    <div class="product-card" onclick="openModal('rbxM')">
+    <div class="card" onclick="openM('rbxM')">
         <i class="fas fa-gem" style="color: #ff4b4b;"></i>
-        <h3>Roblox</h3>
-        <button class="buy-action" style="background: #ff4b4b; color: #fff;">Курс 1.47</button>
+        <h3>Roblox (1.47)</h3>
+        <button class="btn-buy">КУПИТЬ</button>
     </div>
-
-    <div class="product-card" onclick="openModal('brawlM')">
+    <div class="card" onclick="openM('brawlM')">
         <i class="fas fa-bolt" style="color: #f1c40f;"></i>
         <h3>Brawl Stars</h3>
-        <button class="buy-action" style="background: #f1c40f; color: #000;">Gems / Pass</button>
+        <button class="btn-buy">GEMS/PASS</button>
     </div>
-
-    <div class="product-card" onclick="openModal('genshinM')">
+    <div class="card" onclick="openM('genshinM')">
         <i class="fas fa-moon" style="color: #4db3ff;"></i>
-        <h3>Genshin</h3>
-        <button class="buy-action" style="background: #4db3ff; color: #fff;">Луна / Кристаллы</button>
+        <h3>Genshin Impact</h3>
+        <button class="btn-buy">ЛУНА/ПРИМО</button>
     </div>
-
-    <div class="product-card" onclick="openModal('pubgM')">
+    <div class="card" onclick="openM('pubgM')">
         <i class="fas fa-gun" style="color: #f3aa16;"></i>
-        <h3>PUBG UC</h3>
-        <button class="buy-action" style="background: #f3aa16; color: #000;">Купить UC</button>
+        <h3>PUBG Mobile</h3>
+        <button class="btn-buy">UC КУПИТЬ</button>
     </div>
-
-    <div class="product-card" onclick="openModal('spM')">
-        <i class="fab fa-spotify" style="color: #1DB954;"></i>
-        <h3>Spotify</h3>
-        <button class="buy-action" style="background: #1DB954; color: #fff;">Premium</button>
+    <div class="card" onclick="openM('dsM')">
+        <i class="fab fa-discord" style="color: #5865f2;"></i>
+        <h3>Discord Nitro</h3>
+        <button class="btn-buy">NITRO</button>
     </div>
-
-    <div class="product-card" onclick="openModal('dsM')">
-        <i class="fab fa-discord" style="color: #5865F2;"></i>
-        <h3>Discord</h3>
-        <button class="buy-action" style="background: #5865F2; color: #fff;">Nitro</button>
+    <div class="card" onclick="openM('spM')">
+        <i class="fab fa-spotify" style="color: #1db954;"></i>
+        <h3>Spotify Prem</h3>
+        <button class="btn-buy">ПОДПИСКА</button>
     </div>
 </div>
 
-<div class="reviews-header">ПОСЛЕДНИЕ ОТЗЫВЫ</div>
-
-<div class="review-card">
-    <div class="rev-top"><span class="rev-name">@kirill_shark</span><span>Сегодня, 14:20</span></div>
-    <div class="rev-text">"Взял 1000 звёзд в ТГ, пришли моментально. Очень удобный калькулятор!"</div>
-</div>
-
-<div class="review-card">
-    <div class="rev-top"><span class="rev-name">@dashunya_05</span><span>Сегодня, 12:05</span></div>
-    <div class="rev-text">"Робуксы покупаю только тут, курс самый честный. Спасибо поддержке за помощь!"</div>
-</div>
-
-<div id="starsM" class="modal-overlay"><div class="modal-content">
-    <i class="fas fa-star" style="color: #00d4ff;"></i>
-    <h2>TG Stars</h2>
-    <div class="input-group">
-        <label>Количество звёзд:</label>
-        <input type="number" id="inStars" placeholder="Например: 100" oninput="calcS()">
+<div class="section-title">Последние Отзывы</div>
+<div class="reviews-container">
+    <div class="rev-card">
+        <div class="rev-head"><span class="rev-name">@danya_top</span><span class="rev-stars">★★★★★</span></div>
+        <div class="rev-body">"Звезды пришли за минуту! Сервис реально лучший."</div>
     </div>
-    <div class="price-display"><span id="pStars">0</span> ₽</div>
+    <div class="rev-card">
+        <div class="rev-head"><span class="rev-name">@rbx_king</span><span class="rev-stars">★★★★★</span></div>
+        <div class="rev-body">"Робуксы дешевые, все честно. Брал 2000 шт."</div>
+    </div>
+</div>
+
+<!-- МОДАЛКИ (Все рабочие) -->
+<div id="starsM" class="modal"><div class="m-box">
+    <i class="fas fa-star" style="color:#00d4ff"></i>
+    <h2>Telegram Stars</h2>
+    <input type="number" id="inStars" placeholder="Количество звёзд" oninput="calc('Stars')">
+    <div class="price"><span id="pStars">0</span> ₽</div>
     <input type="text" id="uStars" placeholder="Твой @Username">
-    <button class="buy-action" style="background: #00d4ff; color:#fff" onclick="send('Stars', inStars.value, uStars.value)">ПЕРЕЙТИ К ОПЛАТЕ</button>
-    <button class="cancel-btn" onclick="closeM()">ОТМЕНА</button>
+    <button class="btn-send" onclick="send('Stars', document.getElementById('inStars').value, document.getElementById('uStars').value)">ОПЛАТИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
 </div></div>
 
-<div id="steamM" class="modal-overlay"><div class="modal-content">
+<div id="steamM" class="modal"><div class="m-box">
     <i class="fab fa-steam"></i>
     <h2>Steam РФ/СНГ</h2>
-    <div class="input-group">
-        <label>Сумма пополнения (руб):</label>
-        <input type="number" id="inSteam" placeholder="Например: 500" oninput="calcSt()">
-    </div>
-    <div class="price-display">Итого: <span id="pSteam">0</span> ₽</div>
-    <input type="text" id="uSteam" placeholder="Логин Steam (не ник!)">
-    <button class="buy-action" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ БАЛАНС</button>
-    <button class="cancel-btn" onclick="closeM()">ОТМЕНА</button>
+    <input type="number" id="inSteam" placeholder="Сумма (руб)" oninput="calc('Steam')">
+    <div class="price">К оплате: <span id="pSteam">0</span> ₽</div>
+    <input type="text" id="uSteam" placeholder="Логин Steam">
+    <button class="btn-send" onclick="send('Steam', document.getElementById('inSteam').value, document.getElementById('uSteam').value)">ПОПОЛНИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
 </div></div>
 
-<div id="rbxM" class="modal-overlay"><div class="modal-content">
-    <i class="fas fa-gem" style="color: #ff4b4b;"></i>
+<div id="rbxM" class="modal"><div class="m-box">
+    <i class="fas fa-gem" style="color:#ff4b4b"></i>
     <h2>Robux</h2>
-    <div class="input-group">
-        <label>Сколько нужно Robux?</label>
-        <input type="number" id="inRbx" placeholder="1000" oninput="calcRb()">
-    </div>
-    <div class="price-display"><span id="pRbx">0</span> ₽</div>
-    <input type="text" id="uRbx" placeholder="Ник в игре">
-    <button class="buy-action" style="background: #ff4b4b; color: #fff" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button>
-    <button class="cancel-btn" onclick="closeM()">ОТМЕНА</button>
+    <input type="number" id="inRbx" placeholder="Сколько Robux?" oninput="calc('Rbx')">
+    <div class="price"><span id="pRbx">0</span> ₽</div>
+    <input type="text" id="uRbx" placeholder="Ник в Roblox">
+    <button class="btn-send" onclick="send('Roblox', document.getElementById('inRbx').value, document.getElementById('uRbx').value)">КУПИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
 </div></div>
 
-<div id="spM" class="modal-overlay"><div class="modal-content">
-    <i class="fab fa-spotify" style="color: #1DB954;"></i>
-    <h2>Spotify Premium</h2>
-    <select id="sSp">
-        <option value="1 месяц - 250р">1 месяц — 250₽</option>
-        <option value="6 месяцев - 1200р">6 месяцев — 1200₽</option>
-        <option value="12 месяцев - 2100р">12 месяцев — 2100₽</option>
-    </select>
-    <input type="text" id="uSp" placeholder="Твоя почта (от Spotify)">
-    <button class="buy-action" style="background: #1DB954; color: #fff" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ ПОДПИСКУ</button>
-    <button class="cancel-btn" onclick="closeM()">ОТМЕНА</button>
-</div></div>
-
-<div id="brawlM" class="modal-overlay"><div class="modal-content">
-    <i class="fas fa-bolt" style="color: #f1c40f;"></i>
+<div id="brawlM" class="modal"><div class="m-box">
+    <i class="fas fa-bolt" style="color:#f1c40f"></i>
     <h2>Brawl Stars</h2>
-    <select id="sBrawl">
-        <option value="30 Гемов - 180р">30 Гемов — 180₽</option>
-        <option value="170 Гемов - 650р">170 Гемов — 650₽</option>
-        <option value="Brawl Pass - 690р">Brawl Pass — 690₽</option>
-        <option value="Brawl Pass Plus - 990р">Brawl Pass Plus — 990₽</option>
-    </select>
+    <select id="sBrawl"><option value="30 Gems">30 Гемов</option><option value="170 Gems">170 Гемов</option><option value="Pass">Brawl Pass</option></select>
     <input type="text" id="uBrawl" placeholder="Твой Player ID">
-    <button class="buy-action" style="background: #f1c40f; color: #000" onclick="send('Brawl Stars', sBrawl.value, uBrawl.value)">КУПИТЬ</button>
-    <button class="cancel-btn" onclick="closeM()">ОТМЕНА</button>
+    <button class="btn-send" onclick="send('Brawl Stars', document.getElementById('sBrawl').value, document.getElementById('uBrawl').value)">КУПИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
 </div></div>
 
-<nav class="bottom-nav">
-    <div class="nav-item active" onclick="closeM()"><i class="fas fa-th-large"></i></div>
-    <div class="nav-item" onclick="window.open('https://t.me/BlameJohn2014')"><i class="fas fa-star"></i></div>
-    <div class="nav-item" onclick="window.open('https://t.me/BlameJohn2014')"><i class="fas fa-headset"></i></div>
+<div id="genshinM" class="modal"><div class="m-box">
+    <i class="fas fa-moon" style="color:#4db3ff"></i>
+    <h2>Genshin Impact</h2>
+    <select id="sGenshin"><option value="Moon">Благословение луны</option><option value="60 Primogems">60 Кристаллов</option><option value="300 Primogems">300 Кристаллов</option></select>
+    <input type="text" id="uGenshin" placeholder="UID и Сервер">
+    <button class="btn-send" onclick="send('Genshin', document.getElementById('sGenshin').value, document.getElementById('uGenshin').value)">КУПИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
+</div></div>
+
+<div id="pubgM" class="modal"><div class="m-box">
+    <i class="fas fa-gun" style="color:#f3aa16"></i>
+    <h2>PUBG Mobile</h2>
+    <select id="sPubg"><option value="60 UC">60 UC</option><option value="325 UC">325 UC</option><option value="Pass">Royale Pass</option></select>
+    <input type="text" id="uPubg" placeholder="ID игрока">
+    <button class="btn-send" onclick="send('PUBG', document.getElementById('sPubg').value, document.getElementById('uPubg').value)">КУПИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
+</div></div>
+
+<div id="dsM" class="modal"><div class="m-box">
+    <i class="fab fa-discord" style="color:#5865f2"></i>
+    <h2>Discord Nitro</h2>
+    <select id="sDs"><option value="Nitro Basic">Nitro Basic (Месяц)</option><option value="Nitro Full">Nitro Full (Месяц)</option></select>
+    <input type="text" id="uDs" placeholder="Твой Discord Тэг">
+    <button class="btn-send" onclick="send('Discord', document.getElementById('sDs').value, document.getElementById('uDs').value)">КУПИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
+</div></div>
+
+<div id="spM" class="modal"><div class="m-box">
+    <i class="fab fa-spotify" style="color:#1db954"></i>
+    <h2>Spotify Premium</h2>
+    <select id="sSp"><option value="1 Month">1 Месяц</option><option value="6 Months">6 Месяцев</option></select>
+    <input type="text" id="uSp" placeholder="Почта аккаунта">
+    <button class="btn-send" onclick="send('Spotify', document.getElementById('sSp').value, document.getElementById('uSp').value)">КУПИТЬ</button>
+    <button class="btn-back" onclick="closeM()">ОТМЕНА</button>
+</div></div>
+
+<nav class="nav">
+    <div class="nav-link active" onclick="closeM()"><i class="fas fa-home"></i></div>
+    <div class="nav-link" onclick="window.open('https://t.me/BlameJohn2014')"><i class="fas fa-comment-alt"></i></div>
+    <div class="nav-link" onclick="window.open('https://t.me/BlameJohn2014')"><i class="fas fa-headset"></i></div>
 </nav>
 
 <script>
-    function openModal(id) {
-        document.getElementById(id).style.display = 'flex';
-    }
+    function openM(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeM() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
 
-    function closeM() {
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.style.display = 'none';
-        });
-    }
-
-    function calcS() {
-        let stars = document.getElementById('inStars').value;
-        document.getElementById('pStars').innerText = Math.round(stars * 2.3);
-    }
-
-    function calcSt() {
-        let money = document.getElementById('inSteam').value;
-        document.getElementById('pSteam').innerText = Math.round(money * 1.07);
-    }
-
-    function calcRb() {
-        let rbx = document.getElementById('inRbx').value;
-        document.getElementById('pRbx').innerText = Math.round(rbx / 1.47);
+    function calc(type) {
+        if(type === 'Stars') { document.getElementById('pStars').innerText = Math.round(document.getElementById('inStars').value * 2.3); }
+        if(type === 'Steam') { document.getElementById('pSteam').innerText = Math.round(document.getElementById('inSteam').value * 1.07); }
+        if(type === 'Rbx') { document.getElementById('pRbx').innerText = Math.round(document.getElementById('inRbx').value / 1.47); }
     }
 
     function send(game, item, data) {
-        if (!data || !item) {
-            alert('Пожалуйста, заполните все поля!');
-            return;
-        }
-        let message = `🛒 НОВЫЙ ЗАКАЗ%0A🎮 Игра: ${game}%0A📦 Товар: ${item}%0A👤 Данные: ${data}`;
-        window.open(`https://t.me/BlameJohn2014?text=${message}`);
+        if (!data || !item || item == "0") { alert('Заполните все данные!'); return; }
+        let msg = `🛒 ЗАКАЗ: ${game}%0A📦 Товар: ${item}%0A👤 Данные: ${data}`;
+        window.open(`https://t.me/BlameJohn2014?text=${msg}`);
     }
 
-    window.onclick = function(event) {
-        if (event.target.className === 'modal-overlay') {
-            closeM();
-        }
-    }
+    window.onclick = (e) => { if (e.target.className === 'modal') closeM(); }
 </script>
 </body>
 </html>
