@@ -7,135 +7,95 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap');
-
-        :root {
-            --bg: #05070a; --card: #11141d; --accent: #00ff88; --text: #ffffff;
-            --dim: #8b949e; --border: #1f2937; --error: #ff4b4b;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text);
-            margin: 0; padding-bottom: 100px; overflow-x: hidden;
-        }
-
+        :root { --bg: #05070a; --card: #11141d; --accent: #00ff88; --text: #ffffff; --dim: #8b949e; --border: #1f2937; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
         .page { display: none; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         header { padding: 40px 20px; text-align: center; background: radial-gradient(circle at top, #1a2a22 0%, #05070a 100%); }
         header h1 { font-size: 28px; font-weight: 900; margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
-
         .section-title { padding: 20px; font-weight: 900; color: var(--accent); font-size: 16px; text-transform: uppercase; border-left: 4px solid var(--accent); margin: 20px 0 10px 20px; }
-
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: 0.3s; position: relative; }
         .card:hover { border-color: var(--accent); transform: translateY(-3px); }
         .full { grid-column: span 2; }
         .card i { font-size: 35px; margin-bottom: 12px; display: block; }
-        .card h3 { font-size: 14px; margin-bottom: 5px; }
-        .card p { font-size: 10px; color: var(--dim); margin: 0; }
         .tag { position: absolute; top: 10px; right: 10px; background: var(--accent); color: #000; font-size: 9px; font-weight: 900; padding: 3px 7px; border-radius: 5px; }
-
-        .news-item { background: var(--card); margin: 15px; padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
-        .news-date { color: var(--accent); font-size: 11px; font-weight: 800; margin-bottom: 10px; display: block; }
-        .news-item h2 { font-size: 18px; margin: 0 0 10px; }
-        .news-item p { color: var(--dim); font-size: 13px; line-height: 1.6; }
-
-        .rev-list { padding: 0 15px; }
-        .rev-card { background: var(--card); padding: 20px; border-radius: 20px; margin-bottom: 15px; border: 1px solid var(--border); }
-        .rev-info { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .rev-user { font-weight: 800; color: var(--accent); }
-        .rev-stars { color: #f1c40f; font-size: 12px; }
-        .rev-text { font-size: 13px; line-height: 1.4; color: var(--text); }
-        .rev-verif { font-size: 10px; color: #00d4ff; margin-top: 10px; display: block; }
-
+        /* Модалки */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; justify-content: center; align-items: center; }
         .m-box { background: #0a0d14; width: 90%; max-width: 400px; padding: 30px; border-radius: 30px; border: 1px solid var(--border); text-align: center; max-height: 90vh; overflow-y: auto; }
-        input, select { width: 100%; padding: 16px; background: var(--card); border: 1px solid var(--border); color: #fff; border-radius: 15px; margin-top: 10px; font-family: inherit; outline: none; box-sizing: border-box; text-align: center; }
+        input, select { width: 100%; padding: 16px; background: var(--card); border: 1px solid var(--border); color: #fff; border-radius: 15px; margin-top: 10px; font-family: inherit; outline: none; box-sizing: border-box; text-align: center; font-size: 14px; }
         .price { font-size: 38px; font-weight: 900; color: var(--accent); margin: 20px 0; text-shadow: 0 0 20px rgba(0,255,136,0.3); }
         .btn-buy { background: var(--accent); color: #000; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
         .btn-close { background: #222; color: #777; border: none; padding: 14px; width: 100%; border-radius: 12px; margin-top: 10px; cursor: pointer; }
-
+        /* Навигация */
         .nav { position: fixed; bottom: 0; width: 100%; background: #0a0d14; display: flex; padding: 15px 0 25px; border-top: 1px solid var(--border); z-index: 9999; }
-        .nav-btn { flex: 1; text-align: center; color: #4b5563; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .nav-btn { flex: 1; text-align: center; color: #4b5563; font-size: 11px; font-weight: 700; cursor: pointer; }
         .nav-btn i { font-size: 22px; display: block; margin-bottom: 5px; }
         .nav-btn.active { color: var(--accent); }
+        /* Контент вкладок */
+        .rev-card, .news-item { background: var(--card); margin: 15px; padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
 <div id="market-page" class="page active">
-    <header><h1>CURRENCY ELITE</h1><p>Официальный дилер игровой валюты</p></header>
+    <header><h1>CURRENCY ELITE</h1></header>
     <div class="section-title">Магазин товаров</div>
     <div class="grid">
-        <div class="card full" onclick="openM('starsM')"><div class="tag">HOT</div><i class="fas fa-star" style="color:#00d4ff"></i><h3>Telegram Stars</h3><p>Моментальная отправка по нику</p></div>
-        <div class="card full" onclick="openM('steamM')"><i class="fab fa-steam"></i><h3>Steam Пополнение</h3><p>РФ, Казахстан, СНГ (+6%)</p></div>
-        <div class="card" onclick="openM('rbxM')"><i class="fas fa-gem" style="color:#ff4b4b"></i><h3>Roblox</h3><p>Курс 1.47</p></div>
-        <div class="card" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><h3>Brawl Stars</h3><p>Максимальный выбор</p></div>
-        <div class="card" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><h3>Genshin</h3><p>Кристаллы и Луна</p></div>
-        <div class="card" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><h3>PUBG UC</h3><p>Глобал пополнение</p></div>
-        <div class="card" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><h3>Discord</h3><p>Nitro Full / Basic</p></div>
-        <div class="card" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><h3>Spotify</h3><p>Индивидуальная</p></div>
+        <div class="card full" onclick="openM('starsM')"><div class="tag">HOT</div><i class="fas fa-star" style="color:#00d4ff"></i><h3>Telegram Stars</h3><p>2.5₽ / штука</p></div>
+        <div class="card full" onclick="openM('steamM')"><i class="fab fa-steam"></i><h3>Steam Пополнение</h3><p>Комиссия 6%</p></div>
+        <div class="card" onclick="openM('rbxM')"><i class="fas fa-gem" style="color:#ff4b4b"></i><h3>Roblox</h3><p>Курс 1.4</p></div>
+        <div class="card" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><h3>Brawl Stars</h3><p>Gems & Pass</p></div>
+        <div class="card" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><h3>Genshin</h3><p>Primogems</p></div>
+        <div class="card" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><h3>PUBG UC</h3><p>Unknown Cash</p></div>
+        <div class="card" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><h3>Discord</h3><p>Nitro Full/Basic</p></div>
+        <div class="card" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><h3>Spotify</h3><p>Premium</p></div>
     </div>
 </div>
 
 <div id="reviews-page" class="page">
-    <div class="section-title">Отзывы клиентов (2,491)</div>
-    <div class="rev-list">
-        <div class="rev-card">
-            <div class="rev-info"><span class="rev-user">@daniil_top1</span><span class="rev-stars">★★★★★</span></div>
-            <p class="rev-text">"Задонил в Геншин 6480 кристаллов. Пришли через 2 минуты после оплаты! Цены кусаются, но зато надежно."</p>
-            <span class="rev-verif">✅ Покупка подтверждена</span>
-        </div>
-        <div class="rev-card">
-            <div class="rev-info"><span class="rev-user">@masha_robux</span><span class="rev-stars">★★★★★</span></div>
-            <p class="rev-text">"Брала робуксы, все четко. Лучший сайт из всех что видела, дизайн пушка!"</p>
-            <span class="rev-verif">✅ Покупка подтверждена</span>
-        </div>
-    </div>
+    <div class="section-title">Отзывы (2,491)</div>
+    <div class="rev-card"><b>@user1</b> ★★★★★<br>Гены в Бравл пришли быстро!</div>
+    <div class="rev-card"><b>@pro_player</b> ★★★★★<br>Стим пополнили за 6%, топ курс.</div>
 </div>
 
 <div id="news-page" class="page">
-    <div class="section-title">Новости и Акции</div>
-    <div class="news-item">
-        <span class="news-date">01 АПРЕЛЯ, 2026</span>
-        <h2>ПРАЗДНИЧНЫЕ СКИДКИ</h2>
-        <p>Сегодня снижаем комиссию на пополнение Steam до 6%! Также ловите секретные цены на Telegram Stars во всех разделах магазина.</p>
-    </div>
+    <div class="section-title">Новости</div>
+    <div class="news-item"><b>01.04.2026</b><br>Снизили комиссию Стим до 6%! Успей пополнить.</div>
 </div>
-
-<div id="steamM" class="modal"><div class="m-box">
-    <i class="fab fa-steam"></i><h2>Steam РФ/СНГ</h2>
-    <input type="number" id="inSteam" placeholder="Сумма пополнения" oninput="calcSt()">
-    <div class="price"><span id="pSteam">0</span> ₽</div>
-    <input type="text" id="uSteam" placeholder="Логин аккаунта">
-    <button class="btn-buy" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ</button>
-    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
-</div></div>
 
 <div id="genshinM" class="modal"><div class="m-box">
     <i class="fas fa-moon"></i><h2>Genshin Impact</h2>
-    <select id="sGenshin" onchange="updatePrice('Genshin')">
-        <option value="Благословение луны - 540">Благословение полой луны — 540 ₽</option>
-        <option value="60 Кристаллов - 110">60 Кристаллов — 110 ₽</option>
-        <option value="300 Кристаллов - 490">300 Кристаллов — 490 ₽</option>
-        <option value="6480 Кристаллов - 8490">6480 Кристаллов — 8490 ₽</option>
+    <select id="sGenshin" onchange="updP('Genshin')">
+        <option value="60 Кристаллов - 120">60 Кристаллов — 120 ₽</option>
+        <option value="300 Кристаллов - 510">300 Кристаллов — 510 ₽</option>
+        <option value="980 Кристаллов - 1420">980 Кристаллов — 1420 ₽</option>
+        <option value="1980 Кристаллов - 2750">1980 Кристаллов — 2750 ₽</option>
+        <option value="3280 Кристаллов - 4350">3280 Кристаллов — 4350 ₽</option>
+        <option value="6480 Кристаллов - 8550">6480 Кристаллов — 8550 ₽</option>
+        <option value="Луна (30 дней) - 560">Благословение луны — 560 ₽</option>
+        <option value="БП (Жемчужный гимн) - 1050">Жемчужный гимн — 1050 ₽</option>
     </select>
-    <div class="price" id="pGenshin">540 ₽</div>
-    <input type="text" id="uGenshin" placeholder="UID игрока">
+    <div class="price" id="pGenshin">120 ₽</div>
+    <input type="text" id="uGenshin" placeholder="UID и Сервер">
     <button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
 <div id="brawlM" class="modal"><div class="m-box">
     <i class="fas fa-bolt"></i><h2>Brawl Stars</h2>
-    <select id="sBrawl" onchange="updatePrice('Brawl')">
-        <option value="30 Гемов - 210">30 Гемов — 210 ₽</option>
-        <option value="170 Гемов - 990">170 Гемов — 990 ₽</option>
-        <option value="Brawl Pass - 790">Brawl Pass — 790 ₽</option>
-        <option value="Brawl Pass Plus - 1190">Brawl Pass Plus — 1190 ₽</option>
+    <select id="sBrawl" onchange="updP('Brawl')">
+        <option value="30 Гемов - 220">30 Гемов — 220 ₽</option>
+        <option value="80 Гемов - 540">80 Гемов — 540 ₽</option>
+        <option value="170 Гемов - 1020">170 Гемов — 1020 ₽</option>
+        <option value="360 Гемов - 2050">360 Гемов — 2050 ₽</option>
+        <option value="950 Гемов - 4950">950 Гемов — 4950 ₽</option>
+        <option value="2000 Гемов - 9600">2000 Гемов — 9600 ₽</option>
+        <option value="Brawl Pass - 810">Brawl Pass — 810 ₽</option>
+        <option value="Brawl Pass Plus - 1210">Brawl Pass Plus — 1210 ₽</option>
     </select>
-    <div class="price" id="pBrawl">210 ₽</div>
+    <div class="price" id="pBrawl">220 ₽</div>
     <input type="text" id="uBrawl" placeholder="Player Tag (#...)">
     <button class="btn-buy" onclick="send('Brawl Stars', sBrawl.value, uBrawl.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
@@ -143,89 +103,81 @@
 
 <div id="pubgM" class="modal"><div class="m-box">
     <i class="fas fa-gun"></i><h2>PUBG Mobile</h2>
-    <select id="sPubg" onchange="updatePrice('Pubg')">
-        <option value="60 UC - 130">60 UC — 130 ₽</option>
-        <option value="660 UC - 990">660 UC — 990 ₽</option>
-        <option value="Royale Pass - 890">Royale Pass — 890 ₽</option>
+    <select id="sPubg" onchange="updP('Pubg')">
+        <option value="60 UC - 140">60 UC — 140 ₽</option>
+        <option value="325 UC - 560">325 UC — 560 ₽</option>
+        <option value="660 UC - 1020">660 UC — 1020 ₽</option>
+        <option value="1800 UC - 2550">1800 UC — 2550 ₽</option>
+        <option value="3850 UC - 4950">3850 UC — 4950 ₽</option>
+        <option value="8100 UC - 9550">8100 UC — 9550 ₽</option>
+        <option value="Royale Pass - 920">Royale Pass — 920 ₽</option>
+        <option value="Elite Pass - 2150">Elite Pass — 2150 ₽</option>
     </select>
-    <div class="price" id="pPubg">130 ₽</div>
+    <div class="price" id="pPubg">140 ₽</div>
     <input type="text" id="uPubg" placeholder="ID игрока">
     <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
-<div id="starsM" class="modal"><div class="m-box">
-    <i class="fas fa-star" style="color:#00d4ff"></i><h2>Stars</h2>
-    <input type="number" id="inStars" placeholder="Количество" oninput="calcS()">
-    <div class="price"><span id="pStars">0</span> ₽</div>
-    <input type="text" id="uStars" placeholder="@Username">
-    <button class="btn-buy" onclick="send('Stars', inStars.value, uStars.value)">КУПИТЬ</button>
-    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="rbxM" class="modal"><div class="m-box">
-    <i class="fas fa-gem" style="color:#ff4b4b"></i><h2>Roblox</h2>
-    <input type="number" id="inRbx" placeholder="Количество" oninput="calcR()">
-    <div class="price"><span id="pRbx">0</span> ₽</div>
-    <input type="text" id="uRbx" placeholder="Ник в игре">
-    <button class="btn-buy" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button>
-    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
-</div></div>
-
 <div id="dsM" class="modal"><div class="m-box">
-    <i class="fab fa-discord" style="color:#5865f2"></i><h2>Discord</h2>
-    <select id="sDs"><option value="Basic - 290">Basic (Месяц) — 290 ₽</option><option value="Full - 690">Full (Месяц) — 690 ₽</option></select>
+    <i class="fab fa-discord"></i><h2>Discord Nitro</h2>
+    <select id="sDs" onchange="updP('Ds')">
+        <option value="Basic (Месяц) - 310">Nitro Basic (Месяц) — 310 ₽</option>
+        <option value="Full (Месяц) - 710">Nitro Full (Месяц) — 710 ₽</option>
+        <option value="Basic (Год) - 2850">Nitro Basic (Год) — 2850 ₽</option>
+        <option value="Full (Год) - 6900">Nitro Full (Год) — 6900 ₽</option>
+    </select>
+    <div class="price" id="pDs">310 ₽</div>
     <input type="text" id="uDs" placeholder="Ваш Discord Tag">
     <button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
 <div id="spM" class="modal"><div class="m-box">
-    <i class="fab fa-spotify" style="color:#1db954"></i><h2>Spotify</h2>
-    <select id="sSp"><option value="1 Month - 310">1 Месяц — 310 ₽</option></select>
-    <input type="text" id="uSp" placeholder="Почта">
+    <i class="fab fa-spotify"></i><h2>Spotify Premium</h2>
+    <select id="sSp" onchange="updP('Sp')">
+        <option value="1 Месяц - 330">Premium (1 Месяц) — 330 ₽</option>
+        <option value="3 Месяца - 920">Premium (3 Месяца) — 920 ₽</option>
+        <option value="6 Месяцев - 1750">Premium (6 Месяцев) — 1750 ₽</option>
+        <option value="12 Месяцев - 2950">Premium (12 Месяцев) — 2950 ₽</option>
+    </select>
+    <div class="price" id="pSp">330 ₽</div>
+    <input type="text" id="uSp" placeholder="Почта аккаунта">
     <button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
+<div id="starsM" class="modal"><div class="m-box"><i class="fas fa-star" style="color:#00d4ff"></i><h2>Stars</h2><input type="number" id="inStars" placeholder="Кол-во" oninput="calcSt()"><div class="price" id="prStars">0 ₽</div><input type="text" id="uStars" placeholder="@Username"><button class="btn-buy" onclick="send('Stars', inStars.value, uStars.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+<div id="steamM" class="modal"><div class="m-box"><i class="fab fa-steam"></i><h2>Steam 6%</h2><input type="number" id="inSteam" placeholder="Сумма" oninput="calcSm()"><div class="price" id="prSteam">0 ₽</div><input type="text" id="uSteam" placeholder="Логин"><button class="btn-buy" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+<div id="rbxM" class="modal"><div class="m-box"><i class="fas fa-gem" style="color:#ff4b4b"></i><h2>Robux</h2><input type="number" id="inRbx" placeholder="Кол-во" oninput="calcRb()"><div class="price" id="prRbx">0 ₽</div><input type="text" id="uRbx" placeholder="Ник"><button class="btn-buy" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+
 <nav class="nav">
-    <div class="nav-btn active" onclick="showPage('market-page', this)"><i class="fas fa-shopping-cart"></i>МАРКЕТ</div>
-    <div class="nav-btn" onclick="showPage('reviews-page', this)"><i class="fas fa-comment-dots"></i>ОТЗЫВЫ</div>
-    <div class="nav-btn" onclick="showPage('news-page', this)"><i class="fas fa-newspaper"></i>НОВОСТИ</div>
+    <div class="nav-btn active" onclick="showP('market-page', this)"><i class="fas fa-shopping-cart"></i>МАРКЕТ</div>
+    <div class="nav-btn" onclick="showP('reviews-page', this)"><i class="fas fa-comment-dots"></i>ОТЗЫВЫ</div>
+    <div class="nav-btn" onclick="showP('news-page', this)"><i class="fas fa-newspaper"></i>НОВОСТИ</div>
     <div class="nav-btn" onclick="window.open('https://t.me/BlameJohn2014')"><i class="fas fa-headset"></i>САППОРТ</div>
 </nav>
 
 <script>
-    function showPage(pageId, btn) {
+    function showP(id, b) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        window.scrollTo(0, 0);
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        b.classList.add('active'); window.scrollTo(0, 0);
     }
-
     function openM(id) { document.getElementById(id).style.display = 'flex'; }
     function closeM() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-
-    function updatePrice(type) {
-        let select = document.getElementById('s' + type);
-        let price = select.value.split(' - ')[1];
-        document.getElementById('p' + type).innerText = price + ' ₽';
+    function updP(t) {
+        let s = document.getElementById('s'+t);
+        document.getElementById('p'+t).innerText = s.value.split(' - ')[1] + ' ₽';
     }
-
-    function calcS() { document.getElementById('pStars').innerText = Math.round(document.getElementById('inStars').value * 2.5) + ' ₽'; }
-    function calcSt() { 
-        // Комиссия Steam теперь ровно 6%
-        document.getElementById('pSteam').innerText = Math.round(document.getElementById('inSteam').value * 1.06) + ' ₽'; 
+    function calcSt() { document.getElementById('prStars').innerText = Math.round(document.getElementById('inStars').value * 2.5) + ' ₽'; }
+    function calcSm() { document.getElementById('prSteam').innerText = Math.round(document.getElementById('inSteam').value * 1.06) + ' ₽'; }
+    function calcRb() { document.getElementById('prRbx').innerText = Math.round(document.getElementById('inRbx').value / 1.4 + 10) + ' ₽'; }
+    function send(g, i, d) {
+        if(!d) return alert('Данные!');
+        window.open(`https://t.me/BlameJohn2014?text=ЗАКАЗ: ${g}%0AТовар: ${i}%0AДанные: ${d}`);
     }
-    function calcR() { document.getElementById('pRbx').innerText = Math.round(document.getElementById('inRbx').value / 1.4 + 10) + ' ₽'; }
-
-    function send(game, item, data) {
-        if(!data) return alert('Заполните данные!');
-        let msg = `🛒 ЗАКАЗ: ${game}%0A📦 Товар: ${item}%0A👤 Данные: ${data}`;
-        window.open(`https://t.me/BlameJohn2014?text=${msg}`);
-    }
-
     window.onclick = (e) => { if (e.target.className === 'modal') closeM(); }
 </script>
 </body>
