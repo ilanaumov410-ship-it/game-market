@@ -53,71 +53,38 @@
 
 <div id="reviews-page" class="page">
     <div class="section-title">Отзывы (2,491)</div>
-    <div class="rev-card"><b>@user1</b> ★★★★★<br>Цены стали приятнее, спасибо! Гены пришли.</div>
-    <div class="rev-card"><b>@elite_gamer</b> ★★★★★<br>Топ сервис, дешевле чем у многих.</div>
+    <div class="rev-card"><b>@user1</b> ★★★★★<br>В Геншин донатить стало еще выгоднее! Пришло моментально.</div>
 </div>
 
 <div id="news-page" class="page">
     <div class="section-title">Новости</div>
-    <div class="news-item"><b>01.04.2026</b><br>Глобальное снижение цен на игры! Теперь закупаться стало ещё выгоднее.</div>
+    <div class="news-item"><b>01.04.2026</b><br>Финальная корректировка цен на Genshin Impact. Приятных покупок!</div>
 </div>
 
 <div id="genshinM" class="modal"><div class="m-box">
     <i class="fas fa-moon"></i><h2>Genshin Impact</h2>
     <select id="sGenshin" onchange="updP('Genshin')">
-        <option value="60 Кристаллов - 90">60 Кристаллов — 90 ₽</option>
-        <option value="300 Кристаллов - 480">300 Кристаллов — 480 ₽</option>
-        <option value="980 Кристаллов - 1390">980 Кристаллов — 1390 ₽</option>
-        <option value="1980 Кристаллов - 2720">1980 Кристаллов — 2720 ₽</option>
-        <option value="3280 Кристаллов - 4320">3280 Кристаллов — 4320 ₽</option>
-        <option value="6480 Кристаллов - 8520">6480 Кристаллов — 8520 ₽</option>
-        <option value="Луна (30 дней) - 530">Благословение луны — 530 ₽</option>
+        <option value="60 Кристаллов - 80">60 Кристаллов — 80 ₽</option>
+        <option value="300 Кристаллов - 470">300 Кристаллов — 470 ₽</option>
+        <option value="980 Кристаллов - 1380">980 Кристаллов — 1380 ₽</option>
+        <option value="1980 Кристаллов - 2710">1980 Кристаллов — 2710 ₽</option>
+        <option value="3280 Кристаллов - 4310">3280 Кристаллов — 4310 ₽</option>
+        <option value="6480 Кристаллов - 8510">6480 Кристаллов — 8510 ₽</option>
+        <option value="Луна (30 дней) - 520">Благословение луны — 520 ₽</option>
     </select>
-    <div class="price" id="pGenshin">90 ₽</div>
+    <div class="price" id="pGenshin">80 ₽</div>
     <input type="text" id="uGenshin" placeholder="UID и Сервер">
     <button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
-<div id="brawlM" class="modal"><div class="m-box">
-    <i class="fas fa-bolt"></i><h2>Brawl Stars</h2>
-    <select id="sBrawl" onchange="updP('Brawl')">
-        <option value="30 Гемов - 190">30 Гемов — 190 ₽</option>
-        <option value="80 Гемов - 510">80 Гемов — 510 ₽</option>
-        <option value="170 Гемов - 990">170 Гемов — 990 ₽</option>
-        <option value="360 Гемов - 2020">360 Гемов — 2020 ₽</option>
-        <option value="950 Гемов - 4920">950 Гемов — 4920 ₽</option>
-        <option value="Brawl Pass - 780">Brawl Pass — 780 ₽</option>
-        <option value="Brawl Pass Plus - 1180">Brawl Pass Plus — 1180 ₽</option>
-    </select>
-    <div class="price" id="pBrawl">190 ₽</div>
-    <input type="text" id="uBrawl" placeholder="Player Tag (#...)">
-    <button class="btn-buy" onclick="send('Brawl Stars', sBrawl.value, uBrawl.value)">КУПИТЬ</button>
-    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="pubgM" class="modal"><div class="m-box">
-    <i class="fas fa-gun"></i><h2>PUBG Mobile</h2>
-    <select id="sPubg" onchange="updP('Pubg')">
-        <option value="60 UC - 110">60 UC — 110 ₽</option>
-        <option value="325 UC - 530">325 UC — 530 ₽</option>
-        <option value="660 UC - 990">660 UC — 990 ₽</option>
-        <option value="1800 UC - 2520">1800 UC — 2520 ₽</option>
-        <option value="3850 UC - 4920">3850 UC — 4920 ₽</option>
-        <option value="8100 UC - 9520">8100 UC — 9520 ₽</option>
-        <option value="Royale Pass - 890">Royale Pass — 890 ₽</option>
-    </select>
-    <div class="price" id="pPubg">110 ₽</div>
-    <input type="text" id="uPubg" placeholder="ID игрока">
-    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">КУПИТЬ</button>
-    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="dsM" class="modal"><div class="m-box"><i class="fab fa-discord"></i><h2>Nitro</h2><select id="sDs" onchange="updP('Ds')"><option value="Basic - 310">Basic — 310 ₽</option><option value="Full - 710">Full — 710 ₽</option></select><div class="price" id="pDs">310 ₽</div><input type="text" id="uDs" placeholder="Tag"><button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
-<div id="spM" class="modal"><div class="m-box"><i class="fab fa-spotify"></i><h2>Spotify</h2><select id="sSp" onchange="updP('Sp')"><option value="1 Month - 330">1 Month — 330 ₽</option></select><div class="price" id="pSp">330 ₽</div><input type="text" id="uSp" placeholder="Email"><button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+<div id="brawlM" class="modal"><div class="m-box"><i class="fas fa-bolt"></i><h2>Brawl Stars</h2><select id="sBrawl" onchange="updP('Brawl')"><option value="30 Гемов - 190">30 Гемов — 190 ₽</option><option value="80 Гемов - 510">80 Гемов — 510 ₽</option><option value="170 Гемов - 990">170 Гемов — 990 ₽</option><option value="Brawl Pass - 780">Brawl Pass — 780 ₽</option></select><div class="price" id="pBrawl">190 ₽</div><input type="text" id="uBrawl" placeholder="Tag"><button class="btn-buy" onclick="send('Brawl Stars', sBrawl.value, uBrawl.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+<div id="pubgM" class="modal"><div class="m-box"><i class="fas fa-gun"></i><h2>PUBG Mobile</h2><select id="sPubg" onchange="updP('Pubg')"><option value="60 UC - 110">60 UC — 110 ₽</option><option value="660 UC - 990">660 UC — 990 ₽</option><option value="Royale Pass - 890">Royale Pass — 890 ₽</option></select><div class="price" id="pPubg">110 ₽</div><input type="text" id="uPubg" placeholder="ID"><button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
 <div id="starsM" class="modal"><div class="m-box"><i class="fas fa-star" style="color:#00d4ff"></i><h2>Stars</h2><input type="number" id="inStars" placeholder="Кол-во" oninput="calcSt()"><div class="price" id="prStars">0 ₽</div><input type="text" id="uStars" placeholder="@Username"><button class="btn-buy" onclick="send('Stars', inStars.value, uStars.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
 <div id="steamM" class="modal"><div class="m-box"><i class="fab fa-steam"></i><h2>Steam 6%</h2><input type="number" id="inSteam" placeholder="Сумма" oninput="calcSm()"><div class="price" id="prSteam">0 ₽</div><input type="text" id="uSteam" placeholder="Логин"><button class="btn-buy" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
 <div id="rbxM" class="modal"><div class="m-box"><i class="fas fa-gem" style="color:#ff4b4b"></i><h2>Robux</h2><input type="number" id="inRbx" placeholder="Кол-во" oninput="calcRb()"><div class="price" id="prRbx">0 ₽</div><input type="text" id="uRbx" placeholder="Ник"><button class="btn-buy" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+<div id="dsM" class="modal"><div class="m-box"><i class="fab fa-discord"></i><h2>Nitro</h2><select id="sDs" onchange="updP('Ds')"><option value="Basic - 310">Basic — 310 ₽</option><option value="Full - 710">Full — 710 ₽</option></select><div class="price" id="pDs">310 ₽</div><input type="text" id="uDs" placeholder="Tag"><button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
+<div id="spM" class="modal"><div class="m-box"><i class="fab fa-spotify"></i><h2>Spotify</h2><select id="sSp" onchange="updP('Sp')"><option value="1 Month - 330">1 Month — 330 ₽</option></select><div class="price" id="pSp">330 ₽</div><input type="text" id="uSp" placeholder="Email"><button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button></div></div>
 
 <nav class="nav">
     <div class="nav-btn active" onclick="showP('market-page', this)"><i class="fas fa-shopping-cart"></i>МАРКЕТ</div>
@@ -149,4 +116,4 @@
     window.onclick = (e) => { if (e.target.className === 'modal') closeM(); }
 </script>
 </body>
-</html>
+</html
