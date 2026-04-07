@@ -6,124 +6,373 @@
     <title>CURRENCY ELITE | OFFICIAL SHOP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap');
-        :root { --bg: #05070a; --card: #11141d; --accent: #00ff88; --text: #ffffff; --dim: #8b949e; --border: #1f2937; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
-        
-        .page { display: none; animation: fadeIn 0.4s ease; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+
+        :root {
+            --bg: #05070a;
+            --card: #11141d;
+            --accent: #00ff88;
+            --text: #ffffff;
+            --dim: #8b949e;
+            --border: #1f2937;
+            --error: #ff4b4b;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding-bottom: 120px;
+            line-height: 1.5;
+        }
+
+        /* Анимации появления */
+        .page { display: none; animation: fadeIn 0.4s ease forwards; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        header { padding: 40px 20px; text-align: center; background: radial-gradient(circle at top, #1a2a22 0%, #05070a 100%); }
-        header h1 { font-size: 28px; font-weight: 900; margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .section-title { padding: 20px; font-weight: 900; color: var(--accent); font-size: 16px; text-transform: uppercase; border-left: 4px solid var(--accent); margin: 20px 0 10px 20px; }
+        /* Шапка сайта */
+        header {
+            padding: 50px 20px;
+            text-align: center;
+            background: radial-gradient(circle at top, #1a2a22 0%, #05070a 100%);
+            border-bottom: 1px solid var(--border);
+        }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; max-width: 800px; margin: 0 auto; }
-        .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: 0.3s; position: relative; }
-        .card:hover { border-color: var(--accent); transform: translateY(-3px); }
-        
-        /* Расширенные карточки */
-        .full { grid-column: span 2; }
-        
-        .card i { font-size: 35px; margin-bottom: 12px; display: block; }
+        header h1 {
+            font-size: 32px;
+            font-weight: 900;
+            margin: 0;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
-        .m-box { background: #0a0d14; width: 90%; max-width: 400px; padding: 30px; border-radius: 30px; border: 1px solid var(--border); text-align: center; }
-        
-        input, select { width: 100%; padding: 16px; background: var(--card); border: 1px solid var(--border); color: #fff; border-radius: 15px; margin-top: 10px; font-family: inherit; outline: none; box-sizing: border-box; text-align: center; }
-        .price { font-size: 38px; font-weight: 900; color: var(--accent); margin: 20px 0; }
-        
-        .btn-buy { background: var(--accent); color: #000; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
-        .btn-close { background: none; color: var(--dim); border: none; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+        header p { color: var(--dim); font-size: 14px; margin-top: 10px; font-weight: 600; }
 
-        /* Нижняя навигация */
-        .nav { position: fixed; bottom: 0; width: 100%; background: rgba(10, 13, 20, 0.98); backdrop-filter: blur(10px); display: flex; padding: 15px 0 25px; border-top: 1px solid var(--border); z-index: 9999; }
-        .nav-btn { flex: 1; text-align: center; color: #4b5563; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .nav-btn i { font-size: 22px; display: block; margin-bottom: 5px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 0 15px; }
+
+        .section-title {
+            padding: 25px 0 15px;
+            font-weight: 800;
+            color: var(--accent);
+            font-size: 18px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 15px;
+        }
+
+        /* Сетка карточек - все на всю ширину */
+        .grid { display: flex; flex-direction: column; gap: 15px; }
+
+        .card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .card i {
+            font-size: 32px;
+            min-width: 60px;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .card-info { flex: 1; margin-left: 10px; }
+        .card-info h3 { margin: 0; font-size: 18px; font-weight: 800; }
+        .card-info p { margin: 4px 0 0; font-size: 13px; color: var(--dim); font-weight: 600; }
+
+        .card::after {
+            content: "\f054"; font-family: "Font Awesome 5 Free"; font-weight: 900;
+            position: absolute; right: 25px; color: var(--border); font-size: 14px;
+        }
+
+        /* Модальные окна (Массивные) */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .m-box {
+            background: #0a0d14; width: 92%; max-width: 420px; padding: 35px;
+            border-radius: 35px; border: 1px solid var(--border); text-align: center;
+            animation: modalPop 0.3s ease;
+        }
+
+        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .m-box i { font-size: 50px; color: var(--accent); margin-bottom: 15px; }
+        .m-box h2 { font-size: 24px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+
+        input, select {
+            width: 100%; padding: 18px; background: var(--card); border: 2px solid var(--border);
+            color: #fff; border-radius: 20px; margin-top: 15px; font-family: inherit;
+            font-size: 16px; font-weight: 700; outline: none; transition: 0.3s;
+            text-align: center;
+        }
+
+        input:focus, select:focus { border-color: var(--accent); }
+
+        .price-tag { margin: 25px 0; }
+        .price-label { font-size: 12px; color: var(--dim); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+        .price-value { font-size: 42px; font-weight: 900; color: var(--accent); }
+
+        .btn-buy {
+            background: var(--accent); color: #000; border: none; padding: 20px;
+            width: 100%; border-radius: 20px; font-weight: 900; font-size: 16px;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .btn-buy:active { transform: scale(0.98); opacity: 0.9; }
+
+        .btn-close {
+            background: none; border: none; color: var(--dim); margin-top: 20px;
+            font-weight: 700; cursor: pointer; text-decoration: underline; font-size: 14px;
+        }
+
+        /* Навигация */
+        .nav {
+            position: fixed; bottom: 0; width: 100%; background: rgba(10, 13, 20, 0.98);
+            display: flex; padding: 15px 0 30px; border-top: 1px solid var(--border); z-index: 9999;
+        }
+
+        .nav-btn { flex: 1; text-align: center; color: #4b5563; cursor: pointer; transition: 0.2s; }
+        .nav-btn i { font-size: 24px; display: block; margin-bottom: 6px; }
+        .nav-btn span { font-size: 11px; font-weight: 800; text-transform: uppercase; }
         .nav-btn.active { color: var(--accent); }
 
-        .content-box { background: var(--card); margin: 15px; padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
+        /* Отзывы и новости */
+        .content-card {
+            background: var(--card); margin-bottom: 15px; padding: 25px;
+            border-radius: 25px; border: 1px solid var(--border);
+        }
+        .content-card b { color: var(--accent); font-size: 16px; display: block; margin-bottom: 5px; }
+        .content-card p { margin: 0; font-size: 14px; color: var(--dim); line-height: 1.6; }
     </style>
 </head>
 <body>
 
 <div id="market-page" class="page active">
-    <header><h1>CURRENCY ELITE</h1></header>
-    <div class="section-title">Магазин</div>
-    <div class="grid">
-        <div class="card full" onclick="openM('steamM')"><i class="fab fa-steam"></i><h3>Steam Пополнение</h3><p>Комиссия 6%</p></div>
-        <div class="card full" onclick="openM('starsM')"><i class="fas fa-star" style="color:#00d4ff"></i><h3>Telegram Stars</h3><p>2.5₽ / шт</p></div>
-        <div class="card" onclick="openM('rbxM')"><i class="fas fa-gem" style="color:#ff4b4b"></i><h3>Roblox</h3><p>Курс 1.4</p></div>
-        
-        <div class="card full" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><h3>Genshin Impact</h3></div>
-        <div class="card full" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><h3>Brawl Stars</h3></div>
-        <div class="card full" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><h3>PUBG Mobile</h3><p>Цена снижена!</p></div>
-        <div class="card full" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><h3>Discord Nitro</h3></div>
-        <div class="card full" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><h3>Spotify Premium</h3></div>
+    <header>
+        <h1>CURRENCY ELITE</h1>
+        <p>Лучшие цены на игровую валюту в 2026 году</p>
+    </header>
+
+    <div class="container">
+        <div class="section-title">Каталог товаров</div>
+        <div class="grid">
+            <div class="card" onclick="openM('steamM')"><i class="fab fa-steam"></i><div class="card-info"><h3>Steam Wallet</h3><p>Пополнение баланса (6%)</p></div></div>
+            <div class="card" onclick="openM('starsM')"><i class="fas fa-star" style="color:#00d4ff"></i><div class="card-info"><h3>Telegram Stars</h3><p>Цена: 2.5₽ за штуку</p></div></div>
+            <div class="card" onclick="openM('rbxM')"><i class="fas fa-gem" style="color:#ff4b4b"></i><div class="card-info"><h3>Roblox Robux</h3><p>Курс 1.4 + 10р</p></div></div>
+            <div class="card" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><div class="card-info"><h3>Genshin Impact</h3><p>Кристаллы и Луна</p></div></div>
+            <div class="card" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><div class="card-info"><h3>Brawl Stars</h3><p>Гемы и Brawl Pass</p></div></div>
+            <div class="card" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><div class="card-info"><h3>PUBG Mobile</h3><p>UC и Royale Pass (СКИДКИ!)</p></div></div>
+            <div class="card" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><div class="card-info"><h3>Discord Nitro</h3><p>Подписки Basic / Full</p></div></div>
+            <div class="card" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><div class="card-info"><h3>Spotify Premium</h3><p>Индивидуальная подписка</p></div></div>
+        </div>
     </div>
 </div>
 
 <div id="reviews-page" class="page">
-    <div class="section-title">Отзывы</div>
-    <div class="content-box"><b>@ilyusha_dev</b> ★★★★★<br>Все пришло быстро, цены лучшие на рынке!</div>
-    <div class="content-box"><b>@gamer_pro</b> ★★★★★<br>Донат в пабг зачислили за пару минут.</div>
+    <header><h1>ОТЗЫВЫ</h1><p>Нам доверяют сотни игроков</p></header>
+    <div class="container">
+        <div class="section-title">Последние отзывы</div>
+        <div class="content-card"><b>@ilyusha_dev ★★★★★</b><p>Всё супер! Пополнил пабг по скидке, UC пришли за 5 минут. Всем советую этот магаз!</p></div>
+        <div class="content-card"><b>@maxim_top ★★★★★</b><p>Покупаю робуксы только здесь. Курс реально честный, без скрытых комиссий.</p></div>
+        <div class="content-card"><b>@sofiyko_game ★★★★★</b><p>Брала Луну в Геншин. Дешевле чем везде, админ отвечает быстро!</p></div>
+    </div>
 </div>
 
 <div id="news-page" class="page">
-    <div class="section-title">Новости</div>
-    <div class="content-box"><b>07.04.2026</b><br>Глобальное обновление цен! Понизили PUBG и Genshin.</div>
+    <header><h1>НОВОСТИ</h1><p>События и изменения цен</p></header>
+    <div class="container">
+        <div class="section-title">Лента событий</div>
+        <div class="content-card"><b>07.04.2026 — Снижение цен!</b><p>Мы радикально снизили цены на PUBG Mobile. Теперь 60 UC стоят всего 70 рублей. Успейте закупиться!</p></div>
+        <div class="content-card"><b>06.04.2026 — Discord & Spotify</b><p>Теперь в нашем магазине доступны подписки на Discord Nitro и Spotify Premium по самым выгодным ценам.</p></div>
+    </div>
 </div>
 
 <div id="pubgM" class="modal"><div class="m-box">
-    <i class="fas fa-gun" style="font-size:40px; color:#f3aa16"></i><h2>PUBG Mobile</h2>
+    <i class="fas fa-gun" style="color:#f3aa16"></i><h2>PUBG UC</h2>
     <select id="sPubg" onchange="updP('Pubg')">
         <option value="60 UC - 70">60 UC — 70 ₽</option>
         <option value="325 UC - 490">325 UC — 490 ₽</option>
         <option value="660 UC - 950">660 UC — 950 ₽</option>
         <option value="Royale Pass - 850">Royale Pass — 850 ₽</option>
     </select>
-    <div class="price" id="pPubg">70 ₽</div>
-    <input type="text" id="uPubg" placeholder="Ваш ID">
-    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">КУПИТЬ</button>
-    <button class="btn-close" onclick="closeM()">Назад</button>
+    <div class="price-tag"><div class="price-label">К ОПЛАТЕ:</div><div class="price-value" id="pPubg">70 ₽</div></div>
+    <input type="text" id="uPubg" placeholder="Введите Ваш ID">
+    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">ОФОРМИТЬ ЗАКАЗ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
-<div id="genshinM" class="modal"><div class="m-box"><i class="fas fa-moon" style="font-size:40px; color:#4db3ff"></i><h2>Genshin</h2><select id="sGenshin" onchange="updP('Genshin')"><option value="60 Кристаллов - 80">60 Кристаллов — 80 ₽</option><option value="Луна - 520">Луна — 520 ₽</option></select><div class="price" id="pGenshin">80 ₽</div><input type="text" id="uGenshin" placeholder="UID"><button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="dsM" class="modal"><div class="m-box"><i class="fab fa-discord" style="font-size:40px; color:#5865f2"></i><h2>Discord</h2><select id="sDs" onchange="updP('Ds')"><option value="Basic - 310">Basic — 310 ₽</option><option value="Full - 710">Full — 710 ₽</option></select><div class="price" id="pDs">310 ₽</div><input type="text" id="uDs" placeholder="Tag"><button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="spM" class="modal"><div class="m-box"><i class="fab fa-spotify" style="font-size:40px; color:#1db954"></i><h2>Spotify</h2><select id="sSp" onchange="updP('Sp')"><option value="1 Месяц - 330">1 Месяц — 330 ₽</option></select><div class="price" id="pSp">330 ₽</div><input type="text" id="uSp" placeholder="Email"><button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="steamM" class="modal"><div class="m-box"><h2>Steam 6%</h2><input type="number" id="inSteam" placeholder="Сумма" oninput="calcSm()"><div class="price" id="prSteam">0 ₽</div><input type="text" id="uSteam" placeholder="Логин"><button class="btn-buy" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="starsM" class="modal"><div class="m-box"><h2>Stars</h2><input type="number" id="inStars" oninput="calcSt()"><div class="price" id="prStars">0 ₽</div><input type="text" id="uStars" placeholder="@Юзер"><button class="btn-buy" onclick="send('Stars', inStars.value, uStars.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="rbxM" class="modal"><div class="m-box"><h2>Roblox</h2><input type="number" id="inRbx" oninput="calcRb()"><div class="price" id="prRbx">0 ₽</div><input type="text" id="uRbx" placeholder="Ник"><button class="btn-buy" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="brawlM" class="modal"><div class="m-box"><h2>Brawl Stars</h2><select id="sBrawl" onchange="updP('Brawl')"><option value="30 Гемов - 190">30 Гемов — 190 ₽</option><option value="Pass - 780">Pass — 780 ₽</option></select><div class="price" id="pBrawl">190 ₽</div><input type="text" id="uBrawl" placeholder="Тег #"><button class="btn-buy" onclick="send('Brawl', sBrawl.value, uBrawl.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
+<div id="steamM" class="modal"><div class="m-box">
+    <i class="fab fa-steam"></i><h2>STEAM +6%</h2>
+    <input type="number" id="inSteam" placeholder="Сколько рублей на баланс?" oninput="calcSm()">
+    <div class="price-tag"><div class="price-label">ИТОГО С КОМИССИЕЙ:</div><div class="price-value" id="prSteam">0 ₽</div></div>
+    <input type="text" id="uSteam" placeholder="Ваш Логин (не ник!)">
+    <button class="btn-buy" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ОТМЕНА</button>
+</div></div>
+
+<div id="rbxM" class="modal"><div class="m-box">
+    <i class="fas fa-gem" style="color:#ff4b4b"></i><h2>ROBUX</h2>
+    <input type="number" id="inRbx" placeholder="Количество робуксов" oninput="calcRb()">
+    <div class="price-tag"><div class="price-label">СТОИМОСТЬ:</div><div class="price-value" id="prRbx">0 ₽</div></div>
+    <input type="text" id="uRbx" placeholder="Ваш Ник">
+    <button class="btn-buy" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="starsM" class="modal"><div class="m-box">
+    <i class="fas fa-star" style="color:#00d4ff"></i><h2>TELEGRAM STARS</h2>
+    <input type="number" id="inStars" placeholder="Кол-во звезд" oninput="calcSt()">
+    <div class="price-tag"><div class="price-label">К ОПЛАТЕ:</div><div class="price-value" id="prStars">0 ₽</div></div>
+    <input type="text" id="uStars" placeholder="@Username">
+    <button class="btn-buy" onclick="send('Stars', inStars.value, uStars.value)">ПОДТВЕРДИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="genshinM" class="modal"><div class="m-box">
+    <i class="fas fa-moon" style="color:#4db3ff"></i><h2>GENSHIN</h2>
+    <select id="sGenshin" onchange="updP('Genshin')">
+        <option value="60 Кристаллов - 80">60 Кристаллов — 80 ₽</option>
+        <option value="300 Кристаллов - 470">300 Кристаллов — 470 ₽</option>
+        <option value="Луна (30 дней) - 520">Благословение луны — 520 ₽</option>
+    </select>
+    <div class="price-tag"><div class="price-label">ЦЕНА:</div><div class="price-value" id="pGenshin">80 ₽</div></div>
+    <input type="text" id="uGenshin" placeholder="UID и Сервер">
+    <button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="brawlM" class="modal"><div class="m-box">
+    <i class="fas fa-bolt" style="color:#f1c40f"></i><h2>BRAWL STARS</h2>
+    <select id="sBrawl" onchange="updP('Brawl')">
+        <option value="30 Гемов - 190">30 Гемов — 190 ₽</option>
+        <option value="170 Гемов - 990">170 Гемов — 990 ₽</option>
+        <option value="Brawl Pass - 780">Brawl Pass — 780 ₽</option>
+    </select>
+    <div class="price-tag"><div class="price-label">К ОПЛАТЕ:</div><div class="price-value" id="pBrawl">190 ₽</div></div>
+    <input type="text" id="uBrawl" placeholder="Тег игрока #">
+    <button class="btn-buy" onclick="send('Brawl', sBrawl.value, uBrawl.value)">КУПИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="dsM" class="modal"><div class="m-box">
+    <i class="fab fa-discord" style="color:#5865f2"></i><h2>DISCORD</h2>
+    <select id="sDs" onchange="updP('Ds')">
+        <option value="Nitro Basic - 310">Nitro Basic (1 мес) — 310 ₽</option>
+        <option value="Nitro Full - 710">Nitro Full (1 мес) — 710 ₽</option>
+    </select>
+    <div class="price-tag"><div class="price-label">ЦЕНА:</div><div class="price-value" id="pDs">310 ₽</div></div>
+    <input type="text" id="uDs" placeholder="Логин/Почта">
+    <button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
+
+<div id="spM" class="modal"><div class="m-box">
+    <i class="fab fa-spotify" style="color:#1db954"></i><h2>SPOTIFY</h2>
+    <select id="sSp" onchange="updP('Sp')">
+        <option value="1 месяц - 330">Индивидуальная 1 мес — 330 ₽</option>
+        <option value="6 месяцев - 1500">Индивидуальная 6 мес — 1500 ₽</option>
+    </select>
+    <div class="price-tag"><div class="price-label">СТОИМОСТЬ:</div><div class="price-value" id="pSp">330 ₽</div></div>
+    <input type="text" id="uSp" placeholder="Почта Spotify">
+    <button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">ОФОРМИТЬ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
 
 <nav class="nav">
-    <div class="nav-btn active" onclick="showP('market-page', this)"><i class="fas fa-shopping-bag"></i>МАРКЕТ</div>
-    <div class="nav-btn" onclick="showP('reviews-page', this)"><i class="fas fa-star"></i>ОТЗЫВЫ</div>
-    <div class="nav-btn" onclick="showP('news-page', this)"><i class="fas fa-newspaper"></i>НОВОСТИ</div>
+    <div class="nav-btn active" onclick="showP('market-page', this)">
+        <i class="fas fa-shopping-bag"></i><span>Магазин</span>
+    </div>
+    <div class="nav-btn" onclick="showP('reviews-page', this)">
+        <i class="fas fa-comment-dots"></i><span>Отзывы</span>
+    </div>
+    <div class="nav-btn" onclick="showP('news-page', this)">
+        <i class="fas fa-newspaper"></i><span>Новости</span>
+    </div>
+    <div class="nav-btn" onclick="window.open('https://t.me/BlameJohn2014')">
+        <i class="fas fa-headset"></i><span>Саппорт</span>
+    </div>
 </nav>
 
 <script>
-    function showP(id, b) {
+    // Переключение страниц
+    function showP(id, btn) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        b.classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        window.scrollTo(0, 0);
     }
-    function openM(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeM() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+
+    // Управление модалками
+    function openM(id) { document.getElementById(id).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    function closeM() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.body.style.overflow = 'auto'; }
+
+    // Обновление цены из выпадающего списка
     function updP(t) {
-        let s = document.getElementById('s'+t);
-        document.getElementById('p'+t).innerText = s.value.split(' - ')[1] + ' ₽';
+        let s = document.getElementById('s' + t);
+        document.getElementById('p' + t).innerText = s.value.split(' - ')[1] + ' ₽';
     }
-    function calcSt() { document.getElementById('prStars').innerText = Math.round(document.getElementById('inStars').value * 2.5) + ' ₽'; }
-    function calcSm() { document.getElementById('prSteam').innerText = Math.round(document.getElementById('inSteam').value * 1.06) + ' ₽'; }
-    function calcRb() { let v = document.getElementById('inRbx').value; document.getElementById('prRbx').innerText = v ? Math.round(v / 1.4 + 10) + ' ₽' : '0 ₽'; }
-    function send(g, i, d) {
-        if(!d) return alert('Введите данные!');
-        window.open(`https://t.me/BlameJohn2014?text=ЗАКАЗ: ${g}%0AТовар: ${i}%0AДанные: ${d}`);
+
+    // Калькуляторы
+    function calcSm() {
+        let val = document.getElementById('inSteam').value;
+        document.getElementById('prSteam').innerText = val ? Math.round(val * 1.06) + ' ₽' : '0 ₽';
     }
+
+    function calcSt() {
+        let val = document.getElementById('inStars').value;
+        document.getElementById('prStars').innerText = val ? Math.round(val * 2.5) + ' ₽' : '0 ₽';
+    }
+
+    function calcRb() {
+        let val = document.getElementById('inRbx').value;
+        document.getElementById('prRbx').innerText = val ? Math.round(val / 1.4 + 10) + ' ₽' : '0 ₽';
+    }
+
+    // Отправка в ТГ
+    function send(game, item, data) {
+        if(!data || data === "0") {
+            alert('Пожалуйста, заполните все поля!');
+            return;
+        }
+        let text = `НОВЫЙ ЗАКАЗ!%0A—————————————%0AКатегория: ${game}%0AТовар: ${item}%0AДанные: ${data}%0A—————————————`;
+        window.open(`https://t.me/BlameJohn2014?text=${text}`);
+    }
+
+    // Закрытие по клику вне окна
     window.onclick = (e) => { if (e.target.className === 'modal') closeM(); }
 </script>
+
 </body>
-    </html>
+</html>
