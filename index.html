@@ -8,64 +8,90 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap');
         :root { --bg: #05070a; --card: #11141d; --accent: #00ff88; --text: #ffffff; --dim: #8b949e; --border: #1f2937; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
+        
         .page { display: none; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         header { padding: 40px 20px; text-align: center; background: radial-gradient(circle at top, #1a2a22 0%, #05070a 100%); }
         header h1 { font-size: 28px; font-weight: 900; margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+
         .section-title { padding: 20px; font-weight: 900; color: var(--accent); font-size: 16px; text-transform: uppercase; border-left: 4px solid var(--accent); margin: 20px 0 10px 20px; }
+
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: 0.3s; position: relative; }
-        .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 255, 136, 0.1); }
+        .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        
+        /* Расширенные карточки */
         .full { grid-column: span 2; }
+        
         .card i { font-size: 35px; margin-bottom: 12px; display: block; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 10000; justify-content: center; align-items: center; }
-        .m-box { background: #0a0d14; width: 90%; max-width: 400px; padding: 30px; border-radius: 30px; border: 1px solid var(--border); text-align: center; position: relative; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
+        .m-box { background: #0a0d14; width: 90%; max-width: 400px; padding: 30px; border-radius: 30px; border: 1px solid var(--border); text-align: center; }
+        
         input, select { width: 100%; padding: 16px; background: var(--card); border: 1px solid var(--border); color: #fff; border-radius: 15px; margin-top: 10px; font-family: inherit; outline: none; box-sizing: border-box; text-align: center; }
         .price { font-size: 38px; font-weight: 900; color: var(--accent); margin: 20px 0; }
+        
         .btn-buy { background: var(--accent); color: #000; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
         .btn-close { background: none; color: var(--dim); border: none; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+
+        /* Нижняя навигация */
         .nav { position: fixed; bottom: 0; width: 100%; background: rgba(10, 13, 20, 0.98); backdrop-filter: blur(10px); display: flex; padding: 15px 0 25px; border-top: 1px solid var(--border); z-index: 9999; }
         .nav-btn { flex: 1; text-align: center; color: #4b5563; font-size: 11px; font-weight: 700; cursor: pointer; }
         .nav-btn i { font-size: 22px; display: block; margin-bottom: 5px; }
         .nav-btn.active { color: var(--accent); }
+
+        .content-box { background: var(--card); margin: 15px; padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
 <div id="market-page" class="page active">
     <header><h1>CURRENCY ELITE</h1></header>
-    <div class="section-title">Витрина товаров</div>
+    <div class="section-title">Магазин</div>
     <div class="grid">
         <div class="card full" onclick="openM('steamM')"><i class="fab fa-steam"></i><h3>Steam Пополнение</h3><p>Комиссия 6%</p></div>
         <div class="card full" onclick="openM('starsM')"><i class="fas fa-star" style="color:#00d4ff"></i><h3>Telegram Stars</h3><p>2.5₽ / шт</p></div>
         <div class="card" onclick="openM('rbxM')"><i class="fas fa-gem" style="color:#ff4b4b"></i><h3>Roblox</h3><p>Курс 1.4</p></div>
-        <div class="card" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><h3>Genshin</h3><p>Кристаллы</p></div>
-        <div class="card" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><h3>Brawl Stars</h3><p>Gems & Pass</p></div>
-        <div class="card" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><h3>PUBG UC</h3><p>Валюта UC</p></div>
-        <div class="card" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><h3>Discord</h3><p>Nitro</p></div>
-        <div class="card" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><h3>Spotify</h3><p>Premium</p></div>
+        
+        <div class="card full" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><h3>Genshin Impact</h3></div>
+        <div class="card full" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><h3>Brawl Stars</h3></div>
+        <div class="card full" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><h3>PUBG Mobile</h3><p>Цена снижена!</p></div>
+        <div class="card full" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><h3>Discord Nitro</h3></div>
+        <div class="card full" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><h3>Spotify Premium</h3></div>
     </div>
+</div>
+
+<div id="reviews-page" class="page">
+    <div class="section-title">Отзывы</div>
+    <div class="content-box"><b>@ilyusha_dev</b> ★★★★★<br>Все пришло быстро, цены лучшие на рынке!</div>
+    <div class="content-box"><b>@gamer_pro</b> ★★★★★<br>Донат в пабг зачислили за пару минут.</div>
+</div>
+
+<div id="news-page" class="page">
+    <div class="section-title">Новости</div>
+    <div class="content-box"><b>07.04.2026</b><br>Глобальное обновление цен! Понизили PUBG и Genshin.</div>
 </div>
 
 <div id="pubgM" class="modal"><div class="m-box">
     <i class="fas fa-gun" style="font-size:40px; color:#f3aa16"></i><h2>PUBG Mobile</h2>
     <select id="sPubg" onchange="updP('Pubg')">
-        <option value="60 UC - 80">60 UC — 80 ₽</option>
-        <option value="325 UC - 500">325 UC — 500 ₽</option>
-        <option value="660 UC - 960">660 UC — 960 ₽</option>
-        <option value="Royale Pass - 860">Royale Pass — 860 ₽</option>
+        <option value="60 UC - 70">60 UC — 70 ₽</option>
+        <option value="325 UC - 490">325 UC — 490 ₽</option>
+        <option value="660 UC - 950">660 UC — 950 ₽</option>
+        <option value="Royale Pass - 850">Royale Pass — 850 ₽</option>
     </select>
-    <div class="price" id="pPubg">80 ₽</div>
-    <input type="text" id="uPubg" placeholder="Введите Ваш ID">
-    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">КУПИТЬ UC</button>
+    <div class="price" id="pPubg">70 ₽</div>
+    <input type="text" id="uPubg" placeholder="Ваш ID">
+    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">КУПИТЬ</button>
     <button class="btn-close" onclick="closeM()">Назад</button>
 </div></div>
 
-<div id="genshinM" class="modal"><div class="m-box"><i class="fas fa-moon" style="font-size:40px; color:#4db3ff"></i><h2>Genshin</h2><select id="sGenshin" onchange="updP('Genshin')"><option value="60 Кристаллов - 80">60 Кристаллов — 80 ₽</option><option value="300 Кристаллов - 470">300 Кристаллов — 470 ₽</option><option value="6480 Кристаллов - 8510">6480 Кристаллов — 8510 ₽</option><option value="Луна - 520">Луна — 520 ₽</option></select><div class="price" id="pGenshin">80 ₽</div><input type="text" id="uGenshin" placeholder="UID"><button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="dsM" class="modal"><div class="m-box"><i class="fab fa-discord" style="font-size:40px; color:#5865f2"></i><h2>Discord Nitro</h2><select id="sDs" onchange="updP('Ds')"><option value="Basic - 310">Basic — 310 ₽</option><option value="Full - 710">Full — 710 ₽</option></select><div class="price" id="pDs">310 ₽</div><input type="text" id="uDs" placeholder="Tag"><button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
-<div id="spM" class="modal"><div class="m-box"><i class="fab fa-spotify" style="font-size:40px; color:#1db954"></i><h2>Spotify Premium</h2><select id="sSp" onchange="updP('Sp')"><option value="1 Месяц - 330">1 Месяц — 330 ₽</option></select><div class="price" id="pSp">330 ₽</div><input type="text" id="uSp" placeholder="Email"><button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
+<div id="genshinM" class="modal"><div class="m-box"><i class="fas fa-moon" style="font-size:40px; color:#4db3ff"></i><h2>Genshin</h2><select id="sGenshin" onchange="updP('Genshin')"><option value="60 Кристаллов - 80">60 Кристаллов — 80 ₽</option><option value="Луна - 520">Луна — 520 ₽</option></select><div class="price" id="pGenshin">80 ₽</div><input type="text" id="uGenshin" placeholder="UID"><button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
+<div id="dsM" class="modal"><div class="m-box"><i class="fab fa-discord" style="font-size:40px; color:#5865f2"></i><h2>Discord</h2><select id="sDs" onchange="updP('Ds')"><option value="Basic - 310">Basic — 310 ₽</option><option value="Full - 710">Full — 710 ₽</option></select><div class="price" id="pDs">310 ₽</div><input type="text" id="uDs" placeholder="Tag"><button class="btn-buy" onclick="send('Discord', sDs.value, uDs.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
+<div id="spM" class="modal"><div class="m-box"><i class="fab fa-spotify" style="font-size:40px; color:#1db954"></i><h2>Spotify</h2><select id="sSp" onchange="updP('Sp')"><option value="1 Месяц - 330">1 Месяц — 330 ₽</option></select><div class="price" id="pSp">330 ₽</div><input type="text" id="uSp" placeholder="Email"><button class="btn-buy" onclick="send('Spotify', sSp.value, uSp.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
 <div id="steamM" class="modal"><div class="m-box"><h2>Steam 6%</h2><input type="number" id="inSteam" placeholder="Сумма" oninput="calcSm()"><div class="price" id="prSteam">0 ₽</div><input type="text" id="uSteam" placeholder="Логин"><button class="btn-buy" onclick="send('Steam', inSteam.value, uSteam.value)">ПОПОЛНИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
 <div id="starsM" class="modal"><div class="m-box"><h2>Stars</h2><input type="number" id="inStars" oninput="calcSt()"><div class="price" id="prStars">0 ₽</div><input type="text" id="uStars" placeholder="@Юзер"><button class="btn-buy" onclick="send('Stars', inStars.value, uStars.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
 <div id="rbxM" class="modal"><div class="m-box"><h2>Roblox</h2><input type="number" id="inRbx" oninput="calcRb()"><div class="price" id="prRbx">0 ₽</div><input type="text" id="uRbx" placeholder="Ник"><button class="btn-buy" onclick="send('Roblox', inRbx.value, uRbx.value)">КУПИТЬ</button><button class="btn-close" onclick="closeM()">Назад</button></div></div>
@@ -73,7 +99,8 @@
 
 <nav class="nav">
     <div class="nav-btn active" onclick="showP('market-page', this)"><i class="fas fa-shopping-bag"></i>МАРКЕТ</div>
-    <div class="nav-btn" onclick="window.open('https://t.me/BlameJohn2014')"><i class="fas fa-headset"></i>ПОДДЕРЖКА</div>
+    <div class="nav-btn" onclick="showP('reviews-page', this)"><i class="fas fa-star"></i>ОТЗЫВЫ</div>
+    <div class="nav-btn" onclick="showP('news-page', this)"><i class="fas fa-newspaper"></i>НОВОСТИ</div>
 </nav>
 
 <script>
@@ -99,4 +126,4 @@
     window.onclick = (e) => { if (e.target.className === 'modal') closeM(); }
 </script>
 </body>
-</html>
+    </html>
