@@ -119,6 +119,8 @@
             background: #0a0d14; width: 92%; max-width: 420px; padding: 35px;
             border-radius: 35px; border: 1px solid var(--border); text-align: center;
             animation: modalPop 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto; /* Добавил скролл, так как список товаров огромный */
         }
 
         @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -187,7 +189,7 @@
             <div class="card" onclick="openM('rbxM')"><i class="fas fa-gem" style="color:#ff4b4b"></i><div class="card-info"><h3>Roblox Robux</h3><p>Курс 1.4 + 10р</p></div></div>
             <div class="card" onclick="openM('genshinM')"><i class="fas fa-moon" style="color:#4db3ff"></i><div class="card-info"><h3>Genshin Impact</h3><p>Полный ассортимент кристаллов</p></div></div>
             <div class="card" onclick="openM('brawlM')"><i class="fas fa-bolt" style="color:#f1c40f"></i><div class="card-info"><h3>Brawl Stars</h3><p>Все паки гемов и Pass</p></div></div>
-            <div class="card" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><div class="card-info"><h3>PUBG Mobile</h3><p>UC и Royale Pass (СКИДКИ!)</p></div></div>
+            <div class="card" onclick="openM('pubgM')"><i class="fas fa-gun" style="color:#f3aa16"></i><div class="card-info"><h3>PUBG Mobile</h3><p>Огромный выбор UC и Prime</p></div></div>
             <div class="card" onclick="openM('dsM')"><i class="fab fa-discord" style="color:#5865f2"></i><div class="card-info"><h3>Discord Nitro</h3><p>Подписки и бусты</p></div></div>
             <div class="card" onclick="openM('spM')"><i class="fab fa-spotify" style="color:#1db954"></i><div class="card-info"><h3>Spotify Premium</h3><p>Премиум на любой срок</p></div></div>
         </div>
@@ -198,7 +200,7 @@
     <header><h1>ОТЗЫВЫ</h1><p>Нам доверяют сотни игроков</p></header>
     <div class="container">
         <div class="section-title">Последние отзывы</div>
-        <div class="content-card"><b>@ilyusha_dev ★★★★★</b><p>Всё супер! Пополнил пабг по скидке, UC пришли за 5 минут. Всем советую этот магаз!</p></div>
+        <div class="content-card"><b>@ilyusha_dev ★★★★★</b><p>Всё супер! Пополнил пабг, UC пришли за 5 минут. Всем советую этот магаз!</p></div>
         <div class="content-card"><b>@maxim_top ★★★★★</b><p>Покупаю робуксы только здесь. Курс реально честный, без скрытых комиссий.</p></div>
         <div class="content-card"><b>@sofiyko_game ★★★★★</b><p>Брала Луну в Геншин. Дешевле чем везде, админ отвечает быстро!</p></div>
     </div>
@@ -208,10 +210,53 @@
     <header><h1>НОВОСТИ</h1><p>События и изменения цен</p></header>
     <div class="container">
         <div class="section-title">Лента событий</div>
-        <div class="content-card"><b>07.04.2026 — Снижение цен!</b><p>Мы радикально снизили цены на PUBG Mobile. Теперь 60 UC стоят всего 70 рублей. Успейте закупиться!</p></div>
-        <div class="content-card"><b>06.04.2026 — Расширение ассортимента</b><p>Добавили абсолютно все паки в Genshin Impact, Brawl Stars и Discord!</p></div>
+        <div class="content-card"><b>07.04.2026 — Глобальное обновление PUBG!</b><p>Добавили абсолютно ВСЕ товары для PUBG Mobile: Prime, Prime Plus, все паки UC и ежедневные наборы.</p></div>
+        <div class="content-card"><b>06.04.2026 — Расширение ассортимента</b><p>Добавили все паки в Genshin Impact, Brawl Stars и Discord!</p></div>
     </div>
 </div>
+
+<div id="pubgM" class="modal"><div class="m-box">
+    <i class="fas fa-gun" style="color:#f3aa16"></i><h2>PUBG MOBILE</h2>
+    <select id="sPubg" onchange="updP('Pubg')">
+        <optgroup label="Валюта UC">
+            <option value="60 UC - 83">60 UC — 83 ₽</option>
+            <option value="325 UC - 385">325 UC — 385 ₽</option>
+            <option value="660 UC - 814">660 UC — 814 ₽</option>
+            <option value="1800 UC - 2005">1800 UC — 2005 ₽</option>
+            <option value="3850 UC - 3960">3850 UC — 3960 ₽</option>
+            <option value="8100 UC - 7975">8100 UC — 7975 ₽</option>
+            <option value="16200 UC - 15722">16200 UC — 15722 ₽</option>
+            <option value="32400 UC - 32006">32400 UC — 32006 ₽</option>
+        </optgroup>
+        <optgroup label="Elite Pass">
+            <option value="Elite Pass LV1-50 - 475">Elite Pass LV1-50 — 475 ₽</option>
+            <option value="Elite Pass LV1-100 - 885">Elite Pass LV1-100 — 885 ₽</option>
+            <option value="Elite Pass Plus LV1-100 - 2115">Elite Pass Plus LV1-100 — 2115 ₽</option>
+        </optgroup>
+        <optgroup label="Prime Подписки">
+            <option value="Prime (1 Month) - 84">Prime (1 Month) — 84 ₽</option>
+            <option value="Prime (3 Months) - 244">Prime (3 Months) — 244 ₽</option>
+            <option value="Prime (6 Months) - 488">Prime (6 Months) — 488 ₽</option>
+            <option value="Prime (12 Months) - 960">Prime (12 Months) — 960 ₽</option>
+            <option value="Prime Plus (1 Month) - 841">Prime Plus (1 Month) — 841 ₽</option>
+            <option value="Prime Plus (3 Months) - 2369">Prime Plus (3 Months) — 2369 ₽</option>
+            <option value="Prime Plus (6 Months) - 4785">Prime Plus (6 Months) — 4785 ₽</option>
+            <option value="Prime Plus (12 Months) - 9515">Prime Plus (12 Months) — 9515 ₽</option>
+        </optgroup>
+        <optgroup label="Специальные Наборы">
+            <option value="First Purchase Pack - 74">First Purchase Pack — 74 ₽</option>
+            <option value="Weekly Deal Pack 1 - 86">Weekly Deal Pack 1 — 86 ₽</option>
+            <option value="Weekly Deal Pack 2 - 247">Weekly Deal Pack 2 — 247 ₽</option>
+            <option value="Upgradable Firearm Materials Pack - 251">Upgradable Firearm Materials — 251 ₽</option>
+            <option value="Weekly Mythic Emblem - 310">Weekly Mythic Emblem — 310 ₽</option>
+            <option value="Mythic Emblem Pack - 410">Mythic Emblem Pack — 410 ₽</option>
+        </optgroup>
+    </select>
+    <div class="price-tag"><div class="price-label">К ОПЛАТЕ:</div><div class="price-value" id="pPubg">83 ₽</div></div>
+    <input type="text" id="uPubg" placeholder="Введите Ваш ID">
+    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">ОФОРМИТЬ ЗАКАЗ</button>
+    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
+</div></div>
 
 <div id="genshinM" class="modal"><div class="m-box">
     <i class="fas fa-moon" style="color:#4db3ff"></i><h2>GENSHIN IMPACT</h2>
@@ -228,24 +273,6 @@
     <div class="price-tag"><div class="price-label">ЦЕНА:</div><div class="price-value" id="pGenshin">80 ₽</div></div>
     <input type="text" id="uGenshin" placeholder="UID и Сервер">
     <button class="btn-buy" onclick="send('Genshin', sGenshin.value, uGenshin.value)">КУПИТЬ</button>
-    <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
-</div></div>
-
-<div id="pubgM" class="modal"><div class="m-box">
-    <i class="fas fa-gun" style="color:#f3aa16"></i><h2>PUBG MOBILE</h2>
-    <select id="sPubg" onchange="updP('Pubg')">
-        <option value="60 UC - 70">60 UC — 70 ₽</option>
-        <option value="325 UC - 490">325 UC — 490 ₽</option>
-        <option value="660 UC - 950">660 UC — 950 ₽</option>
-        <option value="1800 UC - 2400">1800 UC — 2400 ₽</option>
-        <option value="3850 UC - 4800">3850 UC — 4800 ₽</option>
-        <option value="8100 UC - 9500">8100 UC — 9500 ₽</option>
-        <option value="Royale Pass - 850">Royale Pass — 850 ₽</option>
-        <option value="Elite Pass Plus - 2100">Elite Pass Plus — 2100 ₽</option>
-    </select>
-    <div class="price-tag"><div class="price-label">К ОПЛАТЕ:</div><div class="price-value" id="pPubg">70 ₽</div></div>
-    <input type="text" id="uPubg" placeholder="Введите Ваш ID">
-    <button class="btn-buy" onclick="send('PUBG', sPubg.value, uPubg.value)">ОФОРМИТЬ ЗАКАЗ</button>
     <button class="btn-close" onclick="closeM()">ЗАКРЫТЬ</button>
 </div></div>
 
@@ -361,26 +388,4 @@
     }
 
     function calcSt() {
-        let val = document.getElementById('inStars').value;
-        document.getElementById('prStars').innerText = val ? Math.round(val * 2.5) + ' ₽' : '0 ₽';
-    }
-
-    function calcRb() {
-        let val = document.getElementById('inRbx').value;
-        document.getElementById('prRbx').innerText = val ? Math.round(val / 1.4 + 10) + ' ₽' : '0 ₽';
-    }
-
-    function send(game, item, data) {
-        if(!data || data === "0") {
-            alert('Пожалуйста, заполните все поля!');
-            return;
-        }
-        let text = `НОВЫЙ ЗАКАЗ!%0A—————————————%0AКатегория: ${game}%0AТовар: ${item}%0AДанные: ${data}%0A—————————————`;
-        window.open(`https://t.me/BlameJohn2014?text=${text}`);
-    }
-
-    window.onclick = (e) => { if (e.target.className === 'modal') closeM(); }
-</script>
-
-</body>
-    </html>                                                     
+        let
