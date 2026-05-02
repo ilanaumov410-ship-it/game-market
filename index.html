@@ -2,386 +2,278 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NAUMOV ULTIMATE HUB | OFFICIAL 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAUMOV MARKET | PlayerOK Style</title>
     <style>
-        /* ГЛОБАЛЬНЫЕ СТИЛИ */
+        /* СТИЛЬ PLAYEROK */
         :root {
-            --bg-color: #050608;
-            --card-bg: #11141a;
-            --accent-blue: #00a2ff;
-            --accent-gold: #ffcc00;
-            --accent-green: #00ff88;
-            --text-main: #ffffff;
-            --text-dim: #8e959f;
-            --tg-color: #24A1DE;
-            --border-style: 1px solid rgba(255,255,255,0.1);
+            --bg: #0F0F0F;
+            --card: #1A1A1A;
+            --card-hover: #222222;
+            --text: #FFFFFF;
+            --sub-text: #AAAAAA;
+            --accent: #24A1DE; /* Telegram Blue */
+            --green: #2ECC71;
+            --red: #E74C3C;
         }
 
-        * { box-sizing: border-box; outline: none; }
-        body, html { 
-            margin: 0; padding: 0; height: 100%; width: 100%; 
-            background-color: var(--bg-color); color: var(--text-main);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            overflow: hidden;
-        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; outline: none; }
+        body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); }
 
-        /* ГЛАВНЫЙ ЭКРАН (РАБОЧИЙ СТОЛ) */
-        .main-viewport {
-            height: calc(100% - 80px);
-            width: 100%;
-            background: radial-gradient(circle at top right, #1a1d23 0%, #050608 100%);
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            grid-auto-rows: 140px;
-            gap: 25px;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        .app-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 20px;
-            border: 1px solid transparent;
-        }
-
-        .app-icon:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(0, 162, 255, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .app-icon img {
-            width: 70px;
-            height: 70px;
-            border-radius: 18px;
-            margin-bottom: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
-        .app-icon span {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-
-        /* СИСТЕМА ОКОН */
-        .modal-window {
-            display: none;
-            position: fixed;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 95%;
-            max-width: 1000px;
-            height: 85%;
-            background: var(--card-bg);
-            border: 1px solid #2d323a;
-            border-radius: 30px;
-            z-index: 1000;
-            overflow: hidden;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.9);
-            animation: openAnim 0.4s ease-out;
-        }
-
-        @keyframes openAnim {
-            from { opacity: 0; transform: translate(-50%, -40%) scale(0.9); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-
-        .win-head {
-            background: #161a21;
-            padding: 20px 30px;
+        /* ВЕРХНЯЯ ПАНЕЛЬ */
+        .header {
+            background-color: var(--card);
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #2d323a;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+
+        .nav-buttons { display: flex; gap: 10px; }
+        .nav-btn {
+            background: #2A2A2A; color: white; border: none; padding: 8px 15px;
+            border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .nav-btn:hover { background: #333; }
+
+        /* ГЛАВНАЯ - СПИСОК ИГР */
+        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .page-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        
+        /* КНОПКА ИГРЫ (БЕЗ КАРТИНОК) */
+        .game-btn {
+            background-color: var(--card); border: 1px solid #333; border-radius: 12px;
+            padding: 30px 10px; text-align: center; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; height: 100px;
+        }
+        .game-btn:hover { background-color: var(--card-hover); border-color: var(--sub-text); }
+        .game-btn span { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ВСПЛЫВАЮЩИЕ ОКНА (ИНТЕРФЕЙСЫ) */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg); z-index: 100; overflow-y: auto;
+        }
+        .modal-content { max-width: 800px; margin: 0 auto; padding: 20px; padding-bottom: 80px; }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .modal-title { font-size: 22px; font-weight: bold; }
+        
+        .close-btn {
+            background: var(--card); border: 1px solid #444; color: white;
+            padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+        .close-btn:hover { background: var(--red); border-color: var(--red); }
+
+        /* СПИСОК ТОВАРОВ ВНУТРИ ИГРЫ */
+        .item-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card); padding: 15px 20px; margin-bottom: 10px;
+            border-radius: 12px; border: 1px solid #222; transition: 0.2s;
+        }
+        .item-row:hover { border-color: #444; }
+        
+        .item-info { display: flex; flex-direction: column; gap: 5px; }
+        .item-name { font-size: 16px; font-weight: 600; }
+        .item-type { font-size: 12px; color: var(--sub-text); }
+        
+        .buy-action { display: flex; align-items: center; gap: 15px; }
+        .price { font-size: 18px; font-weight: 800; color: var(--green); }
+        .buy-link {
+            background: var(--accent); color: white; text-decoration: none;
+            padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 14px;
         }
 
-        .win-title { font-weight: 900; letter-spacing: 2px; color: var(--accent-blue); }
-
-        .win-close {
-            background: #ff5f56;
-            border: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .win-close:hover { transform: scale(1.2); filter: brightness(1.2); }
-
-        .win-body {
-            padding: 40px;
-            height: calc(100% - 78px);
-            overflow-y: auto;
-            scrollbar-width: thin;
-        }
-
-        /* КАТЕГОРИИ И ТОВАРЫ */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .product-item {
-            background: #1a1e26;
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #2d323a;
-            transition: 0.3s;
-        }
-
-        .product-item:hover {
-            border-color: var(--accent-blue);
-            background: #212630;
-            transform: scale(1.02);
-        }
-
-        .product-item h4 { margin: 15px 0 5px 0; font-size: 18px; }
-        .product-item .price-tag { 
-            font-size: 24px; 
-            font-weight: 900; 
-            color: var(--accent-green); 
-            margin-bottom: 20px; 
-            display: block;
-        }
-
-        .buy-action {
-            background: var(--tg-color);
-            color: white;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 12px;
-            display: block;
-            font-weight: 800;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        .buy-action:hover { box-shadow: 0 0 20px rgba(36, 161, 222, 0.5); }
-
-        /* КАЛЬКУЛЯТОРЫ (ROBLOX & STARS) */
-        .calc-wrapper {
-            background: linear-gradient(145deg, #161a21, #0a0c10);
-            border-radius: 25px;
-            padding: 50px;
-            border: 2px solid var(--accent-blue);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .calc-input {
-            width: 100%;
-            max-width: 400px;
-            background: #000;
-            border: 1px solid #333;
-            color: white;
-            font-size: 36px;
-            font-weight: 900;
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 30px 0;
-        }
-
-        .calc-result { font-size: 48px; font-weight: 900; color: var(--accent-green); margin-bottom: 30px; }
-
-        /* ПАНЕЛЬ УПРАВЛЕНИЯ (TASKBAR) */
-        .bottom-nav {
-            height: 80px;
-            background: rgba(10, 12, 16, 0.98);
-            border-top: 1px solid #2d323a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            backdrop-filter: blur(20px);
-        }
-
-        .nav-link-btn {
-            background: #1a1e26;
-            border: 1px solid #333;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 800;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        .nav-link-btn:hover {
-            background: var(--accent-blue);
-            border-color: white;
-        }
-
-        /* НОВОСТИ И ОТЗЫВЫ */
-        .info-card-large {
-            background: #161a21;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-            border-left: 6px solid var(--accent-blue);
-        }
-
-        .info-card-large h3 { margin-top: 0; color: var(--accent-blue); }
-
-        .review-stars { color: var(--accent-gold); font-size: 20px; margin-bottom: 10px; }
-
+        /* ТЕКСТОВЫЕ БЛОКИ (НОВОСТИ И ОТЗЫВЫ) */
+        .text-block { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; }
+        .text-block h3 { margin-top: 0; margin-bottom: 10px; }
+        .text-block p { color: var(--sub-text); margin: 0; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-    <div class="main-viewport">
-        <div class="app-icon" onclick="openW('win-rbx')">
-            <img src="https://cdn-icons-png.flaticon.com/512/220/220233.png">
-            <span>Roblox</span>
-        </div>
-        <div class="app-icon" onclick="openW('win-stars')">
-            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">
-            <span>TG Stars</span>
-        </div>
-        <div class="app-icon" onclick="openW('win-brawl')">
-            <img src="https://cdn-icons-png.flaticon.com/512/889/889102.png">
-            <span>Brawl Stars</span>
-        </div>
-        <div class="app-icon" onclick="openW('win-pubg')">
-            <img src="https://cdn-icons-png.flaticon.com/512/1541/1541413.png">
-            <span>PUBG Mobile</span>
-        </div>
-        <div class="app-icon" onclick="openW('win-genshin')">
-            <img src="https://static.wikia.nocookie.net/gensin-impact/images/f/f9/Item_Genesis_Crystal.png">
-            <span>Genshin</span>
-        </div>
-        <div class="app-icon" onclick="openW('win-subs')">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png">
-            <span>Nitro/Spotify</span>
+    <div class="header">
+        <div class="logo">NAUMOV MARKET</div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="openWindow('main-store')">Магазин</button>
+            <button class="nav-btn" onclick="openWindow('modal-reviews')">Отзывы</button>
+            <button class="nav-btn" onclick="openWindow('modal-news')">Новости</button>
         </div>
     </div>
 
-    <div id="win-rbx" class="modal-window">
-        <div class="win-head"><span class="win-title">ROBLOX REPLENISHMENT</span><button class="win-close" onclick="closeW('win-rbx')"></button></div>
-        <div class="win-body">
-            <div class="calc-wrapper">
-                <h2>Калькулятор Робуксов (Курс 1 к 1)</h2>
-                <p>Минимальный заказ: 100 R$</p>
-                <input type="number" id="rbx-val" class="calc-input" placeholder="0" oninput="runRbx()">
-                <div class="calc-result"><span id="rbx-res">0</span> ₽</div>
-                <a href="#" class="buy-action" style="font-size: 20px;" onclick="sendOrder('Roblox', 'rbx-val')">КУПИТЬ РОБУКСЫ</a>
+    <div id="main-store" class="container" style="display: block;">
+        <div class="page-title">Выбор игры или сервиса</div>
+        <div class="games-grid">
+            <div class="game-btn" onclick="openWindow('modal-brawl')"><span>BRAWL STARS</span></div>
+            <div class="game-btn" onclick="openWindow('modal-genshin')"><span>GENSHIN IMPACT</span></div>
+            <div class="game-btn" onclick="openWindow('modal-discord')"><span>DISCORD</span></div>
+            <div class="game-btn" onclick="openWindow('modal-roblox')"><span>ROBLOX</span></div>
+            <div class="game-btn" onclick="openWindow('modal-stars')"><span>TG STARS</span></div>
+            <div class="game-btn" onclick="openWindow('modal-spotify')"><span>SPOTIFY</span></div>
+            <div class="game-btn" onclick="openWindow('modal-pubg')"><span>PUBG MOBILE</span></div>
+        </div>
+    </div>
+
+    <div id="modal-brawl" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">BRAWL STARS</div>
+                <button class="close-btn" onclick="closeWindow('modal-brawl')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">30 Гемов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">255 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">80 Гемов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">170 Гемов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">1105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">360 Гемов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">2205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Brawl Pass Plus</span><span class="item-type">Подписка</span></div><div class="buy-action"><span class="price">1455 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-genshin" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">GENSHIN IMPACT</div>
+                <button class="close-btn" onclick="closeWindow('modal-genshin')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Благословение полой луны</span><span class="item-type">Подписка</span></div><div class="buy-action"><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">300 Кристаллов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">980 Кристаллов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">1505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">1980 Кристаллов</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">2905 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-discord" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">DISCORD NITRO</div>
+                <button class="close-btn" onclick="closeWindow('modal-discord')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Nitro Basic (1 Месяц)</span><span class="item-type">Подписка</span></div><div class="buy-action"><span class="price">255 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Nitro Full + 2 Boost (1 Месяц)</span><span class="item-type">Подписка</span></div><div class="buy-action"><span class="price">655 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Nitro Full (1 Год)</span><span class="item-type">Подписка</span></div><div class="buy-action"><span class="price">4505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-roblox" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">ROBLOX</div>
+                <button class="close-btn" onclick="closeWindow('modal-roblox')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">100 Robux</span><span class="item-type">Валюта (Курс 1:1 + 5₽)</span></div><div class="buy-action"><span class="price">105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">500 Robux</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">1000 Robux</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">1005 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">4500 Robux</span><span class="item-type">Валюта</span></div><div class="buy-action"><span class="price">4505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-stars" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">TELEGRAM STARS</div>
+                <button class="close-btn" onclick="closeWindow('modal-stars')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">50 Звёзд</span><span class="item-type">Внутренняя валюта</span></div><div class="buy-action"><span class="price">125 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">100 Звёзд</span><span class="item-type">Внутренняя валюта</span></div><div class="buy-action"><span class="price">245 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">500 Звёзд</span><span class="item-type">Внутренняя валюта</span></div><div class="buy-action"><span class="price">1205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">1000 Звёзд</span><span class="item-type">Внутренняя валюта</span></div><div class="buy-action"><span class="price">2405 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-spotify" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">SPOTIFY PREMIUM</div>
+                <button class="close-btn" onclick="closeWindow('modal-spotify')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Индивидуальная (1 Месяц)</span><span class="item-type">Подписка на аккаунт</span></div><div class="buy-action"><span class="price">355 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Индивидуальная (6 Месяцев)</span><span class="item-type">Подписка на аккаунт</span></div><div class="buy-action"><span class="price">1505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">Индивидуальная (1 Год)</span><span class="item-type">Подписка на аккаунт</span></div><div class="buy-action"><span class="price">2805 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-pubg" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">PUBG MOBILE</div>
+                <button class="close-btn" onclick="closeWindow('modal-pubg')">Закрыть</button>
+            </div>
+            <div class="item-row"><div class="item-info"><span class="item-name">60 UC</span><span class="item-type">Валюта (Пополнение по ID)</span></div><div class="buy-action"><span class="price">155 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">325 UC</span><span class="item-type">Валюта (Пополнение по ID)</span></div><div class="buy-action"><span class="price">755 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">660 UC</span><span class="item-type">Валюта (Пополнение по ID)</span></div><div class="buy-action"><span class="price">1255 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><div class="item-info"><span class="item-name">1800 UC</span><span class="item-type">Валюта (Пополнение по ID)</span></div><div class="buy-action"><span class="price">3205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+        </div>
+    </div>
+
+    <div id="modal-reviews" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">ОТЗЫВЫ ПОКУПАТЕЛЕЙ</div>
+                <button class="close-btn" onclick="closeWindow('modal-reviews')">Закрыть</button>
+            </div>
+            <div class="text-block">
+                <h3>Анонимный покупатель</h3>
+                <p style="color: #FFC107; font-size: 18px; margin-bottom: 5px;">★★★★★</p>
+                <p>Брал робуксы, всё чётко. Продавец не кинул, пришли быстро.</p>
+            </div>
+            <div class="text-block">
+                <h3>Егор</h3>
+                <p style="color: #FFC107; font-size: 18px; margin-bottom: 5px;">★★★★★</p>
+                <p>Сделали подписку Спотифай на мой старый акк. Всё работает, спасибо!</p>
+            </div>
+            <div class="text-block">
+                <h3>Maxim2010</h3>
+                <p style="color: #FFC107; font-size: 18px; margin-bottom: 5px;">★★★★★</p>
+                <p>Купил гемы в Бравл, цена просто топ. В разы дешевле чем у других.</p>
             </div>
         </div>
     </div>
 
-    <div id="win-stars" class="modal-window">
-        <div class="win-head"><span class="win-title">TELEGRAM STARS</span><button class="win-close" onclick="closeW('win-stars')"></button></div>
-        <div class="win-body">
-            <div class="calc-wrapper" style="border-color: var(--accent-gold);">
-                <h2>Telegram Stars (Звёзды)</h2>
-                <p>Курс: 1 Star = 2.4 ₽</p>
-                <input type="number" id="stars-val" class="calc-input" placeholder="0" oninput="runStars()">
-                <div class="calc-result" style="color: var(--accent-gold);"><span id="stars-res">0</span> ₽</div>
-                <a href="#" class="buy-action" style="background: var(--accent-gold); color: black;" onclick="sendOrder('TG Stars', 'stars-val')">ЗАКУПИТЬ ЗВЁЗДЫ</a>
+    <div id="modal-news" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">НОВОСТИ ПРОЕКТА</div>
+                <button class="close-btn" onclick="closeWindow('modal-news')">Закрыть</button>
+            </div>
+            <div class="text-block">
+                <h3>Новый дизайн сайта! (Май 2026)</h3>
+                <p>Мы полностью обновили интерфейс. Теперь он работает быстрее, удобнее и без лишних картинок. Выбирайте игру и покупайте валюту в два клика.</p>
+            </div>
+            <div class="text-block">
+                <h3>Добавлены Telegram Stars</h3>
+                <p>По вашим просьбам добавили возможность покупать Звёзды в Телеграм. Пополнение происходит по юзернейму, максимально быстро и безопасно.</p>
             </div>
         </div>
-    </div>
-
-    <div id="win-brawl" class="modal-window">
-        <div class="win-head"><span class="win-title">BRAWL STARS MARKET</span><button class="win-close" onclick="closeW('win-brawl')"></button></div>
-        <div class="win-body">
-            <div class="category-grid">
-                <div class="product-item"><h4>30 Gems</h4><span class="price-tag">250₽</span><a href="https://t.me/BlameJohn2014?text=Купить+30+гемов" class="buy-action">В КОРЗИНУ</a></div>
-                <div class="product-item"><h4>80 Gems</h4><span class="price-tag">550₽</span><a href="https://t.me/BlameJohn2014?text=Купить+80+гемов" class="buy-action">В КОРЗИНУ</a></div>
-                <div class="product-item"><h4>170 Gems</h4><span class="price-tag">1100₽</span><a href="https://t.me/BlameJohn2014?text=Купить+170+гемов" class="buy-action">В КОРЗИНУ</a></div>
-                <div class="product-item"><h4>360 Gems</h4><span class="price-tag">2250₽</span><a href="https://t.me/BlameJohn2014?text=Купить+360+гемов" class="buy-action">В КОРЗИНУ</a></div>
-                <div class="product-item"><h4>950 Gems</h4><span class="price-tag">6100₽</span><a href="https://t.me/BlameJohn2014?text=Купить+950+гемов" class="buy-action">В КОРЗИНУ</a></div>
-                <div class="product-item" style="border-color: var(--accent-blue);"><h4>Brawl Pass Plus</h4><span class="price-tag">1450₽</span><a href="https://t.me/BlameJohn2014?text=Купить+Brawl+Pass+Plus" class="buy-action">В КОРЗИНУ</a></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="win-rev" class="modal-window">
-        <div class="win-head"><span class="win-title">CUSTOMER REVIEWS</span><button class="win-close" onclick="closeW('win-rev')"></button></div>
-        <div class="win-body">
-            <div class="info-card-large">
-                <div class="review-stars">★★★★★</div>
-                <h3>Dmitry_Expert</h3>
-                <p>"Заказал 5000 робуксов. Пришли через донат-группу очень быстро. Илья лучший продавец в Раменском!"</p>
-            </div>
-            <div class="info-card-large">
-                <div class="review-stars">★★★★★</div>
-                <h3>Sasha_GG</h3>
-                <p>"Звёзды для Телеграма покупаю только тут. Курс огонь, поддержка отвечает моментально."</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="win-news" class="modal-window">
-        <div class="win-head"><span class="win-title">SYSTEM UPDATES</span><button class="win-close" onclick="closeW('win-news')"></button></div>
-        <div class="win-body">
-            <div class="info-card-large">
-                <h3>Запуск TG Stars!</h3>
-                <p>Теперь мы официально продаем звёзды для Telegram. Используйте их для покупки контента и подарков.</p>
-                <small>2 Мая 2026</small>
-            </div>
-            <div class="info-card-large">
-                <h3>Снижение цен на Nitro</h3>
-                <p>Благодаря новым поставщикам, Discord Nitro стал дешевле на 15%.</p>
-                <small>1 Мая 2026</small>
-            </div>
-        </div>
-    </div>
-
-    <div id="win-sup" class="modal-window">
-        <div class="win-head"><span class="win-title">TECHNICAL SUPPORT</span><button class="win-close" onclick="closeW('win-sup')"></button></div>
-        <div class="win-body" style="text-align: center;">
-            <h1 style="font-size: 50px;">🆘</h1>
-            <h2>Нужна помощь?</h2>
-            <p style="color: var(--text-dim); max-width: 500px; margin: 0 auto 30px;">Если у вас возникли вопросы по оплате или получению товара, пишите в нашу службу поддержки. Мы работаем 24/7.</p>
-            <a href="https://t.me/BlameJohn2014" class="buy-action" style="display: inline-block; padding: 25px 80px; font-size: 24px;">СВЯЗАТЬСЯ С АДМИНОМ</a>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <button class="nav-link-btn" onclick="openW('win-rbx')">Маркет</button>
-        <button class="nav-link-btn" onclick="openW('win-news')">Новости</button>
-        <button class="nav-link-btn" onclick="openW('win-rev')">Отзывы</button>
-        <button class="nav-link-btn" onclick="openW('win-sup')">Поддержка</button>
     </div>
 
     <script>
-        function openW(id) { document.getElementById(id).style.display = 'block'; }
-        function closeW(id) { document.getElementById(id).style.display = 'none'; }
-
-        // ЛОГИКА КАЛЬКУЛЯТОРОВ
-        function runRbx() {
-            let v = document.getElementById('rbx-val').value;
-            document.getElementById('rbx-res').innerText = v ? v : 0;
-        }
-
-        function runStars() {
-            let v = document.getElementById('stars-val').value;
-            document.getElementById('stars-res').innerText = v ? (v * 2.4).toFixed(0) : 0;
-        }
-
-        function sendOrder(item, inputId) {
-            let count = document.getElementById(inputId).value;
-            if(count >= 1) {
-                window.location.href = "https://t.me/BlameJohn2014?text=Заказ:+" + count + "+" + item + "+(ID:" + Math.floor(Math.random() * 10000) + ")";
+        // Функция открытия окна
+        function openWindow(id) {
+            // Скрываем все окна, кроме магазина
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => modal.style.display = 'none');
+            
+            if(id !== 'main-store') {
+                document.getElementById('main-store').style.display = 'none';
+                document.getElementById(id).style.display = 'block';
+                window.scrollTo(0, 0);
             } else {
-                alert("Пожалуйста, введите корректное количество!");
+                document.getElementById('main-store').style.display = 'block';
             }
+        }
+
+        // Функция закрытия окна (возвращает в магазин)
+        function closeWindow(id) {
+            document.getElementById(id).style.display = 'none';
+            document.getElementById('main-store').style.display = 'block';
         }
     </script>
 </body>
-</html>
+                                                                                                     </html>
+                    
