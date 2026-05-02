@@ -2,233 +2,384 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAUMOV MULTI-MARKET | Stars & Coins</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NAUMOV ULTIMATE HUB | OFFICIAL 2026</title>
     <style>
+        /* ГЛОБАЛЬНЫЕ СТИЛИ */
         :root {
-            --bg: #080808;
-            --panel: #151515;
-            --accent: #00a2ff;
-            --stars: #ffce00;
-            --tg: #24A1DE;
-            --win-border: #333;
+            --bg-color: #050608;
+            --card-bg: #11141a;
+            --accent-blue: #00a2ff;
+            --accent-gold: #ffcc00;
+            --accent-green: #00ff88;
+            --text-main: #ffffff;
+            --text-dim: #8e959f;
+            --tg-color: #24A1DE;
+            --border-style: 1px solid rgba(255,255,255,0.1);
         }
 
+        * { box-sizing: border-box; outline: none; }
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%; 
-            background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color); color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow: hidden;
         }
 
-        /* РАБОЧЕЕ ПРОСТРАНСТВО */
-        .desktop {
-            height: calc(100% - 70px);
+        /* ГЛАВНЫЙ ЭКРАН (РАБОЧИЙ СТОЛ) */
+        .main-viewport {
+            height: calc(100% - 80px);
+            width: 100%;
+            background: radial-gradient(circle at top right, #1a1d23 0%, #050608 100%);
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            grid-auto-rows: 120px;
-            gap: 20px; padding: 40px;
-            background: radial-gradient(circle at 50% 50%, #151515 0%, #000 100%);
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-auto-rows: 140px;
+            gap: 25px;
+            padding: 40px;
             overflow-y: auto;
         }
 
-        .icon {
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            cursor: pointer; transition: 0.2s; padding: 10px; border-radius: 15px;
-        }
-        .icon:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-        .icon img { width: 60px; height: 60px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
-        .icon span { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* ОКНА */
-        .window {
-            display: none; position: fixed; top: 45%; left: 50%; 
-            transform: translate(-50%, -50%); width: 95%; max-width: 900px;
-            height: 85%; background: var(--panel); border: 1px solid var(--win-border);
-            border-radius: 24px; z-index: 1000; overflow: hidden;
-            box-shadow: 0 0 100px rgba(0,0,0,0.9);
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            border: 1px solid transparent;
         }
 
-        .win-header {
-            padding: 20px; background: #1a1a1a; display: flex;
-            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
+        .app-icon:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 162, 255, 0.3);
+            transform: translateY(-5px);
         }
 
-        .close-btn { background: #ff5f56; border: none; width: 16px; height: 16px; border-radius: 50%; cursor: pointer; }
-
-        .win-content { padding: 30px; height: calc(100% - 90px); overflow-y: auto; }
-
-        /* КАЛЬКУЛЯТОРЫ (ROBLOX & STARS) */
-        .calc-container {
-            background: linear-gradient(145deg, #1e1e1e, #111);
-            padding: 40px; border-radius: 20px; border: 2px solid var(--accent);
-            text-align: center; margin-bottom: 20px;
+        .app-icon img {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .calc-container.stars-border { border-color: var(--stars); }
-        
-        input {
-            width: 80%; padding: 20px; border-radius: 12px; border: 1px solid #444; 
-            background: #000; color: white; font-size: 28px; text-align: center; margin: 25px 0;
-            outline: none;
-        }
-        .res-text { font-size: 22px; color: #bbb; margin-bottom: 10px; }
-        .total-val { font-size: 42px; font-weight: 900; color: #00FF7F; margin-bottom: 30px; }
 
-        /* СЕТКА ТОВАРОВ */
-        .item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .item-card {
-            background: #222; padding: 20px; border-radius: 18px; text-align: center;
-            border: 1px solid #333; transition: 0.3s;
+        .app-icon span {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
         }
-        .item-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .item-card h4 { margin: 10px 0; font-size: 18px; }
-        .item-card .price { color: #00FF7F; font-size: 20px; font-weight: 900; margin-bottom: 15px; }
 
-        .btn-buy {
-            display: block; background: var(--tg); color: white; text-decoration: none;
-            padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px;
+        /* СИСТЕМА ОКОН */
+        .modal-window {
+            display: none;
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            max-width: 1000px;
+            height: 85%;
+            background: var(--card-bg);
+            border: 1px solid #2d323a;
+            border-radius: 30px;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.9);
+            animation: openAnim 0.4s ease-out;
+        }
+
+        @keyframes openAnim {
+            from { opacity: 0; transform: translate(-50%, -40%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .win-head {
+            background: #161a21;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d323a;
+        }
+
+        .win-title { font-weight: 900; letter-spacing: 2px; color: var(--accent-blue); }
+
+        .win-close {
+            background: #ff5f56;
+            border: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
             transition: 0.2s;
         }
-        .btn-buy:hover { opacity: 0.9; box-shadow: 0 0 15px var(--tg); }
+        .win-close:hover { transform: scale(1.2); filter: brightness(1.2); }
 
-        /* ПАНЕЛЬ УПРАВЛЕНИЯ */
-        .taskbar {
-            height: 70px; background: rgba(10, 10, 10, 0.95);
-            display: flex; justify-content: center; align-items: center;
-            gap: 20px; border-top: 1px solid #222; backdrop-filter: blur(15px);
+        .win-body {
+            padding: 40px;
+            height: calc(100% - 78px);
+            overflow-y: auto;
+            scrollbar-width: thin;
         }
 
-        .nav-link {
-            background: #1a1a1a; border: 1px solid #333; color: #fff;
-            padding: 12px 25px; border-radius: 12px; cursor: pointer;
-            font-size: 12px; font-weight: bold; text-transform: uppercase;
+        /* КАТЕГОРИИ И ТОВАРЫ */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
         }
-        .nav-link:hover { background: var(--accent); border-color: #fff; }
 
-        .info-card { background: #1a1a1a; padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid var(--accent); }
+        .product-item {
+            background: #1a1e26;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #2d323a;
+            transition: 0.3s;
+        }
+
+        .product-item:hover {
+            border-color: var(--accent-blue);
+            background: #212630;
+            transform: scale(1.02);
+        }
+
+        .product-item h4 { margin: 15px 0 5px 0; font-size: 18px; }
+        .product-item .price-tag { 
+            font-size: 24px; 
+            font-weight: 900; 
+            color: var(--accent-green); 
+            margin-bottom: 20px; 
+            display: block;
+        }
+
+        .buy-action {
+            background: var(--tg-color);
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 12px;
+            display: block;
+            font-weight: 800;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .buy-action:hover { box-shadow: 0 0 20px rgba(36, 161, 222, 0.5); }
+
+        /* КАЛЬКУЛЯТОРЫ (ROBLOX & STARS) */
+        .calc-wrapper {
+            background: linear-gradient(145deg, #161a21, #0a0c10);
+            border-radius: 25px;
+            padding: 50px;
+            border: 2px solid var(--accent-blue);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .calc-input {
+            width: 100%;
+            max-width: 400px;
+            background: #000;
+            border: 1px solid #333;
+            color: white;
+            font-size: 36px;
+            font-weight: 900;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .calc-result { font-size: 48px; font-weight: 900; color: var(--accent-green); margin-bottom: 30px; }
+
+        /* ПАНЕЛЬ УПРАВЛЕНИЯ (TASKBAR) */
+        .bottom-nav {
+            height: 80px;
+            background: rgba(10, 12, 16, 0.98);
+            border-top: 1px solid #2d323a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-link-btn {
+            background: #1a1e26;
+            border: 1px solid #333;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-link-btn:hover {
+            background: var(--accent-blue);
+            border-color: white;
+        }
+
+        /* НОВОСТИ И ОТЗЫВЫ */
+        .info-card-large {
+            background: #161a21;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--accent-blue);
+        }
+
+        .info-card-large h3 { margin-top: 0; color: var(--accent-blue); }
+
+        .review-stars { color: var(--accent-gold); font-size: 20px; margin-bottom: 10px; }
+
     </style>
 </head>
 <body>
 
-    <div class="desktop">
-        <div class="icon" onclick="openW('w-rbx')">
+    <div class="main-viewport">
+        <div class="app-icon" onclick="openW('win-rbx')">
             <img src="https://cdn-icons-png.flaticon.com/512/220/220233.png">
             <span>Roblox</span>
         </div>
-        <div class="icon" onclick="openW('w-stars')">
+        <div class="app-icon" onclick="openW('win-stars')">
             <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">
             <span>TG Stars</span>
         </div>
-        <div class="icon" onclick="openW('w-brawl')">
+        <div class="app-icon" onclick="openW('win-brawl')">
             <img src="https://cdn-icons-png.flaticon.com/512/889/889102.png">
             <span>Brawl Stars</span>
         </div>
-        <div class="icon" onclick="openW('w-pubg')">
+        <div class="app-icon" onclick="openW('win-pubg')">
             <img src="https://cdn-icons-png.flaticon.com/512/1541/1541413.png">
             <span>PUBG Mobile</span>
         </div>
-        <div class="icon" onclick="openW('w-genshin')">
+        <div class="app-icon" onclick="openW('win-genshin')">
             <img src="https://static.wikia.nocookie.net/gensin-impact/images/f/f9/Item_Genesis_Crystal.png">
             <span>Genshin</span>
         </div>
-        <div class="icon" onclick="openW('w-subs')">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png">
-            <span>Subscriptions</span>
+        <div class="app-icon" onclick="openW('win-subs')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png">
+            <span>Nitro/Spotify</span>
         </div>
     </div>
 
-    <div id="w-rbx" class="window">
-        <div class="win-header"><span>ROBUX CALCULATOR</span><button class="close-btn" onclick="closeW('w-rbx')"></button></div>
-        <div class="win-content">
-            <div class="calc-container">
-                <div class="res-text">Курс 1 к 1</div>
-                <input type="number" id="in-rbx" placeholder="Сколько нужно R$?" oninput="doRbx()">
-                <div class="total-val"><span id="out-rbx">0</span> ₽</div>
-                <a href="#" class="btn-buy" onclick="goBuy('Robux', 'in-rbx')">ОФОРМИТЬ ЗАКАЗ</a>
+    <div id="win-rbx" class="modal-window">
+        <div class="win-head"><span class="win-title">ROBLOX REPLENISHMENT</span><button class="win-close" onclick="closeW('win-rbx')"></button></div>
+        <div class="win-body">
+            <div class="calc-wrapper">
+                <h2>Калькулятор Робуксов (Курс 1 к 1)</h2>
+                <p>Минимальный заказ: 100 R$</p>
+                <input type="number" id="rbx-val" class="calc-input" placeholder="0" oninput="runRbx()">
+                <div class="calc-result"><span id="rbx-res">0</span> ₽</div>
+                <a href="#" class="buy-action" style="font-size: 20px;" onclick="sendOrder('Roblox', 'rbx-val')">КУПИТЬ РОБУКСЫ</a>
             </div>
         </div>
     </div>
 
-    <div id="w-stars" class="window">
-        <div class="win-header"><span>TELEGRAM STARS MARKET</span><button class="close-btn" onclick="closeW('w-stars')"></button></div>
-        <div class="win-content">
-            <div class="calc-container stars-border">
-                <div class="res-text">Курс: 1 Star = 2.5 ₽</div>
-                <input type="number" id="in-stars" placeholder="Кол-во Звёзд" oninput="doStars()">
-                <div class="total-val" style="color: var(--stars);"><span id="out-stars">0</span> ₽</div>
-                <a href="#" class="btn-buy" style="background: var(--stars); color: #000;" onclick="goBuy('TG Stars', 'in-stars')">КУПИТЬ ЗВЁЗДЫ</a>
+    <div id="win-stars" class="modal-window">
+        <div class="win-head"><span class="win-title">TELEGRAM STARS</span><button class="win-close" onclick="closeW('win-stars')"></button></div>
+        <div class="win-body">
+            <div class="calc-wrapper" style="border-color: var(--accent-gold);">
+                <h2>Telegram Stars (Звёзды)</h2>
+                <p>Курс: 1 Star = 2.4 ₽</p>
+                <input type="number" id="stars-val" class="calc-input" placeholder="0" oninput="runStars()">
+                <div class="calc-result" style="color: var(--accent-gold);"><span id="stars-res">0</span> ₽</div>
+                <a href="#" class="buy-action" style="background: var(--accent-gold); color: black;" onclick="sendOrder('TG Stars', 'stars-val')">ЗАКУПИТЬ ЗВЁЗДЫ</a>
             </div>
         </div>
     </div>
 
-    <div id="w-brawl" class="window">
-        <div class="win-header"><span>BRAWL STARS EXTENDED</span><button class="close-btn" onclick="closeW('w-brawl')"></button></div>
-        <div class="win-content">
-            <div class="item-grid">
-                <div class="item-card"><h4>30 Gems</h4><div class="price">250₽</div><a href="https://t.me/BlameJohn2014?text=Хочу+30+гемов" class="btn-buy">КУПИТЬ</a></div>
-                <div class="item-card"><h4>80 Gems</h4><div class="price">550₽</div><a href="https://t.me/BlameJohn2014?text=Хочу+80+гемов" class="btn-buy">КУПИТЬ</a></div>
-                <div class="item-card"><h4>170 Gems</h4><div class="price">1100₽</div><a href="https://t.me/BlameJohn2014?text=Хочу+170+гемов" class="btn-buy">КУПИТЬ</a></div>
-                <div class="item-card"><h4>360 Gems</h4><div class="price">2200₽</div><a href="https://t.me/BlameJohn2014?text=Хочу+360+гемов" class="btn-buy">КУПИТЬ</a></div>
-                <div class="item-card" style="border-color: var(--accent);"><h4>Brawl Pass Plus</h4><div class="price">1490₽</div><a href="https://t.me/BlameJohn2014?text=Хочу+Бравл+Пасс+Плюс" class="btn-buy">КУПИТЬ</a></div>
+    <div id="win-brawl" class="modal-window">
+        <div class="win-head"><span class="win-title">BRAWL STARS MARKET</span><button class="win-close" onclick="closeW('win-brawl')"></button></div>
+        <div class="win-body">
+            <div class="category-grid">
+                <div class="product-item"><h4>30 Gems</h4><span class="price-tag">250₽</span><a href="https://t.me/BlameJohn2014?text=Купить+30+гемов" class="buy-action">В КОРЗИНУ</a></div>
+                <div class="product-item"><h4>80 Gems</h4><span class="price-tag">550₽</span><a href="https://t.me/BlameJohn2014?text=Купить+80+гемов" class="buy-action">В КОРЗИНУ</a></div>
+                <div class="product-item"><h4>170 Gems</h4><span class="price-tag">1100₽</span><a href="https://t.me/BlameJohn2014?text=Купить+170+гемов" class="buy-action">В КОРЗИНУ</a></div>
+                <div class="product-item"><h4>360 Gems</h4><span class="price-tag">2250₽</span><a href="https://t.me/BlameJohn2014?text=Купить+360+гемов" class="buy-action">В КОРЗИНУ</a></div>
+                <div class="product-item"><h4>950 Gems</h4><span class="price-tag">6100₽</span><a href="https://t.me/BlameJohn2014?text=Купить+950+гемов" class="buy-action">В КОРЗИНУ</a></div>
+                <div class="product-item" style="border-color: var(--accent-blue);"><h4>Brawl Pass Plus</h4><span class="price-tag">1450₽</span><a href="https://t.me/BlameJohn2014?text=Купить+Brawl+Pass+Plus" class="buy-action">В КОРЗИНУ</a></div>
             </div>
         </div>
     </div>
 
-    <div class="taskbar">
-        <button class="nav-link" onclick="openW('w-rbx')">Маркет</button>
-        <button class="nav-link" onclick="openW('w-news')">Новости</button>
-        <button class="nav-link" onclick="openW('w-rev')">Отзывы</button>
-        <button class="nav-link" onclick="openW('w-sup')">Поддержка</button>
-    </div>
-
-    <div id="w-news" class="window">
-        <div class="win-header"><span>LATEST NEWS</span><button class="close-btn" onclick="closeW('w-news')"></button></div>
-        <div class="win-content">
-            <div class="info-card"><strong>МАЙ 2026:</strong> Добавлены Telegram Stars! Покупай звёзды для реакций и подарков по лучшему курсу.</div>
-            <div class="info-card"><strong>АПРЕЛЬ 2026:</strong> Обновлены цены на Discord Nitro. Теперь еще дешевле.</div>
+    <div id="win-rev" class="modal-window">
+        <div class="win-head"><span class="win-title">CUSTOMER REVIEWS</span><button class="win-close" onclick="closeW('win-rev')"></button></div>
+        <div class="win-body">
+            <div class="info-card-large">
+                <div class="review-stars">★★★★★</div>
+                <h3>Dmitry_Expert</h3>
+                <p>"Заказал 5000 робуксов. Пришли через донат-группу очень быстро. Илья лучший продавец в Раменском!"</p>
+            </div>
+            <div class="info-card-large">
+                <div class="review-stars">★★★★★</div>
+                <h3>Sasha_GG</h3>
+                <p>"Звёзды для Телеграма покупаю только тут. Курс огонь, поддержка отвечает моментально."</p>
+            </div>
         </div>
     </div>
 
-    <div id="w-rev" class="window">
-        <div class="win-header"><span>REVIEWS</span><button class="close-btn" onclick="closeW('w-rev')"></button></div>
-        <div class="win-content">
-            <div class="info-card">⭐ ⭐ ⭐ ⭐ ⭐<br><strong>Maxim:</strong> Звёзды пришли моментально. Илья, спасибо!</div>
-            <div class="info-card">⭐ ⭐ ⭐ ⭐ ⭐<br><strong>Lera_Rbx:</strong> Лучший калькулятор, всё честно и быстро.</div>
+    <div id="win-news" class="modal-window">
+        <div class="win-head"><span class="win-title">SYSTEM UPDATES</span><button class="win-close" onclick="closeW('win-news')"></button></div>
+        <div class="win-body">
+            <div class="info-card-large">
+                <h3>Запуск TG Stars!</h3>
+                <p>Теперь мы официально продаем звёзды для Telegram. Используйте их для покупки контента и подарков.</p>
+                <small>2 Мая 2026</small>
+            </div>
+            <div class="info-card-large">
+                <h3>Снижение цен на Nitro</h3>
+                <p>Благодаря новым поставщикам, Discord Nitro стал дешевле на 15%.</p>
+                <small>1 Мая 2026</small>
+            </div>
         </div>
     </div>
 
-    <div id="w-sup" class="window">
-        <div class="win-header"><span>SUPPORT 24/7</span><button class="close-btn" onclick="closeW('w-sup')"></button></div>
-        <div class="win-content" style="text-align: center; padding-top: 50px;">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" width="100">
-            <h2>Служба поддержки</h2>
-            <p>Пишите админу напрямую для решения любых вопросов.</p>
-            <a href="https://t.me/BlameJohn2014" class="btn-buy" style="display: inline-block; padding: 20px 60px; font-size: 20px;">@BlameJohn2014</a>
+    <div id="win-sup" class="modal-window">
+        <div class="win-head"><span class="win-title">TECHNICAL SUPPORT</span><button class="win-close" onclick="closeW('win-sup')"></button></div>
+        <div class="win-body" style="text-align: center;">
+            <h1 style="font-size: 50px;">🆘</h1>
+            <h2>Нужна помощь?</h2>
+            <p style="color: var(--text-dim); max-width: 500px; margin: 0 auto 30px;">Если у вас возникли вопросы по оплате или получению товара, пишите в нашу службу поддержки. Мы работаем 24/7.</p>
+            <a href="https://t.me/BlameJohn2014" class="buy-action" style="display: inline-block; padding: 25px 80px; font-size: 24px;">СВЯЗАТЬСЯ С АДМИНОМ</a>
         </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-link-btn" onclick="openW('win-rbx')">Маркет</button>
+        <button class="nav-link-btn" onclick="openW('win-news')">Новости</button>
+        <button class="nav-link-btn" onclick="openW('win-rev')">Отзывы</button>
+        <button class="nav-link-btn" onclick="openW('win-sup')">Поддержка</button>
     </div>
 
     <script>
         function openW(id) { document.getElementById(id).style.display = 'block'; }
         function closeW(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Расчет Робуксов
-        function doRbx() {
-            let v = document.getElementById('in-rbx').value;
-            document.getElementById('out-rbx').innerText = v ? v : 0;
+        // ЛОГИКА КАЛЬКУЛЯТОРОВ
+        function runRbx() {
+            let v = document.getElementById('rbx-val').value;
+            document.getElementById('rbx-res').innerText = v ? v : 0;
         }
 
-        // Расчет Звёзд (1 звезда = 2.5 рубля)
-        function doStars() {
-            let v = document.getElementById('in-stars').value;
-            document.getElementById('out-stars').innerText = v ? (v * 2.5).toFixed(0) : 0;
+        function runStars() {
+            let v = document.getElementById('stars-val').value;
+            document.getElementById('stars-res').innerText = v ? (v * 2.4).toFixed(0) : 0;
         }
 
-        // Переход к покупке
-        function goBuy(item, inputId) {
+        function sendOrder(item, inputId) {
             let count = document.getElementById(inputId).value;
-            if(count > 0) {
-                window.location.href = "https://t.me/BlameJohn2014?text=Привет!+Я+хочу+купить+" + count + "+" + item;
+            if(count >= 1) {
+                window.location.href = "https://t.me/BlameJohn2014?text=Заказ:+" + count + "+" + item + "+(ID:" + Math.floor(Math.random() * 10000) + ")";
             } else {
-                alert("Введите количество!");
+                alert("Пожалуйста, введите корректное количество!");
             }
         }
     </script>
