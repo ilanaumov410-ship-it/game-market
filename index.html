@@ -1,157 +1,150 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAUMOV MARKET | ULTIMATE 2026</title>
-    <style>
-        :root {
-            --bg: #0A0A0A;
-            --card: #161616;
-            --text: #FFFFFF;
-            --accent: #24A1DE;
-            --green: #2ecc71;
-            --red: #e74c3c;
+const express = require('express');
+const app = express();
+app.use(express.json()); // Чтобы сервер понимал JSON-данные
+
+// Наша база данных в оперативной памяти (после перезапуска сервера очистится)
+const users = [];
+const videos = [];
+
+// ==========================================
+// 1. СИСТЕМА АККАУНТОВ (РЕГИСТРАЦИЯ, ВХОД, ВЫХОД)
+// ==========================================
+
+// Регистрация: просто пишем ник и пароль
+app.post('/api/register', (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: "Нужно указать ник и пароль!" });
+    }
+
+    const userExists = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+    if (userExists) {
+        return res.status(400).json({ error: "Этот никнейм уже занят!" });
+    }
+
+    const newUser = { username, password, role: "user" };
+    users.push(newUser);
+    res.status(201).json({ message: "Аккаунт успешно создан!", user: { username } });
+});
+
+// Вход в аккаунт: проверяем ник и пароль
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+    if (!user) {
+        return res.status(401).json({ error: "Неверный ник или пароль!" });
+    }
+
+    res.json({ message: "Вы успешно вошли!", username: user.username, role: user.role });
+});
+
+// Выход из аккаунта (На бэкенде мы просто подтверждаем действие, 
+// а на самом сайте клиент стирает данные из памяти/cookies)
+app.post('/api/logout', (req, res) => {
+    res.json({ message: "Вы успешно вышли из системы" });
+});
+
+
+// ==========================================
+// 2. ИИ-МОДЕРАЦИЯ И ЗАГРУЗКА ВИДЕО
+// ==========================================
+
+// Функция-модератор (ИИ-фильтр)
+function runAIModeration(title, description) {
+    const text = (title + " " + description).toLowerCase();
+
+    // Список запрещенных слов для 18+ контента
+    const nsfwBadWords = ["18+", "секс", "sex", "эротика", "пошлое", "порно"];
+    // Список триггеров для авторских прав (Copyright)
+    const copyrightBadWords = ["disney", "sony music", "warner bros", "полный фильм", "слив трека"];
+
+    // Проверка на 18+
+    for (let word of nsfwBadWords) {
+        if (text.includes(word)) {
+            return { approved: false, reason: "БАН 18+: Обнаружен контент для взрослых или неприемлемые слова." };
         }
+    }
 
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; outline: none; }
-        body { margin: 0; background-color: var(--bg); color: var(--text); }
-
-        /* HEADER */
-        .header {
-            background: #000; padding: 15px 20px; display: flex;
-            justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100;
+    // Проверка на Авторские Права
+    for (let word of copyrightBadWords) {
+        if (text.includes(word)) {
+            return { approved: false, reason: "БАН АП: Обнаружено нарушение авторских прав (Content ID совпадение)." };
         }
-        .logo { font-size: 20px; font-weight: 900; color: var(--accent); }
-        .nav-btn { background: #1a1a1a; border: 1px solid #333; color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 700; margin-left: 5px; }
+    }
 
-        /* GRID */
-        .container { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .game-card {
-            background: var(--card); border: 1px solid #222; border-radius: 12px;
-            padding: 35px 10px; text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .game-card:hover { border-color: var(--accent); background: #1f1f1f; }
-        .game-card span { font-weight: 800; font-size: 14px; text-transform: uppercase; }
+    return { approved: true, reason: "" };
+}
 
-        /* MODALS */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto; }
-        .m-content { max-width: 800px; margin: 0 auto; padding: 20px; }
-        .m-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
-        .close-btn { background: #222; border: 1px solid #444; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 800; }
-        .close-btn:hover { background: var(--red); }
+// Загрузка нового ролика
+app.post('/api/videos/upload', (req, res) => {
+    const { title, description, videoUrl, author } = req.body;
 
-        /* ITEMS */
-        .item-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #121212; padding: 18px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #222;
-        }
-        .price { color: var(--green); font-weight: 900; font-size: 18px; }
-        .buy-link { background: var(--accent); color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 13px; }
+    if (!title || !videoUrl || !author) {
+        return res.status(400).json({ error: "Название, ссылка на видео и автор обязательны!" });
+    }
 
-        /* CALCULATOR STYLE */
-        .calc-box { background: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid var(--accent); text-align: center; margin-bottom: 20px; }
-        .calc-input { background: #000; border: 1px solid #444; color: white; font-size: 28px; width: 80%; padding: 15px; border-radius: 10px; text-align: center; margin: 15px 0; }
-        .calc-res { font-size: 32px; font-weight: 900; color: var(--green); margin-bottom: 20px; }
-    </style>
-</head>
-<body>
+    // Запускаем автоматическую ИИ модерацию
+    const moderationResult = runAIModeration(title, description || "");
 
-    <div class="header">
-        <div class="logo">NAUMOV MARKET</div>
-        <div>
-            <button class="nav-btn" onclick="openW('main')">Магазин</button>
-            <button class="nav-btn" onclick="openW('m-rev')">Отзывы</button>
-        </div>
-    </div>
+    const newVideo = {
+        id: "vid_" + Date.now(),
+        title,
+        description,
+        videoUrl,
+        author,
+        views: 0,
+        status: moderationResult.approved ? "approved" : "banned",
+        banReason: moderationResult.reason
+    };
 
-    <div id="main" class="container">
-        <h2 style="border-left: 4px solid var(--accent); padding-left: 10px;">КАТАЛОГ 2026</h2>
-        <div class="game-grid">
-            <div class="game-card" onclick="openW('m-rbx')"><span>ROBLOX</span></div>
-            <div class="game-card" onclick="openW('m-stars')"><span>TG STARS</span></div>
-            <div class="game-card" onclick="openW('m-genshin')"><span>GENSHIN</span></div>
-            <div class="game-card" onclick="openW('m-pubg')"><span>PUBG MOBILE</span></div>
-            <div class="game-card" onclick="openW('m-bs')"><span>BRAWL STARS</span></div>
-            <div class="game-card" onclick="openW('m-dc')"><span>DISCORD</span></div>
-        </div>
-    </div>
+    videos.push(newVideo);
 
-    <div id="m-rbx" class="modal">
-        <div class="m-content">
-            <div class="m-header"><h2>ROBLOX (КАЛЬКУЛЯТОР)</h2><button class="close-btn" onclick="closeW('m-rbx')">ЗАКРЫТЬ</button></div>
-            <div class="calc-box">
-                <p>Введите количество робуксов:</p>
-                <input type="number" id="rbx-in" class="calc-input" placeholder="0" oninput="calcRbx()">
-                <div class="calc-res"><span id="rbx-out">0</span> ₽</div>
-                <a href="#" class="buy-link" style="display:inline-block; font-size: 18px;" onclick="goBuy('Robux', 'rbx-in')">КУПИТЬ</a>
-            </div>
-        </div>
-    </div>
+    if (newVideo.status === "banned") {
+        return res.status(403).json({ 
+            message: "Видео загружено, но автоматически ЗАБАНЕНО модерацией!", 
+            video: newVideo 
+        });
+    }
 
-    <div id="m-stars" class="modal">
-        <div class="m-content">
-            <div class="m-header"><h2>TG STARS (КАЛЬКУЛЯТОР)</h2><button class="close-btn" onclick="closeW('m-stars')">ЗАКРЫТЬ</button></div>
-            <div class="calc-box" style="border-color: #FFD700;">
-                <p>Введите количество звёзд:</p>
-                <input type="number" id="st-in" class="calc-input" placeholder="0" oninput="calcSt()">
-                <div class="calc-res" style="color: #FFD700;"><span id="st-out">0</span> ₽</div>
-                <a href="#" class="buy-link" style="display:inline-block; font-size: 18px; background: #FFD700; color: #000;" onclick="goBuy('Stars', 'st-in')">КУПИТЬ</a>
-            </div>
-        </div>
-    </div>
+    res.status(201).json({ message: "Видео успешно опубликовано!", video: newVideo });
+});
 
-    <div id="m-genshin" class="modal">
-        <div class="m-content">
-            <div class="m-header"><h2>GENSHIN IMPACT (ВСЕ УСЛУГИ)</h2><button class="close-btn" onclick="closeW('m-genshin')">ЗАКРЫТЬ</button></div>
-            <div class="item-row"><span>Благословение полой луны</span><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>БП: Жемчужный гимн</span><span class="price">1205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>БП: Жемчужный хор</span><span class="price">2405 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>60 Кристаллов</span><span class="price">155 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>300 Кристаллов</span><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>980 Кристаллов</span><span class="price">1505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>1980 Кристаллов</span><span class="price">2905 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>3280 Кристаллов</span><span class="price">4605 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>6480 Кристаллов</span><span class="price">9505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-        </div>
-    </div>
 
-    <div id="m-pubg" class="modal">
-        <div class="m-content">
-            <div class="m-header"><h2>PUBG MOBILE (ВСЕ UC)</h2><button class="close-btn" onclick="closeW('m-pubg')">ЗАКРЫТЬ</button></div>
-            <div class="item-row"><span>60 UC</span><span class="price">155 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>325 UC</span><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>660 UC</span><span class="price">1105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>1800 UC</span><span class="price">2605 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>3850 UC</span><span class="price">5205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>8100 UC</span><span class="price">9805 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>Royale Pass (Elite)</span><span class="price">855 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            <div class="item-row"><span>Royale Pass (Plus)</span><span class="price">2105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-        </div>
-    </div>
+// ==========================================
+// 3. ПРОСМОТР КОНТЕНТА И МОДЕРАЦИЯ
+// ==========================================
 
-    <script>
-        function openW(id) {
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-            if(id !== 'main') document.getElementById(id).style.display = 'block';
-        }
-        function closeW(id) { document.getElementById(id).style.display = 'none'; }
+// Получить список всех одобренных видео (для Главной страницы)
+app.get('/api/videos', (req, res) => {
+    const approvedVideos = videos.filter(v => v.status === "approved");
+    res.json(approvedVideos);
+});
 
-        // CALCS
-        function calcRbx() {
-            let v = document.getElementById('rbx-in').value;
-            document.getElementById('rbx-out').innerText = v ? Math.ceil(v * 1.05) : 0;
-        }
-        function calcSt() {
-            let v = document.getElementById('st-in').value;
-            document.getElementById('st-out').innerText = v ? Math.ceil(v * 2.5) : 0;
-        }
-        function goBuy(name, id) {
-            let val = document.getElementById(id).value;
-            if(val > 0) window.location.href = "https://t.me/BlameJohn2014?text=Я+хочу+купить+" + val + "+" + name;
-        }
-    </script>
-</body>
-    </html>
+// Панель модератора: получить список вообще ВСЕХ забаненных роликов
+app.get('/api/admin/banned-videos', (req, res) => {
+    const bannedVideos = videos.filter(v => v.status === "banned");
+    res.json(bannedVideos);
+});
+
+// Администратор может вручную РАЗБАНИТЬ ролик
+app.post('/api/admin/unban/:id', (req, res) => {
+    const videoId = req.params.id;
+    const video = videos.find(v => v.id === videoId);
+
+    if (!video) {
+        return res.status(404).json({ error: "Видео не найдено" });
+    }
+
+    video.status = "approved";
+    video.banReason = "";
+    res.json({ message: "Модератор одобрил видео вручную!", video });
+});
+
+// Запуск сервера на порту 3000
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Сервер MyTube запущен на http://localhost:${PORT}`);
+    console.log(`Скрипт готов к отправке на GitHub!`);
+});
