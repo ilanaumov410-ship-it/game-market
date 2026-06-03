@@ -1,150 +1,126 @@
-const express = require('express');
-const app = express();
-app.use(express.json()); // Чтобы сервер понимал JSON-данные
-
-// Наша база данных в оперативной памяти (после перезапуска сервера очистится)
-const users = [];
-const videos = [];
-
-// ==========================================
-// 1. СИСТЕМА АККАУНТОВ (РЕГИСТРАЦИЯ, ВХОД, ВЫХОД)
-// ==========================================
-
-// Регистрация: просто пишем ник и пароль
-app.post('/api/register', (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-        return res.status(400).json({ error: "Нужно указать ник и пароль!" });
-    }
-
-    const userExists = users.find(u => u.username.toLowerCase() === username.toLowerCase());
-    if (userExists) {
-        return res.status(400).json({ error: "Этот никнейм уже занят!" });
-    }
-
-    const newUser = { username, password, role: "user" };
-    users.push(newUser);
-    res.status(201).json({ message: "Аккаунт успешно создан!", user: { username } });
-});
-
-// Вход в аккаунт: проверяем ник и пароль
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-
-    const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
-    if (!user) {
-        return res.status(401).json({ error: "Неверный ник или пароль!" });
-    }
-
-    res.json({ message: "Вы успешно вошли!", username: user.username, role: user.role });
-});
-
-// Выход из аккаунта (На бэкенде мы просто подтверждаем действие, 
-// а на самом сайте клиент стирает данные из памяти/cookies)
-app.post('/api/logout', (req, res) => {
-    res.json({ message: "Вы успешно вышли из системы" });
-});
-
-
-// ==========================================
-// 2. ИИ-МОДЕРАЦИЯ И ЗАГРУЗКА ВИДЕО
-// ==========================================
-
-// Функция-модератор (ИИ-фильтр)
-function runAIModeration(title, description) {
-    const text = (title + " " + description).toLowerCase();
-
-    // Список запрещенных слов для 18+ контента
-    const nsfwBadWords = ["18+", "секс", "sex", "эротика", "пошлое", "порно"];
-    // Список триггеров для авторских прав (Copyright)
-    const copyrightBadWords = ["disney", "sony music", "warner bros", "полный фильм", "слив трека"];
-
-    // Проверка на 18+
-    for (let word of nsfwBadWords) {
-        if (text.includes(word)) {
-            return { approved: false, reason: "БАН 18+: Обнаружен контент для взрослых или неприемлемые слова." };
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Market — Покупка игровых ресурсов</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121214;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-    }
-
-    // Проверка на Авторские Права
-    for (let word of copyrightBadWords) {
-        if (text.includes(word)) {
-            return { approved: false, reason: "БАН АП: Обнаружено нарушение авторских прав (Content ID совпадение)." };
+        header {
+            text-align: center;
+            margin-bottom: 30px;
         }
-    }
+        h1 {
+            color: #00ff66;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+        }
+        .subtitle {
+            color: #aaa;
+            font-size: 1.1em;
+        }
+        .market-container {
+            width: 100%;
+            max-width: 600px;
+            background: #1a1a1e;
+            border: 1px solid #2a2a30;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .product-card {
+            background: #222227;
+            border-left: 4px solid #00ff66;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-info h3 {
+            margin: 0 0 5px 0;
+            color: #fff;
+        }
+        .product-info p {
+            margin: 0;
+            color: #888;
+            font-size: 0.9em;
+        }
+        .price {
+            color: #00ff66;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .btn-buy {
+            background-color: #00ff66;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-buy:hover {
+            background-color: #00cc52;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
 
-    return { approved: true, reason: "" };
-}
+    <header>
+        <h1>GAME MARKET</h1>
+        <div class="subtitle">Покупка нужных игровых ресурсов</div>
+    </header>
 
-// Загрузка нового ролика
-app.post('/api/videos/upload', (req, res) => {
-    const { title, description, videoUrl, author } = req.body;
+    <div class="market-container">
+        <!-- Товар 1 -->
+        <div class="product-card">
+            <div class="product-info">
+                <h3>Игровая валюта (Робуксы)</h3>
+                <p>Пакет: 1000 R$ (Быстрая доставка)</p>
+            </div>
+            <div>
+                <div class="price">799 ₽</div>
+                <button class="btn-buy" onclick="alert('Кнопка работает! Скоро здесь будет покупка.')">Купить</button>
+            </div>
+        </div>
 
-    if (!title || !videoUrl || !author) {
-        return res.status(400).json({ error: "Название, ссылка на видео и автор обязательны!" });
-    }
+        <!-- Товар 2 -->
+        <div class="product-card">
+            <div class="product-info">
+                <h3>Премиум Скрипт (Гонки)</h3>
+                <p>Готовая система автодрома для Roblox Studio</p>
+            </div>
+            <div>
+                <div class="price">350 ₽</div>
+                <button class="btn-buy" onclick="alert('Кнопка работает! Скоро здесь будет покупка.')">Купить</button>
+            </div>
+        </div>
 
-    // Запускаем автоматическую ИИ модерацию
-    const moderationResult = runAIModeration(title, description || "");
+        <!-- Товар 3 -->
+        <div class="product-card">
+            <div class="product-info">
+                <h3>Разработка Магазина под ключ</h3>
+                <p>Создание кастомного внутриигрового магазина</p>
+            </div>
+            <div>
+                <div class="price">1500 ₽</div>
+                <button class="btn-buy" onclick="alert('Кнопка работает! Скоро здесь будет покупка.')">Купить</button>
+            </div>
+        </div>
+    </div>
 
-    const newVideo = {
-        id: "vid_" + Date.now(),
-        title,
-        description,
-        videoUrl,
-        author,
-        views: 0,
-        status: moderationResult.approved ? "approved" : "banned",
-        banReason: moderationResult.reason
-    };
-
-    videos.push(newVideo);
-
-    if (newVideo.status === "banned") {
-        return res.status(403).json({ 
-            message: "Видео загружено, но автоматически ЗАБАНЕНО модерацией!", 
-            video: newVideo 
-        });
-    }
-
-    res.status(201).json({ message: "Видео успешно опубликовано!", video: newVideo });
-});
-
-
-// ==========================================
-// 3. ПРОСМОТР КОНТЕНТА И МОДЕРАЦИЯ
-// ==========================================
-
-// Получить список всех одобренных видео (для Главной страницы)
-app.get('/api/videos', (req, res) => {
-    const approvedVideos = videos.filter(v => v.status === "approved");
-    res.json(approvedVideos);
-});
-
-// Панель модератора: получить список вообще ВСЕХ забаненных роликов
-app.get('/api/admin/banned-videos', (req, res) => {
-    const bannedVideos = videos.filter(v => v.status === "banned");
-    res.json(bannedVideos);
-});
-
-// Администратор может вручную РАЗБАНИТЬ ролик
-app.post('/api/admin/unban/:id', (req, res) => {
-    const videoId = req.params.id;
-    const video = videos.find(v => v.id === videoId);
-
-    if (!video) {
-        return res.status(404).json({ error: "Видео не найдено" });
-    }
-
-    video.status = "approved";
-    video.banReason = "";
-    res.json({ message: "Модератор одобрил видео вручную!", video });
-});
-
-// Запуск сервера на порту 3000
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Сервер MyTube запущен на http://localhost:${PORT}`);
-    console.log(`Скрипт готов к отправке на GitHub!`);
-});
+</body>
+</html>
