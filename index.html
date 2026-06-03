@@ -3,122 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Market — Покупка игровых ресурсов</title>
+    <title>MyTube — Видеоплатформа</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121214;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0f0f0f;
             color: #ffffff;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 0;
         }
+        /* Шапка сайта в стиле Ютуба */
         header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        h1 {
-            color: #00ff66;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
-        }
-        .subtitle {
-            color: #aaa;
-            font-size: 1.1em;
-        }
-        .market-container {
-            width: 100%;
-            max-width: 600px;
-            background: #1a1a1e;
-            border: 1px solid #2a2a30;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .product-card {
-            background: #222227;
-            border-left: 4px solid #00ff66;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 6px;
+            background-color: #212121;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .product-info h3 {
-            margin: 0 0 5px 0;
+        .logo {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ff0000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .logo span {
             color: #fff;
+            background-color: #ff0000;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
-        .product-info p {
-            margin: 0;
-            color: #888;
-            font-size: 0.9em;
+        .search-box {
+            width: 40%;
+            display: flex;
         }
-        .price {
-            color: #00ff66;
-            font-weight: bold;
-            font-size: 1.2em;
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #121212;
+            border: 1px solid #303030;
+            color: white;
+            border-radius: 2px 0 0 2px;
         }
-        .btn-buy {
-            background-color: #00ff66;
-            color: #000;
+        .search-box button {
+            background-color: #303030;
             border: none;
-            padding: 8px 16px;
-            font-weight: bold;
-            border-radius: 6px;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+        /* Главный контейнер для видео */
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h2 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        /* Карточка видео */
+        .video-card {
+            background-color: #171717;
+            border-radius: 8px;
+            overflow: hidden;
             cursor: pointer;
             transition: 0.2s;
         }
-        .btn-buy:hover {
-            background-color: #00cc52;
-            transform: scale(1.05);
+        .video-card:hover {
+            transform: scale(1.03);
+        }
+        .thumbnail {
+            width: 100%;
+            height: 160px;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            color: #555;
+        }
+        .video-info {
+            padding: 12px;
+        }
+        .video-title {
+            font-weight: bold;
+            font-size: 1em;
+            margin: 0 0 6px 0;
+            line-height: 1.4;
+        }
+        .video-author {
+            color: #aaa;
+            font-size: 0.9em;
+            margin: 0 0 4px 0;
+        }
+        .video-stats {
+            color: #777;
+            font-size: 0.85em;
         }
     </style>
 </head>
 <body>
 
+    <!-- Шапка -->
     <header>
-        <h1>GAME MARKET</h1>
-        <div class="subtitle">Покупка нужных игровых ресурсов</div>
+        <div class="logo"><span>My</span>Tube</div>
+        <div class="search-box">
+            <input type="text" placeholder="Введите запрос...">
+            <button>🔍</button>
+        </div>
+        <div style="font-size: 1.2em; cursor: pointer;">👤</div>
     </header>
 
-    <div class="market-container">
-        <!-- Товар 1 -->
-        <div class="product-card">
-            <div class="product-info">
-                <h3>Игровая валюта (Робуксы)</h3>
-                <p>Пакет: 1000 R$ (Быстрая доставка)</p>
+    <!-- Сетка с видеороликами -->
+    <div class="container">
+        <h2>Рекомендации</h2>
+        
+        <div class="video-grid">
+            
+            <!-- Ролик 1 -->
+            <div class="video-card" onclick="alert('Запуск видео...')">
+                <div class="thumbnail">▶️</div>
+                <div class="video-info">
+                    <p class="video-title">Как создать крутой скрипт в Roblox Studio за 5 минут!</p>
+                    <p class="video-author">Roblox_Master</p>
+                    <p class="video-stats">15 тыс. просмотров • 2 часа назад</p>
+                </div>
             </div>
-            <div>
-                <div class="price">799 ₽</div>
-                <button class="btn-buy" onclick="alert('Кнопка работает! Скоро здесь будет покупка.')">Купить</button>
-            </div>
-        </div>
 
-        <!-- Товар 2 -->
-        <div class="product-card">
-            <div class="product-info">
-                <h3>Премиум Скрипт (Гонки)</h3>
-                <p>Готовая система автодрома для Roblox Studio</p>
+            <!-- Ролик 2 -->
+            <div class="video-card" onclick="alert('Запуск видео...')">
+                <div class="thumbnail">🎵</div>
+                <div class="video-info">
+                    <p class="video-title">Крутой Понк трек для кодинга и игр (Phonk Mix 2026)</p>
+                    <p class="video-author">PhonkBeats</p>
+                    <p class="video-stats">120 тыс. просмотров • 1 день назад</p>
+                </div>
             </div>
-            <div>
-                <div class="price">350 ₽</div>
-                <button class="btn-buy" onclick="alert('Кнопка работает! Скоро здесь будет покупка.')">Купить</button>
-            </div>
-        </div>
 
-        <!-- Товар 3 -->
-        <div class="product-card">
-            <div class="product-info">
-                <h3>Разработка Магазина под ключ</h3>
-                <p>Создание кастомного внутриигрового магазина</p>
+            <!-- Ролик 3 -->
+            <div class="video-card" onclick="alert('Запуск видео...')">
+                <div class="thumbnail">💻</div>
+                <div class="video-info">
+                    <p class="video-title">Разбираем старый жесткий диск и проверяем его состояние</p>
+                    <p class="video-author">Железный Разборщик</p>
+                    <p class="video-stats">34 тыс. просмотров • 3 дня назад</p>
+                </div>
             </div>
-            <div>
-                <div class="price">1500 ₽</div>
-                <button class="btn-buy" onclick="alert('Кнопка работает! Скоро здесь будет покупка.')">Купить</button>
-            </div>
+
         </div>
     </div>
 
