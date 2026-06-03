@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTube Premium — Фурри Эдишн</title>
+    <title>MyTube Premium — Исправленная версия</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -14,7 +14,7 @@
             overflow-x: hidden;
         }
         
-        /* 1. ПОЛНОЭКРАННАЯ ФУРРИ-ЗАСТАВКА (НА 5 СЕКУНД) */
+        /* 1. ПОЛНОЭКРАННАЯ ФУРРИ-ЗАСТАВКА */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -26,7 +26,7 @@
             align-items: center;
             padding-bottom: 80px;
             box-sizing: border-box;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.6s ease;
         }
         .splash-overlay {
             position: absolute;
@@ -172,36 +172,39 @@
             gap: 24px;
         }
         .video-card {
-            background-color: #0f0f0f;
+            background-color: #161616;
+            border-radius: 12px;
+            overflow: hidden;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .video-card:hover {
+            transform: scale(1.02);
         }
         .thumbnail-box {
             position: relative;
             width: 100%;
             padding-top: 56.25%;
-            background: linear-gradient(135deg, #303030, #1a1a1a);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 10px;
+            background: linear-gradient(135deg, #444, #1a1a1a);
         }
         .thumbnail-box .play-icon {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.5em;
+            font-size: 2.3em;
             opacity: 0.8;
         }
         .video-title {
             font-weight: 600;
-            margin: 0 0 4px 0;
-            font-size: 1em;
+            margin: 0 0 6px 0;
+            font-size: 0.95em;
             line-height: 1.4;
             color: #f1f1f1;
         }
         .video-stats {
             color: #aaa;
-            font-size: 0.85em;
-            margin: 4px 0 0 0;
+            font-size: 0.82em;
+            margin: 0;
         }
 
         /* ПОЛНОЭКРАННЫЙ ПЛЕЕР */
@@ -221,14 +224,15 @@
             position: relative;
             background: #000;
         }
-        video { width: 100%; display: block; max-height: 75vh; }
+        video { width: 100%; display: block; max-height: 70vh; }
         .player-back-btn {
             position: absolute;
-            top: -50px; left: 16px;
-            background: rgba(255,255,255,0.2);
+            top: -45px; left: 10px;
+            background: rgba(255,255,255,0.25);
             color: white; border: none;
             padding: 8px 16px; border-radius: 20px;
             cursor: pointer;
+            font-weight: bold;
         }
         .player-info-panel {
             padding: 16px;
@@ -239,18 +243,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         .like-btn {
             background-color: #272727;
             border: none; color: white;
-            padding: 8px 16px; border-radius: 18px;
+            padding: 8px 20px; border-radius: 18px;
             cursor: pointer; font-weight: bold;
-            display: flex; align-items: center; gap: 6px;
+            display: flex; align-items: center; gap: 8px;
         }
         .like-btn.liked { background-color: #cc0000; }
 
-        /* ИНФОРМАЦИОННОЕ ПРЕДУПРЕЖДЕНИЕ В МОДАЛКЕ */
         .warning-box {
             background-color: rgba(255, 165, 0, 0.15);
             border: 1px solid #ffa500;
@@ -283,7 +286,7 @@
             box-sizing: border-box;
         }
         .modal-content h3 { margin: 0 0 16px 0; }
-        .modal-content input, .modal-content textarea {
+        .modal-content input {
             width: 100%;
             padding: 12px;
             margin-bottom: 14px;
@@ -302,7 +305,7 @@
 </head>
 <body>
 
-    <!-- 1. ФУРРИ-ЗАСТАВКА НА 5 СЕКУНД -->
+    <!-- ЗАСТАВКА ФУРРИ (Исчезнет через 5 сек) -->
     <div id="splash-screen">
         <div class="splash-overlay"></div>
         <div class="splash-content">
@@ -333,29 +336,28 @@
 
     <!-- ГЛАВНАЯ СТРАНИЦА -->
     <div class="container">
-        <h2 id="feedTitle">Рекомендации ленты</h2>
-        <div class="video-grid" id="videoContainer">
-            <!-- Видео здесь -->
-        </div>
+        <h2>Рекомендации ленты</h2>
+        <div class="video-grid" id="videoContainer"></div>
     </div>
 
-    <!-- ПОЛНОЭКРАННЫЙ ПЛЕЕР -->
+    <!-- ПЛЕЕР -->
     <div id="videoPlayerOverlay" class="player-overlay">
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад</button>
             <video id="mainHtml5Player" controls playsinline></video>
             <div class="player-info-panel">
-                <h3 id="playingVideoTitle" style="margin: 0 0 8px 0; font-size: 1.1em;">Название</h3>
+                <h3 id="playingVideoTitle" style="margin: 0 0 6px 0;">Название</h3>
+                <p id="playingVideoAuthor" style="margin: 0 0 12px 0; color: #ff3b30; font-weight: bold; font-size: 0.88em;"></p>
+                <hr style="border: 0; border-top: 1px solid #333;">
                 <div class="like-section">
-                    <span id="playingVideoStats" style="color: #aaa; font-size: 0.9em;">0 просмотров</span>
+                    <span id="playingVideoStats" style="color: #aaa; font-size: 0.9em;">👁 0 просмотров</span>
                     <button id="likeBtnSystem" class="like-btn" onclick="toggleLike()">👍 <span id="likeCountLabel">0</span></button>
                 </div>
-                <p id="playingVideoAuthor" style="margin: 12px 0 0 0; color: #ff0000; font-weight: bold; font-size: 0.9em;"></p>
             </div>
         </div>
     </div>
 
-    <!-- РЕГИСТРАЦИЯ -->
+    <!-- ВХОД -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
@@ -366,21 +368,20 @@
         </div>
     </div>
 
-    <!-- ВЫГРУЗКА С ПРЕДУПРЕЖДЕНИЕМ -->
+    <!-- ВЫГРУЗКА -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
             <h3>Выгрузить контент</h3>
             
-            <!-- ПРЕДУПРЕЖДЕНИЕ ДЛЯ АВТОРОВ -->
             <div class="warning-box">
-                <strong>⚠️ ВНИМАНИЕ ДЛЯ АВТОРОВ:</strong> Чтобы видео работало всегда и не удалялось защитой телефона, сначала загрузите файл на любую другую платформу (Discord, Telegram, YouTube, хостинги) и вставьте прямую ссылку на .mp4 ниже!
+                <strong>⚠️ ВНИМАНИЕ ДЛЯ АВТОРОВ:</strong> Чтобы видео работало всегда и не удалялось защитой телефона, сначала загрузите файл на другую платформу (Discord, Telegram, YouTube) и вставьте прямую интернет-ссылку на .mp4 ниже!
             </div>
 
             <input type="text" id="vTitle" placeholder="Название ролика">
-            <input type="text" id="vUrl" placeholder="Вставьте интернет-ссылку на видео (.mp4)">
+            <input type="text" id="vUrl" placeholder="Вставьте ссылку на .mp4 видео">
             <input type="file" id="fileSelector" accept="video/*">
-            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать на MyTube</button>
+            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать</button>
         </div>
     </div>
 
@@ -389,23 +390,25 @@
         let appVideos = [];
         let currentVideoPlaying = null;
 
-        // БАЗА ДАННЫХ С КРУТЫМИ ИНТЕРНЕТ-ВИДЕО (НЕ СЛОМАЮТСЯ)
+        // Встроенная стартовая медиатека (стабильные ссылки)
         const builtInVideos = [
             { id: 101, title: "Крутой синематик: Эпическая битва блэйзеров", author: "Gaming Zone", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 15420, likes: 840, liked: false },
-            { id: 102, title: "Залипательный мультфильм про Кролика (Тест плеера 4K)", author: "Animation Studio", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", views: 98300, likes: 4512, liked: false },
+            { id: 102, title: "Залипательный мультфильм про Кролика", author: "Animation Studio", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", views: 98300, likes: 4512, liked: false },
             { id: 103, title: "Космическое путешествие и технологии будущего", author: "Sci-Fi Channel", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", views: 5410, likes: 320, liked: false },
             { id: 104, title: "Безумные гонки по городу (Экшен-геймплей)", author: "SpeedRunner", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", views: 23100, likes: 1945, liked: false }
         ];
 
-        // ТАЙМЕР ЗАСТАВКИ (Ровно 5 секунд = 5000 мс)
+        // Фикс таймера заставки (убрана опечатка в style.display)
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
-            setTimeout(() => splash.style.style.display = 'none', 800);
+            if(splash) {
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.display = 'none'; }, 600);
+            }
         }, 5000);
 
         window.onload = function() {
-            const saved = localStorage.getItem('mytube_v3_data');
+            const saved = localStorage.getItem('mytube_v4_data');
             if(saved) {
                 appVideos = JSON.parse(saved);
             } else {
@@ -426,24 +429,23 @@
         }
 
         function handleUpload() {
-            if (!loggedUser) { alert("Войдите в аккаунт!"); return; }
+            if (!loggedUser) { alert("Сначала войдите в аккаунт!"); return; }
             const title = document.getElementById('vTitle').value.trim();
             const urlInput = document.getElementById('vUrl').value.trim();
             const fileSelector = document.getElementById('fileSelector');
 
-            if(!title) return;
+            if(!title) { alert("Введите название!"); return; }
             let src = urlInput || (fileSelector.files.length > 0 ? URL.createObjectURL(fileSelector.files[0]) : "");
-            if(!src) { alert("Дайте ссылку или выберите файл!"); return; }
+            if(!src) { alert("Добавьте ссылку или файл!"); return; }
 
             const newVid = {
                 id: Date.now(),
                 title: title,
                 author: loggedUser,
                 videoSrc: src,
-                views: 1, // Первый просмотр от автора
+                views: 1,
                 likes: 0,
-                liked: false,
-                isLocal: !urlInput
+                liked: false
             };
 
             appVideos.unshift(newVid);
@@ -465,9 +467,10 @@
                 card.onclick = function() { startPlayer(video); };
                 card.innerHTML = `
                     <div class="thumbnail-box"><div class="play-icon">▶️</div></div>
-                    <div style="padding: 6px;">
+                    <div style="padding: 10px;">
                         <p class="video-title">${video.title}</p>
-                        <p class="video-stats">👁 ${video.views} | 👍 ${video.likes} • ${video.author}</p>
+                        <p class="video-stats">👁 Просмотры: ${video.views} • 👍 ${video.likes}</p>
+                        <p style="margin:4px 0 0 0; color:#888; font-size:0.8em;">Автор: ${video.author}</p>
                     </div>
                 `;
                 container.appendChild(card);
@@ -477,7 +480,7 @@
         function startPlayer(video) {
             currentVideoPlaying = video;
             
-            // Накручиваем просмотр при открытии
+            // Накручиваем просмотр ПРАВИЛЬНО (один раз при клике)
             video.views++;
             saveData();
             displayVideos(appVideos);
@@ -486,38 +489,48 @@
             const player = document.getElementById('mainHtml5Player');
             
             document.getElementById('playingVideoTitle').innerText = video.title;
-            document.getElementById('playingVideoAuthor').innerText = "Автор канала: " + video.author;
-            updateLikeButtonUI();
+            document.getElementById('playingVideoAuthor').innerText = "Канал автора: " + video.author;
+            
+            updatePlayerStatsUI();
 
             player.src = video.videoSrc;
             overlay.style.display = 'flex';
             player.play();
         }
 
-        // СИСТЕМА ЛАЙКОВ
+        // РАБОТА СЧЁТЧИКА ЛАЙКОВ И ПРОСМОТРОВ
         function toggleLike() {
             if(!currentVideoPlaying) return;
             
-            if(currentVideoPlaying.liked) {
-                currentVideoPlaying.likes--;
-                currentVideoPlaying.liked = false;
-            } else {
-                currentVideoPlaying.likes++;
-                currentVideoPlaying.liked = true;
-            }
+            // Находим видео в основном массиве по ID, чтобы данные не сбивались
+            const videoInArray = appVideos.find(v => v.id === currentVideoPlaying.id);
             
-            saveData();
-            updateLikeButtonUI();
-            displayVideos(appVideos);
+            if(videoInArray) {
+                if(videoInArray.liked) {
+                    videoInArray.likes--;
+                    videoInArray.liked = false;
+                } else {
+                    videoInArray.likes++;
+                    videoInArray.liked = true;
+                }
+                
+                // Синхронизируем текущее видео
+                currentVideoPlaying = videoInArray;
+                
+                saveData();
+                updatePlayerStatsUI();
+                displayVideos(appVideos);
+            }
         }
 
-        function updateLikeButtonUI() {
+        // Обновление цифр внутри открытого плеера
+        function updatePlayerStatsUI() {
             const btn = document.getElementById('likeBtnSystem');
             const countLabel = document.getElementById('likeCountLabel');
             const statsLabel = document.getElementById('playingVideoStats');
             
             countLabel.innerText = currentVideoPlaying.likes;
-            statsLabel.innerText = `👁 Смотрят сейчас: ${currentVideoPlaying.views} человек`;
+            statsLabel.innerText = `👁 Всего просмотров: ${currentVideoPlaying.views}`;
             
             if(currentVideoPlaying.liked) {
                 btn.classList.add('liked');
@@ -534,7 +547,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('mytube_v3_data', JSON.stringify(appVideos));
+            localStorage.setItem('mytube_v4_data', JSON.stringify(appVideos));
         }
 
         function runSearch() {
