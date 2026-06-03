@@ -3,346 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTube — Настоящий Видеохостинг</title>
+    <title>MyTube Premium — Платформа нового поколения</title>
     <style>
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #0f0f0f;
             color: #ffffff;
             margin: 0;
             padding: 0;
         }
-        /* ШАПКА */
+        
+        /* ШАПКА САЙТА (МОБИЛЬНЫЙ СТИЛЬ) */
         header {
             background-color: #212121;
-            padding: 10px 20px;
+            padding: 12px 16px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        @media(min-width: 600px) {
+            header { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
         .logo {
-            font-size: 1.4em;
+            font-size: 1.5em;
             font-weight: bold;
             color: #ff0000;
             cursor: pointer;
+            letter-spacing: -0.5px;
         }
         .logo span {
             color: #fff;
             background-color: #ff0000;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-right: 2px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-right: 4px;
         }
+        
+        /* СТРОКА ПОИСКА */
         .search-box {
-            width: 40%;
             display: flex;
+            width: 100%;
+            max-width: 500px;
         }
         .search-box input {
-            width: 100%;
-            padding: 8px 12px;
+            flex: 1;
+            padding: 10px 14px;
             background-color: #121212;
-            border: 1px solid #303030;
+            border: 1px solid #3c3c3c;
             color: white;
-            border-radius: 2px 0 0 2px;
+            border-radius: 20px 0 0 20px;
+            font-size: 0.95em;
+            outline: none;
         }
         .search-box button {
             background-color: #303030;
-            border: none;
+            border: 1px solid #3c3c3c;
+            border-left: none;
             color: white;
-            padding: 0 15px;
+            padding: 0 18px;
+            border-radius: 0 20px 20px 0;
             cursor: pointer;
+            font-size: 1em;
         }
-        .header-buttons {
+
+        .header-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
+        
+        /* КНОПКИ */
         .btn {
             background-color: #cc0000;
             color: white;
             border: none;
-            padding: 8px 14px;
-            border-radius: 4px;
+            padding: 10px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: background 0.2s;
         }
-        .btn:hover { background-color: #990000; }
+        .btn:hover { background-color: #aa0000; }
         .btn-upload { background-color: #3a3a3a; }
-        .btn-upload:hover { background-color: #505050; }
-
-        /* КОНТЕНТ */
+        .btn-upload:hover { background-color: #4e4e4e; }
+        
+        /* СЕТКА ВИДЕОРОЛИКОВ */
         .container {
-            padding: 20px;
+            padding: 16px;
             max-width: 1200px;
             margin: 0 auto;
         }
+        h2 { font-size: 1.3em; margin: 10px 0 20px 0; letter-spacing: -0.3px; }
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 24px;
         }
         .video-card {
-            background-color: #171717;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #252525;
+            background-color: #0f0f0f;
             cursor: pointer;
-            transition: 0.2s;
         }
-        .video-card:hover { transform: scale(1.03); }
-        .thumbnail {
+        .thumbnail-box {
+            position: relative;
             width: 100%;
-            height: 160px;
-            background: linear-gradient(45deg, #333, #111);
-            display: flex;
+            padding-top: 56.25%; /* Формат 16:9 */
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .thumbnail-box .play-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5em;
+            opacity: 0.8;
+        }
+        .video-title {
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            font-size: 1em;
+            line-height: 1.4;
+            color: #f1f1f1;
+        }
+        .video-author { color: #aaa; font-size: 0.88em; margin: 0; }
+
+        /* НАСТОЯЩИЙ НАДЁЖНЫЙ ПЛЕЕР НА ВЕСЬ ЭКРАН */
+        .player-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000000;
+            z-index: 2000;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 3em;
         }
-        .video-info { padding: 12px; }
-        .video-title { font-weight: bold; margin: 0 0 6px 0; font-size: 0.95em; }
-        .video-author { color: #aaa; font-size: 0.85em; }
-        
-        /* МОДАЛЬНЫЕ ОКНА */
+        .player-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            background: #000;
+        }
+        video {
+            width: 100%;
+            display: block;
+            max-height: 80vh;
+        }
+        .player-back-btn {
+            position: absolute;
+            top: -50px; left: 16px;
+            background: rgba(255,255,255,0.2);
+            color: white; border: none;
+            padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; font-size: 1em;
+        }
+
+        /* МОДАЛЬНЫЕ ОКНА ФОРМ */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0,0,0,0.85);
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1500;
+            padding: 12px;
+            box-sizing: border-box;
         }
         .modal-content {
             background-color: #212121;
-            padding: 25px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid #383838;
+            padding: 24px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
             box-sizing: border-box;
         }
-        .modal-content h3 { margin-top: 0; color: #ff0000; }
+        .modal-content h3 { margin: 0 0 16px 0; font-size: 1.3em; }
         .modal-content input, .modal-content textarea {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 12px;
+            margin-bottom: 14px;
             background-color: #121212;
-            border: 1px solid #303030;
+            border: 1px solid #3c3c3c;
             color: white;
-            border-radius: 4px;
+            border-radius: 8px;
             box-sizing: border-box;
+            font-size: 1em;
         }
-        .close-btn {
+        .modal-close {
             background: none; border: none; color: #aaa;
-            float: right; font-size: 1.8em; cursor: pointer; margin-top: -10px;
+            float: right; font-size: 1.6em; cursor: pointer; margin-top: -5px;
         }
-        .user-status { font-size: 0.9em; color: #00ff66; }
-
-        /* СТИЛЬ ДЛЯ НАСТОЯЩЕГО ПЛЕЕРА */
-        video {
-            width: 100%;
-            max-height: 350px;
-            border-radius: 6px;
-            background-color: #000;
-        }
+        .status-tag { font-size: 0.9em; color: #00ff66; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" onclick="showAllVideos()"><span>My</span>Tube</div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск видео...">
-            <button onclick="searchVideos()">🔍</button>
+        <div class="header-top">
+            <div class="logo" onclick="resetSearch()"><span>My</span>Tube</div>
+            <div class="header-controls">
+                <span id="userStatus" class="status-tag">Гость</span>
+                <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Выгрузить</button>
+                <button class="btn" id="authBtn" onclick="openModal('authModal')">Войти</button>
+            </div>
         </div>
-        <div class="header-buttons">
-            <span id="usernameDisplay" class="user-status">Гость</span>
-            <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Выгрузить видео</button>
-            <button class="btn" id="authBtn" onclick="openModal('authModal')">Войти</button>
+        
+        <div class="search-box">
+            <input type="text" id="searchInp" placeholder="Поиск роликов...">
+            <button onclick="runSearch()">🔍</button>
         </div>
     </header>
 
     <div class="container">
-        <h2 id="sectionTitle">Рекомендации</h2>
-        <div class="video-grid" id="videoGrid">
+        <h2 id="feedTitle">Рекомендации</h2>
+        <div class="video-grid" id="videoContainer">
             </div>
     </div>
 
-    <div id="playerModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <button class="close-btn" onclick="closePlayer()">&times;</button>
-            <h3 id="playerTitle" style="color: #fff; margin-bottom: 15px;">Просмотр</h3>
-            <div id="videoWrapper">
-                </div>
+    <div id="videoPlayerOverlay" class="player-overlay">
+        <div class="player-container">
+            <button class="player-back-btn" onclick="closePlayer()">← Назад к списку</button>
+            <video id="mainHtml5Player" controls controlsList="nodownload" playsinline></video>
+            <h3 id="playingVideoTitle" style="margin: 15px 16px 0 16px; color: #fff; font-size: 1.1em;">Название видео</h3>
         </div>
     </div>
 
     <div id="authModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
-            <h3>Вход / Регистрация</h3>
-            <input type="text" id="regUsername" placeholder="Придумайте никнейм">
-            <input type="password" id="regPassword" placeholder="Придумайте пароль">
-            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="registerOrLogin()">Войти</button>
+            <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+            <h3>Создать аккаунт</h3>
+            <input type="text" id="uName" placeholder="Придумайте никнейм">
+            <input type="password" id="uPass" placeholder="Придумайте пароль">
+            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleAuth()">Войти в систему</button>
         </div>
     </div>
 
     <div id="uploadModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('uploadModal')">&times;</button>
-            <h3>Выгрузить из галереи</h3>
-            <input type="text" id="videoTitle" placeholder="Название видеоролика">
-            <textarea id="videoDesc" placeholder="Описание ролика" rows="2"></textarea>
+            <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
+            <h3>Выгрузка ролика из галереи</h3>
+            <input type="text" id="vTitle" placeholder="Дайте название вашему видео">
+            <textarea id="vDesc" placeholder="Добавьте описание к ролику (необязательно)" rows="2"></textarea>
             
-            <label style="display:block; margin: 10px 0 5px 0; color: #aaa; font-size: 0.9em;">Выбрать файл видео:</label>
-            <input type="file" id="videoFileInput" accept="video/*" style="background: none; border: none; padding: 0;">
+            <label style="display: block; margin-bottom: 8px; color: #ccc; font-size: 0.9em;">Выберите видеофайл с устройства:</label>
+            <input type="file" id="fileSelector" accept="video/*" style="border: none; background: none; padding: 0; margin-bottom: 15px;">
             
-            <button class="btn" style="width: 100%; margin-top: 15px;" onclick="uploadVideo()">Опубликовать ролик</button>
+            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Запустить модерацию и опубликовать</button>
         </div>
     </div>
 
     <script>
-        let currentUser = null;
+        let loggedUser = null;
         
-        // Стартовые ролики-заглушки (пока ты не загрузил свои файлы из галереи)
-        let dbVideos = [
-            { id: 1, title: "Добро пожаловать в MyTube! Создай аккаунт и загрузи видео из галереи.", author: "Админ", fileData: "placeholder" },
+        // Системная база данных роликов
+        let appVideos = [
+            { id: 1, title: "Добро пожаловать на MyTube! Создайте аккаунт и выгрузите первое видео.", author: "Модератор", videoSrc: "placeholder" }
         ];
 
         window.onload = function() {
-            renderVideos(dbVideos);
+            displayVideos(appVideos);
         };
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Вход
-        function registerOrLogin() {
-            const user = document.getElementById('regUsername').value.trim();
-            const pass = document.getElementById('regPassword').value.trim();
-            if (!user || !pass) { alert("Введите данные!"); return; }
-            currentUser = user;
-            document.getElementById('usernameDisplay').innerText = "👤 " + currentUser;
+        // АВТОРИЗАЦИЯ
+        function handleAuth() {
+            const name = document.getElementById('uName').value.trim();
+            const pass = document.getElementById('uPass').value.trim();
+            if(!name || !pass) { alert("Заполните форму!"); return; }
+
+            loggedUser = name;
+            document.getElementById('userStatus').innerText = "👤 " + loggedUser;
             document.getElementById('authBtn').innerText = "Выйти";
-            document.getElementById('authBtn').onclick = logout;
+            document.getElementById('authBtn').onclick = handleLogout;
             closeModal('authModal');
         }
 
-        function logout() {
-            currentUser = null;
-            document.getElementById('usernameDisplay').innerText = "Гость";
+        function handleLogout() {
+            loggedUser = null;
+            document.getElementById('userStatus').innerText = "Гость";
             document.getElementById('authBtn').innerText = "Войти";
             document.getElementById('authBtn').onclick = function() { openModal('authModal'); };
         }
 
-        // ИИ-Фильтр
-        function runAIModeration(title, desc) {
-            const text = (title + " " + desc).toLowerCase();
-            const badWords = ["18+", "секс", "sex", "порно", "пошлое", "слив"];
-            for (let word of badWords) {
-                if (text.includes(word)) return false;
+        // УСИЛЕННАЯ УМНАЯ ИИ-МОДЕРАЦИЯ
+        function runAdvancedAIModeration(title, desc) {
+            const fullText = (title + " " + desc).toLowerCase();
+            const cleanedTitle = title.trim();
+
+            // 1. Фильтр жесткого мата и 18+ тем
+            const forbiddenWords = ["18+", "секс", "sex", "порно", "пошлое", "слив", "эротика"];
+            for (let word of forbiddenWords) {
+                if (fullText.includes(word)) {
+                    return { ok: false, msg: "ИИ заблокировал ролик! Обнаружен запрещенный контент 18+." };
+                }
             }
-            return true;
+
+            // 2. Защита от спама КАПСОМ (если в названии больше половины заглавных букв)
+            let upperCount = 0;
+            for(let i=0; i<cleanedTitle.length; i++) {
+                if(cleanedTitle[i] === cleanedTitle[i].toUpperCase() && cleanedTitle[i] !== cleanedTitle[i].toLowerCase()) {
+                    upperCount++;
+                }
+            }
+            if(cleanedTitle.length > 4 && upperCount / cleanedTitle.length > 0.6) {
+                return { ok: false, msg: "ИИ заблокировал ролик! Название не должно быть написано капсом (спам)." };
+            }
+
+            // 3. Защита от слишком коротких и бессмысленных названий
+            if(cleanedTitle.length < 4) {
+                return { ok: false, msg: "ИИ заблокировал ролик! Название видео слишком короткое или бессмысленное." };
+            }
+
+            return { ok: true };
         }
 
-        // ВЫГРУЗКА ИЗ ГАЛЕРЕИ
-        function uploadVideo() {
-            if (!currentUser) { alert("Сначала войдите в аккаунт!"); return; }
-            
-            const title = document.getElementById('videoTitle').value.trim();
-            const desc = document.getElementById('videoDesc').value.trim();
-            const fileInput = document.getElementById('videoFileInput');
+        // ВЫГРУЗКА ИЗ ГАЛЕРЕИ ТЕЛЕФОНА
+        function handleUpload() {
+            if (!loggedUser) { alert("Чтобы выгрузить видео, сначала нажмите кнопку 'Войти'!"); return; }
 
-            if (!title) { alert("Укажите название ролику!"); return; }
-            if (fileInput.files.length === 0) { alert("Выберите видеофайл из галереи!"); return; }
+            const title = document.getElementById('vTitle').value.trim();
+            const desc = document.getElementById('vDesc').value.trim();
+            const fileSelector = document.getElementById('fileSelector');
 
-            // Проверка модерации
-            if (!runAIModeration(title, desc)) {
-                alert("ИИ Модерация: Видео заблокировано за недопустимый контент!");
+            if (!title) { alert("Придумайте название для видеоролика!"); return; }
+            if (fileSelector.files.length === 0) { alert("Выберите видеофайл из галереи вашего телефона!"); return; }
+
+            // Запуск усиленной ИИ проверки
+            const aiCheck = runAdvancedAIModeration(title, desc);
+            if (!aiCheck.ok) {
+                alert(aiCheck.msg);
                 return;
             }
 
-            const file = fileInput.files[0];
-            // Создаем временную ссылку на файл из памяти телефона
-            const videoObjectURL = URL.createObjectURL(file);
+            const targetFile = fileSelector.files[0];
+            // Создаем прямую локальную ссылку на видеопоток из памяти девайса
+            const localVideoUrl = URL.createObjectURL(targetFile);
 
-            const newVideo = {
+            const addedVideo = {
                 id: Date.now(),
                 title: title,
-                author: currentUser,
-                fileData: videoObjectURL // Сохраняем ссылку на плеер
+                author: loggedUser,
+                videoSrc: localVideoUrl
             };
 
-            dbVideos.unshift(newVideo);
-            renderVideos(dbVideos);
+            appVideos.unshift(addedVideo);
+            displayVideos(appVideos);
             closeModal('uploadModal');
 
-            // Очистка формы
-            document.getElementById('videoTitle').value = "";
-            document.getElementById('videoDesc').value = "";
-            fileInput.value = "";
+            // Полная очистка полей формы
+            document.getElementById('vTitle').value = "";
+            document.getElementById('vDesc').value = "";
+            fileSelector.value = "";
 
-            alert("Видео успешно загружено и доступно для просмотра!");
+            alert("Видео успешно проверено ИИ и выгружено на главный экран!");
         }
 
-        // ВЫВОД КАРТОЧЕК НА ЭКРАН
-        function renderVideos(list) {
-            const grid = document.getElementById('videoGrid');
-            grid.innerHTML = "";
+        // СБОРКА СПИСКА ВИДЕО НА ЭКРАНЕ
+        function displayVideos(list) {
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = "";
+
+            if(list.length === 0) {
+                container.innerHTML = "<p style='color: #888; padding: 10px;'>По вашему запросу ничего не найдено...</p>";
+                return;
+            }
 
             list.forEach(video => {
                 const card = document.createElement('div');
                 card.className = 'video-card';
-                card.onclick = function() { openPlayer(video); };
+                card.onclick = function() { startPlayer(video); };
                 card.innerHTML = `
-                    <div class="thumbnail">🎬</div>
-                    <div class="video-info">
+                    <div class="thumbnail-box">
+                        <div class="play-icon">▶️</div>
+                    </div>
+                    <div style="padding: 4px 2px;">
                         <p class="video-title">${video.title}</p>
                         <p class="video-author">${video.author}</p>
                     </div>
                 `;
-                grid.appendChild(card);
+                container.appendChild(card);
             });
         }
 
-        // НАСТОЯЩИЙ ПЛЕЕР
-        function openPlayer(video) {
-            if (video.fileData === "placeholder") {
-                alert("Это приветственное видео! Чтобы протестировать плеер, войдите в аккаунт и загрузите любой ролик из галереи.");
+        // РАБОТА СИСТЕМНОГО ПЛЕЕРА С ТАЙМЕРАМИ И ПАУЗОЙ
+        function startPlayer(video) {
+            if(video.videoSrc === "placeholder") {
+                alert("Это приветственное системное сообщение. Пожалуйста, войдите в аккаунт и загрузите реальное видео из галереи, чтобы запустить плеер!");
                 return;
             }
+
+            const overlay = document.getElementById('videoPlayerOverlay');
+            const player = document.getElementById('mainHtml5Player');
+            const titleLabel = document.getElementById('playingVideoTitle');
+
+            titleLabel.innerText = video.title;
+            player.src = video.videoSrc;
             
-            document.getElementById('playerTitle').innerText = video.title;
-            const wrapper = document.getElementById('videoWrapper');
-            
-            // Встраиваем настоящий HTML5 плеер
-            wrapper.innerHTML = `
-                <video src="${video.fileData}" controls autoplay></video>
-            `;
-            
-            openModal('playerModal');
+            overlay.style.display = 'flex';
+            player.play(); // Автоматический запуск при клике
         }
 
         function closePlayer() {
-            const wrapper = document.getElementById('videoWrapper');
-            wrapper.innerHTML = ""; // Полностью уничтожаем плеер, чтобы звук выключился
-            closeModal('playerModal');
+            const overlay = document.getElementById('videoPlayerOverlay');
+            const player = document.getElementById('mainHtml5Player');
+            
+            player.pause(); // Останавливаем воспроизведение
+            player.src = ""; // Очищаем память, чтобы видео не грузило систему
+            overlay.style.display = 'none';
         }
 
-        // ПОИСК
-        function searchVideos() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const filtered = dbVideos.filter(v => v.title.toLowerCase().includes(query));
-            renderVideos(filtered);
+        // УДОБНЫЙ МГНОВЕННЫЙ ПОИСК
+        function runSearch() {
+            const query = document.getElementById('searchInp').value.toLowerCase().trim();
+            document.getElementById('feedTitle').innerText = query ? `Результаты поиска по запросу: "${query}"` : "Рекомендации";
+            
+            const matches = appVideos.filter(v => v.title.toLowerCase().includes(query));
+            displayVideos(matches);
         }
 
-        function showAllVideos() {
-            document.getElementById('searchInput').value = "";
-            renderVideos(dbVideos);
+        function resetSearch() {
+            document.getElementById('searchInp').value = "";
+            document.getElementById('feedTitle').innerText = "Рекомендации";
+            displayVideos(appVideos);
         }
     </script>
 </body>
