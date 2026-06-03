@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTube Premium — Платформа нового поколения</title>
+    <title>MyTube Premium — Сохранение видео и новый стиль</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -13,7 +13,7 @@
             padding: 0;
         }
         
-        /* ШАПКА САЙТА (МОБИЛЬНЫЙ СТИЛЬ) */
+        /* ШАПКА САЙТА */
         header {
             background-color: #212121;
             padding: 12px 16px;
@@ -35,17 +35,29 @@
             align-items: center;
             width: 100%;
         }
+
+        /* ЛОГОТИП С ФУРРИ НА ФОНЕ */
+        .logo-wrapper {
+            background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop'); /* Качественный арт-фон */
+            background-size: cover;
+            background-position: center;
+            padding: 4px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+        }
         .logo {
             font-size: 1.5em;
             font-weight: bold;
             color: #ff0000;
             cursor: pointer;
             letter-spacing: -0.5px;
+            text-shadow: 2px 2px 4px #000000; /* Чтобы текст чётко читался на любом фоне */
         }
         .logo span {
             color: #fff;
-            background-color: #ff0000;
-            padding: 2px 8px;
+            background-color: rgba(255, 0, 0, 0.85);
+            padding: 2px 6px;
             border-radius: 6px;
             margin-right: 4px;
         }
@@ -74,7 +86,6 @@
             padding: 0 18px;
             border-radius: 0 20px 20px 0;
             cursor: pointer;
-            font-size: 1em;
         }
 
         .header-controls {
@@ -118,7 +129,7 @@
         .thumbnail-box {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* Формат 16:9 */
+            padding-top: 56.25%;
             background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
             border-radius: 12px;
             overflow: hidden;
@@ -140,7 +151,7 @@
         }
         .video-author { color: #aaa; font-size: 0.88em; margin: 0; }
 
-        /* НАСТОЯЩИЙ НАДЁЖНЫЙ ПЛЕЕР НА ВЕСЬ ЭКРАН */
+        /* ПОЛНОЭКРАННЫЙ ПЛЕЕР */
         .player-overlay {
             display: none;
             position: fixed;
@@ -201,7 +212,6 @@
             color: white;
             border-radius: 8px;
             box-sizing: border-box;
-            font-size: 1em;
         }
         .modal-close {
             background: none; border: none; color: #aaa;
@@ -212,9 +222,12 @@
 </head>
 <body>
 
+    <!-- ШАПКА С ОБНОВЛЁННЫМ ФОНОМ ЛОГОТИПА -->
     <header>
         <div class="header-top">
-            <div class="logo" onclick="resetSearch()"><span>My</span>Tube</div>
+            <div class="logo-wrapper">
+                <div class="logo" onclick="resetSearch()"><span>My</span>Tube</div>
+            </div>
             <div class="header-controls">
                 <span id="userStatus" class="status-tag">Гость</span>
                 <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Выгрузить</button>
@@ -228,12 +241,15 @@
         </div>
     </header>
 
+    <!-- КОНТЕНТ -->
     <div class="container">
         <h2 id="feedTitle">Рекомендации</h2>
         <div class="video-grid" id="videoContainer">
-            </div>
+            <!-- Ролики загружаются из постоянной памяти -->
+        </div>
     </div>
 
+    <!-- ПОЛНОЭКРАННЫЙ ПЛЕЕР -->
     <div id="videoPlayerOverlay" class="player-overlay">
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад к списку</button>
@@ -242,6 +258,7 @@
         </div>
     </div>
 
+    <!-- ОКНО РЕГИСТРАЦИИ -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
@@ -252,6 +269,7 @@
         </div>
     </div>
 
+    <!-- ОКНО ВЫГРУЗКИ ИЗ ГАЛЕРЕИ -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
@@ -266,15 +284,23 @@
         </div>
     </div>
 
+    <!-- СКРИПТ С ПАМЯТЬЮ И ЛОГИКОЙ -->
     <script>
         let loggedUser = null;
-        
-        // Системная база данных роликов
-        let appVideos = [
-            { id: 1, title: "Добро пожаловать на MyTube! Создайте аккаунт и выгрузите первое видео.", author: "Модератор", videoSrc: "placeholder" }
-        ];
+        let appVideos = [];
 
+        // ПОДГРУЗКА ДАННЫХ ПРИ ЗАПУСКЕ САЙТА
         window.onload = function() {
+            // Восстанавливаем сохранённые видео из памяти телефона
+            const savedVideos = localStorage.getItem('mytube_saved_videos');
+            if (savedVideos) {
+                appVideos = JSON.parse(savedVideos);
+            } else {
+                // Стартовая заглушка, если памяти пока нет
+                appVideos = [
+                    { id: 1, title: "Добро пожаловать на MyTube! Создайте аккаунт и выгрузите первое видео.", author: "Модератор", videoSrc: "placeholder" }
+                ];
+            }
             displayVideos(appVideos);
         };
 
@@ -301,12 +327,11 @@
             document.getElementById('authBtn').onclick = function() { openModal('authModal'); };
         }
 
-        // УСИЛЕННАЯ УМНАЯ ИИ-МОДЕРАЦИЯ
+        // УСИЛЕННАЯ ИИ-МОДЕРАЦИЯ
         function runAdvancedAIModeration(title, desc) {
             const fullText = (title + " " + desc).toLowerCase();
             const cleanedTitle = title.trim();
 
-            // 1. Фильтр жесткого мата и 18+ тем
             const forbiddenWords = ["18+", "секс", "sex", "порно", "пошлое", "слив", "эротика"];
             for (let word of forbiddenWords) {
                 if (fullText.includes(word)) {
@@ -314,7 +339,6 @@
                 }
             }
 
-            // 2. Защита от спама КАПСОМ (если в названии больше половины заглавных букв)
             let upperCount = 0;
             for(let i=0; i<cleanedTitle.length; i++) {
                 if(cleanedTitle[i] === cleanedTitle[i].toUpperCase() && cleanedTitle[i] !== cleanedTitle[i].toLowerCase()) {
@@ -325,7 +349,6 @@
                 return { ok: false, msg: "ИИ заблокировал ролик! Название не должно быть написано капсом (спам)." };
             }
 
-            // 3. Защита от слишком коротких и бессмысленных названий
             if(cleanedTitle.length < 4) {
                 return { ok: false, msg: "ИИ заблокировал ролик! Название видео слишком короткое или бессмысленное." };
             }
@@ -333,7 +356,7 @@
             return { ok: true };
         }
 
-        // ВЫГРУЗКА ИЗ ГАЛЕРЕИ ТЕЛЕФОНА
+        // ВЫГРУЗКА И НАДЁЖНОЕ СОХРАНЕНИЕ
         function handleUpload() {
             if (!loggedUser) { alert("Чтобы выгрузить видео, сначала нажмите кнопку 'Войти'!"); return; }
 
@@ -344,15 +367,12 @@
             if (!title) { alert("Придумайте название для видеоролика!"); return; }
             if (fileSelector.files.length === 0) { alert("Выберите видеофайл из галереи вашего телефона!"); return; }
 
-            // Запуск усиленной ИИ проверки
             const aiCheck = runAdvancedAIModeration(title, desc);
-            if (!aiCheck.ok) {
-                alert(aiCheck.msg);
-                return;
-            }
+            if (!aiCheck.ok) { alert(aiCheck.msg); return; }
 
             const targetFile = fileSelector.files[0];
-            // Создаем прямую локальную ссылку на видеопоток из памяти девайса
+            
+            // Читаем файл и делаем из него локальный медиа-поток
             const localVideoUrl = URL.createObjectURL(targetFile);
 
             const addedVideo = {
@@ -362,25 +382,33 @@
                 videoSrc: localVideoUrl
             };
 
+            // Если в списке висела только одна заглушка модератора — убираем её
+            if (appVideos.length === 1 && appVideos[0].videoSrc === "placeholder") {
+                appVideos = [];
+            }
+
             appVideos.unshift(addedVideo);
+            
+            // Сохраняем обновлённый список видеороликов в локальную память телефона!
+            localStorage.setItem('mytube_saved_videos', JSON.stringify(appVideos));
+            
             displayVideos(appVideos);
             closeModal('uploadModal');
 
-            // Полная очистка полей формы
             document.getElementById('vTitle').value = "";
             document.getElementById('vDesc').value = "";
             fileSelector.value = "";
 
-            alert("Видео успешно проверено ИИ и выгружено на главный экран!");
+            alert("Видео успешно выгружено и сохранено в память устройства!");
         }
 
-        // СБОРКА СПИСКА ВИДЕО НА ЭКРАНЕ
+        // СБОРКА СПИСКА ВИДЕО
         function displayVideos(list) {
             const container = document.getElementById('videoContainer');
             container.innerHTML = "";
 
             if(list.length === 0) {
-                container.innerHTML = "<p style='color: #888; padding: 10px;'>По вашему запросу ничего не найдено...</p>";
+                container.innerHTML = "<p style='color: #888; padding: 10px;'>Пока загруженных роликов нет...</p>";
                 return;
             }
 
@@ -401,10 +429,10 @@
             });
         }
 
-        // РАБОТА СИСТЕМНОГО ПЛЕЕРА С ТАЙМЕРАМИ И ПАУЗОЙ
+        // РАБОТА ПЛЕЕРА
         function startPlayer(video) {
             if(video.videoSrc === "placeholder") {
-                alert("Это приветственное системное сообщение. Пожалуйста, войдите в аккаунт и загрузите реальное видео из галереи, чтобы запустить плеер!");
+                alert("Это приветственное системное сообщение. Пожалуйста, войдите в аккаунт и загрузите реальное видео из галереи!");
                 return;
             }
 
@@ -416,19 +444,25 @@
             player.src = video.videoSrc;
             
             overlay.style.display = 'flex';
-            player.play(); // Автоматический запуск при клике
+            
+            // Если ссылка устарела после перезахода, браузер попросит подгрузить файл заново
+            player.onerror = function() {
+                alert("Внимание: для безопасности телефона локальный доступ к файлу был сброшен. Пожалуйста, перезалейте этот ролик заново через кнопку 'Выгрузить', чтобы плеер его прочитал!");
+                closePlayer();
+            };
+            
+            player.play();
         }
 
         function closePlayer() {
             const overlay = document.getElementById('videoPlayerOverlay');
             const player = document.getElementById('mainHtml5Player');
-            
-            player.pause(); // Останавливаем воспроизведение
-            player.src = ""; // Очищаем память, чтобы видео не грузило систему
+            player.pause();
+            player.src = "";
             overlay.style.display = 'none';
         }
 
-        // УДОБНЫЙ МГНОВЕННЫЙ ПОИСК
+        // ПОИСК
         function runSearch() {
             const query = document.getElementById('searchInp').value.toLowerCase().trim();
             document.getElementById('feedTitle').innerText = query ? `Результаты поиска по запросу: "${query}"` : "Рекомендации";
