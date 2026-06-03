@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTube — Видеоплатформа</title>
+    <title>MyTube — Настоящий Видеохостинг</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
         }
-        /* ШАПКА САЙТА */
+        /* ШАПКА */
         header {
             background-color: #212121;
             padding: 10px 20px;
@@ -73,7 +73,7 @@
         .btn-upload { background-color: #3a3a3a; }
         .btn-upload:hover { background-color: #505050; }
 
-        /* ГЛАВНЫЙ КОНТЕНТ */
+        /* КОНТЕНТ */
         .container {
             padding: 20px;
             max-width: 1200px;
@@ -89,26 +89,29 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid #252525;
+            cursor: pointer;
+            transition: 0.2s;
         }
+        .video-card:hover { transform: scale(1.03); }
         .thumbnail {
             width: 100%;
             height: 160px;
-            background: linear-gradient(45deg, #282828, #121212);
+            background: linear-gradient(45deg, #333, #111);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.5em;
+            font-size: 3em;
         }
         .video-info { padding: 12px; }
         .video-title { font-weight: bold; margin: 0 0 6px 0; font-size: 0.95em; }
-        .video-author { color: #aaa; font-size: 0.85em; margin: 0 0 4px 0; }
+        .video-author { color: #aaa; font-size: 0.85em; }
         
-        /* МОДАЛЬНЫЕ ОКНА (ФОРМЫ) */
+        /* МОДАЛЬНЫЕ ОКНА */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.9);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -118,8 +121,9 @@
             padding: 25px;
             border-radius: 10px;
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
             border: 1px solid #383838;
+            box-sizing: border-box;
         }
         .modal-content h3 { margin-top: 0; color: #ff0000; }
         .modal-content input, .modal-content textarea {
@@ -134,180 +138,168 @@
         }
         .close-btn {
             background: none; border: none; color: #aaa;
-            float: right; font-size: 1.5em; cursor: pointer;
+            float: right; font-size: 1.8em; cursor: pointer; margin-top: -10px;
         }
         .user-status { font-size: 0.9em; color: #00ff66; }
+
+        /* СТИЛЬ ДЛЯ НАСТОЯЩЕГО ПЛЕЕРА */
+        video {
+            width: 100%;
+            max-height: 350px;
+            border-radius: 6px;
+            background-color: #000;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ШАПКА -->
     <header>
         <div class="logo" onclick="showAllVideos()"><span>My</span>Tube</div>
-        
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск видео по названию...">
+            <input type="text" id="searchInput" placeholder="Поиск видео...">
             <button onclick="searchVideos()">🔍</button>
         </div>
-        
         <div class="header-buttons">
             <span id="usernameDisplay" class="user-status">Гость</span>
             <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Выгрузить видео</button>
-            <button class="btn" id="authBtn" onclick="openModal('authModal')">Войти / Создать аккаунт</button>
+            <button class="btn" id="authBtn" onclick="openModal('authModal')">Войти</button>
         </div>
     </header>
 
-    <!-- ОСНОВНАЯ СТРАНИЦА -->
     <div class="container">
         <h2 id="sectionTitle">Рекомендации</h2>
         <div class="video-grid" id="videoGrid">
-            <!-- Видео будут добавляться сюда через JavaScript -->
+            </div>
+    </div>
+
+    <div id="playerModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="close-btn" onclick="closePlayer()">&times;</button>
+            <h3 id="playerTitle" style="color: #fff; margin-bottom: 15px;">Просмотр</h3>
+            <div id="videoWrapper">
+                </div>
         </div>
     </div>
 
-    <!-- ОКНО АВТОРИЗАЦИИ / РЕГИСТРАЦИИ -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
             <h3>Вход / Регистрация</h3>
-            <input type="text" id="regUsername" placeholder="Введите никнейм">
-            <input type="password" id="regPassword" placeholder="Введите пароль">
-            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="registerOrLogin()">Подтвердить</button>
+            <input type="text" id="regUsername" placeholder="Придумайте никнейм">
+            <input type="password" id="regPassword" placeholder="Придумайте пароль">
+            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="registerOrLogin()">Войти</button>
         </div>
     </div>
 
-    <!-- ОКНО ВЫГРУЗКИ ВИДЕО -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('uploadModal')">&times;</button>
-            <h3>Выгрузить новое видео</h3>
-            <input type="text" id="videoTitle" placeholder="Название видео">
-            <textarea id="videoDesc" placeholder="Описание видео" rows="3"></textarea>
-            <input type="text" id="videoUrl" placeholder="Ссылка на видеофайл (или смайлик)">
-            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="uploadVideo()">Опубликовать</button>
+            <h3>Выгрузить из галереи</h3>
+            <input type="text" id="videoTitle" placeholder="Название видеоролика">
+            <textarea id="videoDesc" placeholder="Описание ролика" rows="2"></textarea>
+            
+            <label style="display:block; margin: 10px 0 5px 0; color: #aaa; font-size: 0.9em;">Выбрать файл видео:</label>
+            <input type="file" id="videoFileInput" accept="video/*" style="background: none; border: none; padding: 0;">
+            
+            <button class="btn" style="width: 100%; margin-top: 15px;" onclick="uploadVideo()">Опубликовать ролик</button>
         </div>
     </div>
 
-    <!-- ЛОГИКА САЙТА (СКРИПТ) -->
     <script>
-        // База данных в памяти браузера
         let currentUser = null;
+        
+        // Стартовые ролики-заглушки (пока ты не загрузил свои файлы из галереи)
         let dbVideos = [
-            { id: 1, title: "Создание крутого гоночного скрипта в Roblox Studio", author: "Roblox_Master", icon: "🏎️" },
-            { id: 2, title: "Мощный Phonk трек для жесткого кодинга", author: "Phonk_King", icon: "🎵" }
+            { id: 1, title: "Добро пожаловать в MyTube! Создай аккаунт и загрузи видео из галереи.", author: "Админ", fileData: "placeholder" },
         ];
 
-        // Показать все видео при запуске
         window.onload = function() {
             renderVideos(dbVideos);
         };
 
-        // Открытие и закрытие окон
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // РЕГИСТРАЦИЯ И ВХОД
+        // Вход
         function registerOrLogin() {
             const user = document.getElementById('regUsername').value.trim();
             const pass = document.getElementById('regPassword').value.trim();
-
-            if (!user || !pass) {
-                alert("Заполните все поля!");
-                return;
-            }
-
+            if (!user || !pass) { alert("Введите данные!"); return; }
             currentUser = user;
             document.getElementById('usernameDisplay').innerText = "👤 " + currentUser;
             document.getElementById('authBtn').innerText = "Выйти";
             document.getElementById('authBtn').onclick = logout;
-            
             closeModal('authModal');
-            alert("Вы успешно вошли как " + currentUser);
         }
 
         function logout() {
             currentUser = null;
             document.getElementById('usernameDisplay').innerText = "Гость";
-            document.getElementById('authBtn').innerText = "Войти / Создать аккаунт";
+            document.getElementById('authBtn').innerText = "Войти";
             document.getElementById('authBtn').onclick = function() { openModal('authModal'); };
-            alert("Вы вышли из аккаунта");
         }
 
-        // УМНЫЙ ИИ-ФИЛЬТР ДЛЯ МОДЕРАЦИИ ВЫГРУЗКИ
+        // ИИ-Фильтр
         function runAIModeration(title, desc) {
             const text = (title + " " + desc).toLowerCase();
-            
-            // Запрещенные слова триггеры (18+ и нарушения)
-            const badWords = ["18+", "секс", "sex", "порно", "пошлое", "эротика", "слив"];
-            
+            const badWords = ["18+", "секс", "sex", "порно", "пошлое", "слив"];
             for (let word of badWords) {
-                if (text.includes(word)) {
-                    return { approved: false, reason: "ИИ заблокировал видео! Причина: обнаружен запрещенный контент 18+." };
-                }
+                if (text.includes(word)) return false;
             }
-            return { approved: true };
+            return true;
         }
 
-        // ВЫГРУЗКА ВИДЕО
+        // ВЫГРУЗКА ИЗ ГАЛЕРЕИ
         function uploadVideo() {
-            if (!currentUser) {
-                alert("Ошибка! Чтобы выгружать видео, сначала создайте аккаунт или войдите!");
-                return;
-            }
-
+            if (!currentUser) { alert("Сначала войдите в аккаунт!"); return; }
+            
             const title = document.getElementById('videoTitle').value.trim();
             const desc = document.getElementById('videoDesc').value.trim();
-            let url = document.getElementById('videoUrl').value.trim();
+            const fileInput = document.getElementById('videoFileInput');
 
-            if (!title) {
-                alert("Введите название видео!");
+            if (!title) { alert("Укажите название ролику!"); return; }
+            if (fileInput.files.length === 0) { alert("Выберите видеофайл из галереи!"); return; }
+
+            // Проверка модерации
+            if (!runAIModeration(title, desc)) {
+                alert("ИИ Модерация: Видео заблокировано за недопустимый контент!");
                 return;
             }
 
-            // Запуск ИИ модерации
-            const moderation = runAIModeration(title, desc);
-            if (!moderation.approved) {
-                alert(moderation.reason);
-                return;
-            }
+            const file = fileInput.files[0];
+            // Создаем временную ссылку на файл из памяти телефона
+            const videoObjectURL = URL.createObjectURL(file);
 
-            if (!url) { url = "📺"; } // Если ссылку не дали, ставим стандартную иконку
-
-            // Добавляем видео в нашу базу данных
             const newVideo = {
                 id: Date.now(),
                 title: title,
                 author: currentUser,
-                icon: url.length < 5 ? url : "▶️"
+                fileData: videoObjectURL // Сохраняем ссылку на плеер
             };
 
-            dbVideos.unshift(newVideo); // Добавляем в начало списка
+            dbVideos.unshift(newVideo);
             renderVideos(dbVideos);
             closeModal('uploadModal');
-            
-            // Очищаем форму
+
+            // Очистка формы
             document.getElementById('videoTitle').value = "";
             document.getElementById('videoDesc').value = "";
-            document.getElementById('videoUrl').value = "";
+            fileInput.value = "";
 
-            alert("Видео успешно прошло ИИ-модерацию и выгружено!");
+            alert("Видео успешно загружено и доступно для просмотра!");
         }
 
-        // ОТОБРАЖЕНИЕ ВИДЕО НА ЭКРАНЕ
-        function renderVideos(videosList) {
+        // ВЫВОД КАРТОЧЕК НА ЭКРАН
+        function renderVideos(list) {
             const grid = document.getElementById('videoGrid');
             grid.innerHTML = "";
 
-            if (videosList.length === 0) {
-                grid.innerHTML = "<p style='color: #aaa;'>Ничего не найдено...</p>";
-                return;
-            }
-
-            videosList.forEach(video => {
+            list.forEach(video => {
                 const card = document.createElement('div');
                 card.className = 'video-card';
+                card.onclick = function() { openPlayer(video); };
                 card.innerHTML = `
-                    <div class="thumbnail">${video.icon}</div>
+                    <div class="thumbnail">🎬</div>
                     <div class="video-info">
                         <p class="video-title">${video.title}</p>
                         <p class="video-author">${video.author}</p>
@@ -317,18 +309,39 @@
             });
         }
 
-        // РАБОТА ПОИСКА
+        // НАСТОЯЩИЙ ПЛЕЕР
+        function openPlayer(video) {
+            if (video.fileData === "placeholder") {
+                alert("Это приветственное видео! Чтобы протестировать плеер, войдите в аккаунт и загрузите любой ролик из галереи.");
+                return;
+            }
+            
+            document.getElementById('playerTitle').innerText = video.title;
+            const wrapper = document.getElementById('videoWrapper');
+            
+            // Встраиваем настоящий HTML5 плеер
+            wrapper.innerHTML = `
+                <video src="${video.fileData}" controls autoplay></video>
+            `;
+            
+            openModal('playerModal');
+        }
+
+        function closePlayer() {
+            const wrapper = document.getElementById('videoWrapper');
+            wrapper.innerHTML = ""; // Полностью уничтожаем плеер, чтобы звук выключился
+            closeModal('playerModal');
+        }
+
+        // ПОИСК
         function searchVideos() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            document.getElementById('sectionTitle').innerText = query ? `Результаты по запросу: "${query}"` : "Рекомендации";
-            
-            const filtered = dbVideos.filter(video => video.title.toLowerCase().includes(query));
+            const filtered = dbVideos.filter(v => v.title.toLowerCase().includes(query));
             renderVideos(filtered);
         }
 
         function showAllVideos() {
             document.getElementById('searchInput').value = "";
-            document.getElementById('sectionTitle').innerText = "Рекомендации";
             renderVideos(dbVideos);
         }
     </script>
