@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTube Premium — Исправленная версия</title>
+    <title>MyTube Premium — Full Edition</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -90,7 +90,6 @@
             width: 100%;
         }
 
-        /* ЛОГОТИП С ФУРРИ НА ФОНЕ */
         .logo-wrapper {
             background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop');
             background-size: cover;
@@ -116,7 +115,6 @@
             margin-right: 4px;
         }
         
-        /* ПОИСК */
         .search-box {
             display: flex;
             width: 100%;
@@ -185,14 +183,19 @@
             position: relative;
             width: 100%;
             padding-top: 56.25%;
-            background: linear-gradient(135deg, #444, #1a1a1a);
+            background: linear-gradient(135deg, #cc0000, #220000);
+            background-size: cover;
+            background-position: center;
         }
         .thumbnail-box .play-icon {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-size: 2.3em;
-            opacity: 0.8;
+            opacity: 0.9;
+            background: rgba(0,0,0,0.6);
+            padding: 5px 15px;
+            border-radius: 12px;
         }
         .video-title {
             font-weight: 600;
@@ -207,7 +210,7 @@
             margin: 0;
         }
 
-        /* ПОЛНОЭКРАННЫЙ ПЛЕЕР */
+        /* ПОЛНОЭКРАННЫЙ ПЛЕЕР ДЛЯ СМАРТФОНОВ */
         .player-overlay {
             display: none;
             position: fixed;
@@ -224,7 +227,7 @@
             position: relative;
             background: #000;
         }
-        video { width: 100%; display: block; max-height: 70vh; }
+        video { width: 100%; display: block; max-height: 65vh; background-color: #000; }
         .player-back-btn {
             position: absolute;
             top: -45px; left: 10px;
@@ -305,18 +308,16 @@
 </head>
 <body>
 
-    <!-- ЗАСТАВКА ФУРРИ (Исчезнет через 5 сек) -->
     <div id="splash-screen">
         <div class="splash-overlay"></div>
         <div class="splash-content">
-            <div class="splash-title">Запуск <span>My</span>Tube Premium</div>
+            <div class="splash-title">Запуск <span>My</span>Tube</div>
             <div class="loader-bar">
                 <div class="loader-progress"></div>
             </div>
         </div>
     </div>
 
-    <!-- ШАПКА -->
     <header>
         <div class="header-top">
             <div class="logo-wrapper">
@@ -334,17 +335,15 @@
         </div>
     </header>
 
-    <!-- ГЛАВНАЯ СТРАНИЦА -->
     <div class="container">
-        <h2>Рекомендации ленты</h2>
+        <h2>Рекомендации ленты (Контент от Uz_Games)</h2>
         <div class="video-grid" id="videoContainer"></div>
     </div>
 
-    <!-- ПЛЕЕР -->
     <div id="videoPlayerOverlay" class="player-overlay">
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад</button>
-            <video id="mainHtml5Player" controls playsinline></video>
+            <video id="mainHtml5Player" controls playsinline webkit-playsinline preload="auto"></video>
             <div class="player-info-panel">
                 <h3 id="playingVideoTitle" style="margin: 0 0 6px 0;">Название</h3>
                 <p id="playingVideoAuthor" style="margin: 0 0 12px 0; color: #ff3b30; font-weight: bold; font-size: 0.88em;"></p>
@@ -357,7 +356,6 @@
         </div>
     </div>
 
-    <!-- ВХОД -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
@@ -368,7 +366,6 @@
         </div>
     </div>
 
-    <!-- ВЫГРУЗКА -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
@@ -390,15 +387,51 @@
         let appVideos = [];
         let currentVideoPlaying = null;
 
-        // Встроенная стартовая медиатека (стабильные ссылки)
+        // Медиатека Uz_Games с рабочими iOS-видео
         const builtInVideos = [
-            { id: 101, title: "Крутой синематик: Эпическая битва блэйзеров", author: "Gaming Zone", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 15420, likes: 840, liked: false },
-            { id: 102, title: "Залипательный мультфильм про Кролика", author: "Animation Studio", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", views: 98300, likes: 4512, liked: false },
-            { id: 103, title: "Космическое путешествие и технологии будущего", author: "Sci-Fi Channel", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", views: 5410, likes: 320, liked: false },
-            { id: 104, title: "Безумные гонки по городу (Экшен-геймплей)", author: "SpeedRunner", videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", views: 23100, likes: 1945, liked: false }
+            { 
+                id: 201, 
+                title: "УЗ ГЕЙМС ТТД: Выбил новую МИФИК ЮНИТ в Toilet Tower Defense! Обзор имбы", 
+                author: "Uz_Games", 
+                videoSrc: "https://html5demos.com/assets/dizzy.mp4", 
+                thumb: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?q=80&w=500&auto=format&fit=crop",
+                views: 45200, 
+                likes: 3105, 
+                liked: false 
+            },
+            { 
+                id: 202, 
+                title: "ЖЁСТКИЙ ТРЕЙД С ПОДПИСЧИКАМИ в Legacy TTD — Отдал топа ради этого?!", 
+                author: "Uz_Games", 
+                videoSrc: "https://vjs.zencdn.net/v/oceans.mp4", 
+                thumb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500&auto=format&fit=crop",
+                views: 89400, 
+                likes: 7620, 
+                liked: false 
+            },
+            { 
+                id: 203, 
+                title: "КАК ПРОЙТИ НОВЫЙ НАЙТМЕР РЕЖИМ СОЛО? Гайд по расстановке от Уз Геймс", 
+                author: "Uz_Games", 
+                videoSrc: "https://media.w3.org/2010/05/sintel/trailer.mp4", 
+                thumb: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=500&auto=format&fit=crop",
+                views: 23100, 
+                likes: 1940, 
+                liked: false 
+            },
+            { 
+                id: 204, 
+                title: "Legacy TTD: Секретные баги на бесконечные монеты в магазине", 
+                author: "Uz_Games", 
+                videoSrc: "https://media.w3.org/2010/05/bunny/trailer.mp4", 
+                thumb: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=500&auto=format&fit=crop",
+                views: 105000, 
+                likes: 12450, 
+                liked: false 
+            }
         ];
 
-        // Фикс таймера заставки (убрана опечатка в style.display)
+        // Таймер заставки
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             if(splash) {
@@ -408,7 +441,7 @@
         }, 5000);
 
         window.onload = function() {
-            const saved = localStorage.getItem('mytube_v4_data');
+            const saved = localStorage.getItem('mytube_v5_data');
             if(saved) {
                 appVideos = JSON.parse(saved);
             } else {
@@ -428,6 +461,26 @@
             closeModal('authModal');
         }
 
+        /* ВОТ ОН — НАШ СВЕЖИЙ СКРИПТ МОДЕРАЦИИ */
+        function checkTextModern(text) {
+            if(text.length < 4) { 
+                alert("Название слишком короткое! Напиши хотя бы 4 буквы."); 
+                return false; 
+            }
+            if(text === text.toUpperCase() && text.length > 6) { 
+                alert("Эй, выруби КАПС! Пиши название по-человечески."); 
+                return false; 
+            }
+            const badWords = ["18+", "porno", "xxx", "накрутка", "читы"];
+            for(let word of badWords) {
+                if(text.toLowerCase().includes(word)) { 
+                    alert("Ошибка! Этот контент запрещён правилами MyTube."); 
+                    return false; 
+                }
+            }
+            return true;
+        }
+
         function handleUpload() {
             if (!loggedUser) { alert("Сначала войдите в аккаунт!"); return; }
             const title = document.getElementById('vTitle').value.trim();
@@ -435,6 +488,10 @@
             const fileSelector = document.getElementById('fileSelector');
 
             if(!title) { alert("Введите название!"); return; }
+            
+            // Запуск скрипта модерации перед выгрузкой
+            if(!checkTextModern(title)) return;
+
             let src = urlInput || (fileSelector.files.length > 0 ? URL.createObjectURL(fileSelector.files[0]) : "");
             if(!src) { alert("Добавьте ссылку или файл!"); return; }
 
@@ -442,6 +499,7 @@
                 id: Date.now(),
                 title: title,
                 author: loggedUser,
+                thumb: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=500&auto=format&fit=crop",
                 videoSrc: src,
                 views: 1,
                 likes: 0,
@@ -466,7 +524,9 @@
                 card.className = 'video-card';
                 card.onclick = function() { startPlayer(video); };
                 card.innerHTML = `
-                    <div class="thumbnail-box"><div class="play-icon">▶️</div></div>
+                    <div class="thumbnail-box" style="background-image: url('${video.thumb}')">
+                        <div class="play-icon">▶️</div>
+                    </div>
                     <div style="padding: 10px;">
                         <p class="video-title">${video.title}</p>
                         <p class="video-stats">👁 Просмотры: ${video.views} • 👍 ${video.likes}</p>
@@ -480,9 +540,12 @@
         function startPlayer(video) {
             currentVideoPlaying = video;
             
-            // Накручиваем просмотр ПРАВИЛЬНО (один раз при клике)
-            video.views++;
-            saveData();
+            const videoInArray = appVideos.find(v => v.id === video.id);
+            if(videoInArray) {
+                videoInArray.views++;
+                saveData();
+            }
+
             displayVideos(appVideos);
 
             const overlay = document.getElementById('videoPlayerOverlay');
@@ -495,14 +558,15 @@
 
             player.src = video.videoSrc;
             overlay.style.display = 'flex';
-            player.play();
+            
+            setTimeout(() => {
+                player.play().catch(err => console.log("iOS AutoPlay Фикс"));
+            }, 100);
         }
 
-        // РАБОТА СЧЁТЧИКА ЛАЙКОВ И ПРОСМОТРОВ
         function toggleLike() {
             if(!currentVideoPlaying) return;
             
-            // Находим видео в основном массиве по ID, чтобы данные не сбивались
             const videoInArray = appVideos.find(v => v.id === currentVideoPlaying.id);
             
             if(videoInArray) {
@@ -514,7 +578,6 @@
                     videoInArray.liked = true;
                 }
                 
-                // Синхронизируем текущее видео
                 currentVideoPlaying = videoInArray;
                 
                 saveData();
@@ -523,19 +586,21 @@
             }
         }
 
-        // Обновление цифр внутри открытого плеера
         function updatePlayerStatsUI() {
             const btn = document.getElementById('likeBtnSystem');
             const countLabel = document.getElementById('likeCountLabel');
             const statsLabel = document.getElementById('playingVideoStats');
             
-            countLabel.innerText = currentVideoPlaying.likes;
-            statsLabel.innerText = `👁 Всего просмотров: ${currentVideoPlaying.views}`;
-            
-            if(currentVideoPlaying.liked) {
-                btn.classList.add('liked');
-            } else {
-                btn.classList.remove('liked');
+            const currentReal = appVideos.find(v => v.id === currentVideoPlaying.id);
+            if(currentReal) {
+                countLabel.innerText = currentReal.likes;
+                statsLabel.innerText = `👁 Всего просмотров: ${currentReal.views}`;
+                
+                if(currentReal.liked) {
+                    btn.classList.add('liked');
+                } else {
+                    btn.classList.remove('liked');
+                }
             }
         }
 
@@ -547,7 +612,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('mytube_v4_data', JSON.stringify(appVideos));
+            localStorage.setItem('mytube_v5_data', JSON.stringify(appVideos));
         }
 
         function runSearch() {
