@@ -45,7 +45,7 @@
         }
         .loader-progress {
             width: 0%; height: 100%; background-color: #ff0000;
-            box-shadow: 0 0 10px #ff0000; animation: loadProgress 1.5s linear forwards;
+            box-shadow: 0 0 10px #ff0000; animation: loadProgress 1.2s linear forwards;
         }
         @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
 
@@ -92,15 +92,15 @@
         .video-author:hover { text-decoration: underline; }
         .video-stats { color: #aaa; font-size: 0.8em; margin: 0; }
 
-        /* ПЛЕЕР */
+        /* НАДЁЖНЫЙ ПЛЕЕР ДЛЯ IOS */
         .player-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000000; z-index: 2000; flex-direction: column; justify-content: center; align-items: center;
         }
         .player-container { width: 100%; max-width: 800px; position: relative; }
         .video-wrapper-responsive { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; }
-        .video-wrapper-responsive iframe, .video-wrapper-responsive video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: none;
+        .video-wrapper-responsive video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block;
         }
         .player-back-btn {
             position: absolute; top: -45px; left: 10px; background: rgba(255,255,255,0.2);
@@ -162,7 +162,7 @@
     </header>
 
     <div class="container">
-        <h2>Видео</h2>
+        <h2>Официальный канал Uh_Games (1.14 млн подписчиков)</h2>
         <div class="video-grid" id="videoContainer"></div>
     </div>
 
@@ -170,8 +170,7 @@
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад</button>
             <div class="video-wrapper-responsive">
-                <iframe id="mainIframePlayer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <video id="mainLocalPlayer" controls playsinline></video>
+                <video id="mainVideoPlayer" controls playsinline></video>
             </div>
             <div class="player-info-panel">
                 <h3 id="playingVideoTitle" style="margin: 0 0 6px 0;">Название</h3>
@@ -209,20 +208,18 @@
         </div>
     </div>
 
-    <!-- НОВОЕ МЕНЮ ВЫГРУЗКИ ИЗ МЕДИАТЕКИ/КАМЕРЫ -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('uploadModal')">×</button>
             <h3>Выгрузить ролик</h3>
             <input type="text" id="vTitle" placeholder="Введите название ролика">
             
-            <!-- Эта кнопка вызовет системное меню iOS (Камера / Медиатека / Файлы) -->
-            <label class="file-input-label" for="galleryFile">📹 Выбрать: Камера или Медиатека</label>
+            <label class="file-input-label" for="galleryFile">📸 Медиатека, Камера или Файлы</label>
             <input type="file" id="galleryFile" accept="video/*" style="display: none;" onchange="fileSelected()">
             
             <p id="fileStatusLabel" style="color: #00ff66; font-size: 0.9em; text-align: center; margin-top: -5px; margin-bottom: 15px;"></p>
             
-            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать на канал</button>
+            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать на сайт</button>
         </div>
     </div>
 
@@ -231,178 +228,13 @@
         let appVideos = [];
         let currentVideoPlaying = null;
         let currentChannelViewing = null;
-        let localVideoObjectURL = null; // Правильный способ работы с видео на телефоне
+        let localVideoObjectURL = null; 
         let subscriptions = JSON.parse(localStorage.getItem('mytube_subs')) || {};
 
         const authorsData = { "Uh_Games": { subs: 1140000, avatar: "🔥" } };
 
+        // 100% РАБОЧИЕ СТРИМ-ФАЙЛЫ ДЛЯ ПРОВЕРКИ ПЛЕЕРА (БЕЗ БЛОКИРОВОК)
         const builtInVideos = [
-            { id: 1, title: "САМЫЙ СУМАШЕДШИЙ ТРЕЙД В ЛЕГАСИ ТТД!", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/SAsv8Fp9b4Q?rel=0", thumb: "https://img.youtube.com/vi/SAsv8Fp9b4Q/0.jpg", views: 284310, likes: 14205, liked: false, isLocal: false },
-            { id: 2, title: "ОБНОВА В ЛЕГАСИ ТТД! КАК ВЫБИТЬ НОВОГО МИФИКА", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/Pj1gN56vS70?rel=0", thumb: "https://img.youtube.com/vi/Pj1gN56vS70/0.jpg", views: 195400, likes: 9810, liked: false, isLocal: false },
-            { id: 3, title: "Я С КРИКОМ ВЫБИЛ СЕКРЕТКУ В TOILET TOWER DEFENSE!", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/pC8_L9U77b4?rel=0", thumb: "https://img.youtube.com/vi/pC8_L9U77b4/0.jpg", views: 412000, likes: 23140, liked: false, isLocal: false },
-            { id: 4, title: "КУПИЛ ВСЕ МИФИКИ В ТТД И ПРОВЕРИЛ ИХ", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/YpS86Ems_1Y?rel=0", thumb: "https://img.youtube.com/vi/YpS86Ems_1Y/0.jpg", views: 320150, likes: 18500, liked: false, isLocal: false },
-            { id: 5, title: "КАК БЫСТРО ФАРМИТЬ МОНЕТЫ В ЛЕГАСИ ТТД", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/84qXj85m6Y0?rel=0", thumb: "https://img.youtube.com/vi/84qXj85m6Y0/0.jpg", views: 154800, likes: 7420, liked: false, isLocal: false },
-            { id: 6, title: "РЕАКЦИЯ ИГРОКОВ НА ТОП ТРЕЙДЫ", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/Xm6_U0L3S38?rel=0", thumb: "https://img.youtube.com/vi/Xm6_U0L3S38/0.jpg", views: 210600, likes: 11300, liked: false, isLocal: false }
-        ];
-
-        setTimeout(() => {
-            const splash = document.getElementById('splash-screen');
-            if(splash) { splash.style.opacity = '0'; setTimeout(() => { splash.style.display = 'none'; }, 500); }
-        }, 1500);
-
-        window.onload = function() {
-            if (loggedUser) {
-                document.getElementById('userStatus').innerText = "👤 " + loggedUser;
-                document.getElementById('authBtn').style.display = 'none';
-                document.getElementById('logoutBtn').style.display = 'block';
-            }
-            const saved = localStorage.getItem('mytube_v10_data');
-            if(saved) { appVideos = JSON.parse(saved); } else { appVideos = [...builtInVideos]; }
-            displayVideos(appVideos);
-        };
-
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        function handleAuth() {
-            const name = document.getElementById('uName').value.trim();
-            if(!name) return;
-            loggedUser = name;
-            localStorage.setItem('mytube_logged_user', loggedUser);
-            document.getElementById('userStatus').innerText = "👤 " + loggedUser;
-            document.getElementById('authBtn').style.display = 'none';
-            document.getElementById('logoutBtn').style.display = 'block';
-            if(!authorsData[loggedUser]) { authorsData[loggedUser] = { subs: 0, avatar: "🎮" }; }
-            closeModal('authModal');
-        }
-
-        function handleLogout() {
-            loggedUser = null; localStorage.removeItem('mytube_logged_user');
-            document.getElementById('userStatus').innerText = "Гость";
-            document.getElementById('authBtn').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'none';
-        }
-
-        // НОВЫЙ МЕХАНИЗМ ЧТЕНИЯ ВИДЕО (БЕЗ ЗАВИСАНИЙ И ОШИБОК ПАМЯТИ)
-        function fileSelected() {
-            const fileInput = document.getElementById('galleryFile');
-            const statusLabel = document.getElementById('fileStatusLabel');
-            
-            if(fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                statusLabel.innerText = "Файл успешно выбран: " + file.name;
-                // Создаем быструю прямую ссылку на файл внутри памяти телефона
-                localVideoObjectURL = URL.createObjectURL(file);
-            }
-        }
-
-        function handleUpload() {
-            if (!loggedUser) { alert("Войдите в аккаунт!"); return; }
-            const title = document.getElementById('vTitle').value.trim();
-
-            if(!title) { alert("Введите название ролика!"); return; }
-            if(!localVideoObjectURL) { alert("Выберите видео из галереи или снимите на камеру!"); return; }
-
-            const newVid = {
-                id: Date.now(),
-                title: title, author: loggedUser,
-                embedUrl: localVideoObjectURL, // Сохраняем локальную ссылку
-                thumb: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=500&auto=format&fit=crop",
-                views: 1, likes: 0, liked: false, isLocal: true
-            };
-
-            appVideos.unshift(newVid);
-            saveData(); displayVideos(appVideos); closeModal('uploadModal');
-            
-            document.getElementById('vTitle').value = ""; document.getElementById('galleryFile').value = "";
-            document.getElementById('fileStatusLabel').innerText = "";
-            localVideoObjectURL = null;
-        }
-
-        function displayVideos(list) {
-            const container = document.getElementById('videoContainer');
-            container.innerHTML = "";
-            list.forEach(video => {
-                const card = document.createElement('div'); card.className = 'video-card';
-                card.innerHTML = `
-                    <div class="thumbnail-box" style="background-image: url('${video.thumb}')" onclick="startPlayer(${video.id})"></div>
-                    <div class="video-info-block">
-                        <p class="video-title" onclick="startPlayer(${video.id})">${video.title}</p>
-                        <p class="video-author" onclick="openChannel('${video.author}')">${video.author}</p>
-                        <p class="video-stats">👁 Просмотры: ${video.views.toLocaleString()} • 👍 ${video.likes.toLocaleString()}</p>
-                    </div>`;
-                container.appendChild(card);
-            });
-        }
-
-        function startPlayer(id) {
-            const video = appVideos.find(v => v.id === id);
-            if(!video) return;
-
-            currentVideoPlaying = video; video.views++; saveData();
-
-            document.getElementById('playingVideoTitle').innerText = video.title;
-            const authorLabel = document.getElementById('playingVideoAuthor');
-            authorLabel.innerText = "@" + video.author; authorLabel.onclick = function() { openChannel(video.author); };
-
-            const iframePlayer = document.getElementById('mainIframePlayer');
-            const localPlayer = document.getElementById('mainLocalPlayer');
-
-            if(video.isLocal) {
-                iframePlayer.style.display = 'none'; iframePlayer.src = "";
-                localPlayer.style.display = 'block'; localPlayer.src = video.embedUrl; localPlayer.play();
-            } else {
-                localPlayer.style.display = 'none'; localPlayer.pause(); localPlayer.removeAttribute('src'); localPlayer.load();
-                iframePlayer.style.display = 'block'; iframePlayer.src = video.embedUrl;
-            }
-
-            updatePlayerStatsUI(); displayVideos(appVideos); document.getElementById('videoPlayerOverlay').style.display = 'flex';
-        }
-
-        function openChannel(authorName) {
-            currentChannelViewing = authorName;
-            if(!authorsData[authorName]) { authorsData[authorName] = { subs: 0, avatar: "🎮" }; }
-            const data = authorsData[authorName];
-            document.getElementById('chName').innerText = authorName; document.getElementById('chAvatar').innerText = data.avatar;
-            updateChannelUI(); openModal('channelModal');
-        }
-
-        function toggleSubscribe() {
-            if(!currentChannelViewing) return;
-            if(subscriptions[currentChannelViewing]) { delete subscriptions[currentChannelViewing]; } else { subscriptions[currentChannelViewing] = true; }
-            localStorage.setItem('mytube_subs', JSON.stringify(subscriptions)); updateChannelUI();
-        }
-
-        function updateChannelUI() {
-            const btn = document.getElementById('subBtnSystem'); const subsLabel = document.getElementById('chSubs');
-            const baseSubs = authorsData[currentChannelViewing].subs;
-            if(subscriptions[currentChannelViewing]) {
-                btn.innerText = "Вы подписаны"; btn.style.backgroundColor = "#3a3a3a"; btn.style.color = "#ffffff"; subsLabel.innerText = (baseSubs + 1).toLocaleString() + " подписчиков";
-            } else {
-                btn.innerText = "Подписаться"; btn.style.backgroundColor = "#ffffff"; btn.style.color = "#000000"; subsLabel.innerText = baseSubs.toLocaleString() + " подписчиков";
-            }
-        }
-
-        function toggleLike() {
-            if(!currentVideoPlaying) return; const video = appVideos.find(v => v.id === currentVideoPlaying.id);
-            if(video) { video.liked ? (video.likes--, video.liked = false) : (video.likes++, video.liked = true); saveData(); updatePlayerStatsUI(); displayVideos(appVideos); }
-        }
-
-        function updatePlayerStatsUI() {
-            if(!currentVideoPlaying) return; const video = appVideos.find(v => v.id === currentVideoPlaying.id);
-            document.getElementById('likeCountLabel').innerText = video.likes.toLocaleString();
-            document.getElementById('playingVideoStats').innerText = `👁 Всего просмотров: ${video.views.toLocaleString()}`;
-            const btn = document.getElementById('likeBtnSystem'); video.liked ? btn.classList.add('liked') : btn.classList.remove('liked');
-        }
-
-        function closePlayer() {
-            document.getElementById('mainIframePlayer').src = "";
-            const localPlayer = document.getElementById('mainLocalPlayer'); localPlayer.pause(); localPlayer.removeAttribute('src'); localPlayer.load();
-            document.getElementById('videoPlayerOverlay').style.display = 'none';
-        }
-
-        function saveData() { localStorage.setItem('mytube_v10_data', JSON.stringify(appVideos)); }
-        function runSearch() { const query = document.getElementById('searchInp').value.toLowerCase().trim(); const matches = appVideos.filter(v => v.title.toLowerCase().includes(query)); displayVideos(matches); }
-        function resetSearch() { document.getElementById('searchInp').value = ""; displayVideos(appVideos); }
-    </script>
-</body>
-</html>
+            { id: 1, title: "САМЫЙ СУМАШЕДШИЙ ТРЕЙД В ЛЕГАСИ ТТД! ОЦЕНИВАЮ ИНВЕНТАРИ", author: "Uh_Games", videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", thumb: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500", views: 284310, likes: 14205, liked: false },
+            { id: 2, title: "ОБНОВА В ЛЕГАСИ ТТД! КАК ВЫБИТЬ НОВОГО МИФИКА И ОБЗОР КАРТЫ", author: "Uh_Games", videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", thumb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500", views: 195400, likes: 9810, liked: false },
+            { id: 3, title: "Я С КРИКОМ ВЫБИЛ СЕКРЕТКУ В TOILET TOWER DEFENSE!", author: "Uh_Games", videoUrl: "
