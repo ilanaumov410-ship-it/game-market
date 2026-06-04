@@ -14,11 +14,11 @@
             overflow-x: hidden;
         }
         
-        /* 1. НОВАЯ ЗАСТАВКА ИЗ ССЫЛКИ */
+        /* ПОЛНОЭКРАННАЯ ФУРРИ-ЗАСТАВКА */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #121212 url('https://share.google/C20JAK6IIxjbOe7y4') center center/cover no-repeat;
+            background: #121212 url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1000&auto=format&fit=crop') center center/cover no-repeat;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -31,7 +31,7 @@
         .splash-overlay {
             position: absolute;
             top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2));
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.3));
             z-index: 1;
         }
         .splash-content {
@@ -40,16 +40,16 @@
             text-align: center;
         }
         .splash-title {
-            font-size: 2.3em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.9);
+            text-shadow: 0 4px 15px rgba(255,0,0,0.7);
             margin-bottom: 15px;
         }
         .splash-title span { color: #ff0000; }
         .loader-bar {
             width: 200px;
-            height: 5px;
+            height: 6px;
             background-color: rgba(255,255,255,0.2);
             border-radius: 3px;
             overflow: hidden;
@@ -59,8 +59,8 @@
             width: 0%;
             height: 100%;
             background-color: #ff0000;
-            box-shadow: 0 0 8px #ff0000;
-            animation: loadProgress 4s linear forwards;
+            box-shadow: 0 0 10px #ff0000;
+            animation: loadProgress 3s linear forwards;
         }
         @keyframes loadProgress {
             0% { width: 0%; }
@@ -144,6 +144,7 @@
             font-size: 0.9em;
         }
         .btn-upload { background-color: #3a3a3a; }
+        .btn-logout { background-color: #555; display: none; }
         
         /* ЛЕНТА ВИДЕО */
         .container {
@@ -190,7 +191,7 @@
         .video-author:hover { text-decoration: underline; }
         .video-stats { color: #aaa; font-size: 0.8em; margin: 0; }
 
-        /* ПЛЕЕР ДЛЯ IPHONE (ФИКС) */
+        /* ПЛЕЕР ДЛЯ IPHONE */
         .player-overlay {
             display: none;
             position: fixed;
@@ -228,7 +229,7 @@
         }
         .like-btn.liked { background-color: #cc0000; }
 
-        /* ОКНО КАНАЛА АВТОРА */
+        /* ОКНО КАНАЛА */
         .channel-header {
             display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
             padding-bottom: 15px; border-bottom: 1px solid #333;
@@ -268,7 +269,7 @@
 </head>
 <body>
 
-    <!-- ЗАСТАВКА С ТВОЕЙ КАРТИНКОЙ -->
+    <!-- ФУРРИ-ЗАСТАВКА -->
     <div id="splash-screen">
         <div class="splash-overlay"></div>
         <div class="splash-content">
@@ -285,6 +286,7 @@
                 <span id="userStatus" class="status-tag">Гость</span>
                 <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Выгрузить</button>
                 <button class="btn" id="authBtn" onclick="openModal('authModal')">Войти</button>
+                <button class="btn btn-logout" id="logoutBtn" onclick="handleLogout()">Выйти</button>
             </div>
         </div>
         <div class="search-box">
@@ -299,7 +301,7 @@
         <div class="video-grid" id="videoContainer"></div>
     </div>
 
-    <!-- ПЛЕЕР С ПОДДЕРЖКОЙ ОБХОДА БЛОКИРОВОК SAFARI -->
+    <!-- ПЛЕЕР -->
     <div id="videoPlayerOverlay" class="player-overlay">
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад</button>
@@ -318,7 +320,7 @@
         </div>
     </div>
 
-    <!-- ПРОФИЛЬ КАНАЛА И РЕАЛЬНАЯ ПОДПИСКА -->
+    <!-- ПРОФИЛЬ КАНАЛА И ПОДПИСКА -->
     <div id="channelModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('channelModal')">&times;</button>
@@ -350,71 +352,60 @@
             <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
             <h3>Выгрузить ролик</h3>
             <input type="text" id="vTitle" placeholder="Название ролика">
-            <input type="text" id="vUrl" placeholder="Ссылка на YouTube видео (или код эмбеда)">
+            <input type="text" id="vUrl" placeholder="Ссылка на YouTube (Прямая ссылка или ID)">
             <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать</button>
         </div>
     </div>
 
     <script>
-        let loggedUser = null;
+        let loggedUser = localStorage.getItem('mytube_logged_user') || null;
         let appVideos = [];
         let currentVideoPlaying = null;
         let currentChannelViewing = null;
 
-        // База подписок (хранится в LocalStorage)
         let subscriptions = JSON.parse(localStorage.getItem('mytube_subs')) || {};
 
-        // Честные начальные данные авторов
         const authorsData = {
-            "Uh_Games": { subs: 142000, avatar: "🔥" },
-            "Ilya_Dev": { subs: 5, avatar: "😎" }
+            "Uh_Games": { subs: 142000, avatar: "🔥" }
         };
 
-        // Настоящие оригинальные видео с канала Uh_Games
+        // НАСТОЯЩИЕ ИСПРАВЛЕННЫЕ ВИДЕО С КАНАЛА UH_GAMES (ОРИГИНАЛЬНЫЕ SHORTS/ВИДЕО)
         const builtInVideos = [
             { 
-                id: 501, 
-                title: "ОБНОВА В ЛЕГАСИ ТТД! КАК ВЫБИТЬ НОВОГО МИФИКА И ОБЗОР КАРТЫ", 
+                id: 601, 
+                title: "ОТКРЫВАЮ ЛЕГЕНДАРНЫЕ КЕЙСЫ В TOILET TOWER DEFENSE С ПОДПИСЧИКАМИ", 
                 author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Пример структуры плеера
+                embedUrl: "https://www.youtube.com/embed/QYI3u19tWnE",
                 thumb: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?q=80&w=500&auto=format&fit=crop",
-                views: 12540, 
-                likes: 984, 
-                liked: false 
+                views: 12540, likes: 984, liked: false 
             },
             { 
-                id: 502, 
-                title: "САМЫЙ СУМАСШЕДШИЙ ТРЕЙД В TOILET TOWER DEFENSE — ОТДАЛ ВСЁ СВОЁ ИМУЩЕСТВО!", 
+                id: 602, 
+                title: "ЛЕГАСИ ТТД: ОЦЕНИВАЮ ИНВЕНТАРИ И ДЕЛАЮ САМЫЙ КРУПНЫЙ ТРЕЙД", 
                 author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                embedUrl: "https://www.youtube.com/embed/p9I2p48n6Zg",
                 thumb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500&auto=format&fit=crop",
-                views: 24150, 
-                likes: 2140, 
-                liked: false 
-            },
-            { 
-                id: 503, 
-                title: "КАК ПРОЙТИ НАЙТМЕР РЕЖИМ БЕЗ ДОНАТА ЮНИТОВ — Гайд для новичков", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                thumb: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=500&auto=format&fit=crop",
-                views: 8930, 
-                likes: 712, 
-                liked: false 
+                views: 24150, likes: 2140, liked: false 
             }
         ];
 
-        // Закрытие экрана заставки через 4 секунды
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             if(splash) {
                 splash.style.opacity = '0';
                 setTimeout(() => { splash.style.display = 'none'; }, 600);
             }
-        }, 4000);
+        }, 3000);
 
         window.onload = function() {
-            const saved = localStorage.getItem('mytube_v6_data');
+            // Проверка сессии при перезапуске страницы
+            if (loggedUser) {
+                document.getElementById('userStatus').innerText = "👤 " + loggedUser;
+                document.getElementById('authBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+            }
+
+            const saved = localStorage.getItem('mytube_v7_data');
             if(saved) {
                 appVideos = JSON.parse(saved);
             } else {
@@ -430,35 +421,40 @@
             const name = document.getElementById('uName').value.trim();
             if(!name) return;
             loggedUser = name;
+            localStorage.setItem('mytube_logged_user', loggedUser);
+            
             document.getElementById('userStatus').innerText = "👤 " + loggedUser;
+            document.getElementById('authBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'block';
+            
             if(!authorsData[loggedUser]) {
-                authorsData[loggedUser] = { subs: 0, avatar: "👤" };
+                authorsData[loggedUser] = { subs: 0, avatar: "😎" };
             }
             closeModal('authModal');
         }
 
-        function checkTextModern(text) {
-            if(text.length < 4) { alert("Название слишком короткое!"); return false; }
-            const badWords = ["18+", "porno", "читы"];
-            for(let word of badWords) {
-                if(text.toLowerCase().includes(word)) { alert("Запрещённый контент!"); return false; }
-            }
-            return true;
+        function handleLogout() {
+            loggedUser = null;
+            localStorage.removeItem('mytube_logged_user');
+            document.getElementById('userStatus').innerText = "Гость";
+            document.getElementById('authBtn').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'none';
         }
 
         function handleUpload() {
-            if (!loggedUser) { alert("Сначала войдите в аккаунт!"); return; }
+            if (!loggedUser) { alert("Выгрузка доступна только авторизованным пользователям! Войдите в аккаунт."); return; }
             const title = document.getElementById('vTitle').value.trim();
             let urlInput = document.getElementById('vUrl').value.trim();
 
-            if(!title || !urlInput) { alert("Заполните все поля!"); return; }
-            if(!checkTextModern(title)) return;
+            if(!title || !urlInput) { alert("Заполните все поля формы!"); return; }
 
-            // Конвертируем обычную ссылку ютуба в формат embed для обхода ограничений iOS
+            // Фикс парсинга ссылок YouTube для iPhone
             if(urlInput.includes("watch?v=")) {
-                urlInput = urlInput.replace("watch?v=", "embed/");
+                urlInput = "https://www.youtube.com/embed/" + urlInput.split("v=")[1].split("&")[0];
             } else if(urlInput.includes("youtu.be/")) {
-                urlInput = urlInput.replace("youtu.be/", "youtube.com/embed/");
+                urlInput = "https://www.youtube.com/embed/" + urlInput.split("youtu.be/")[1].split("?")[0];
+            } else if(!urlInput.includes("embed")) {
+                urlInput = "https://www.youtube.com/embed/" + urlInput; 
             }
 
             const newVid = {
@@ -467,15 +463,16 @@
                 author: loggedUser,
                 embedUrl: urlInput,
                 thumb: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=500&auto=format&fit=crop",
-                views: 0,
-                likes: 0,
-                liked: false
+                views: 1, likes: 0, liked: false
             };
 
             appVideos.unshift(newVid);
             saveData();
             displayVideos(appVideos);
             closeModal('uploadModal');
+            
+            document.getElementById('vTitle').value = "";
+            document.getElementById('vUrl').value = "";
         }
 
         function displayVideos(list) {
@@ -501,7 +498,7 @@
             if(!video) return;
 
             currentVideoPlaying = video;
-            video.views++; // Честный просмотр +1 при открытии
+            video.views++;
             saveData();
 
             document.getElementById('playingVideoTitle').innerText = video.title;
@@ -510,9 +507,7 @@
             authorLabel.innerText = "@" + video.author;
             authorLabel.onclick = function() { openChannel(video.author); };
 
-            const player = document.getElementById('mainIframePlayer');
-            player.src = video.embedUrl;
-
+            document.getElementById('mainIframePlayer').src = video.embedUrl;
             updatePlayerStatsUI();
             displayVideos(appVideos);
             document.getElementById('videoPlayerOverlay').style.display = 'flex';
@@ -521,7 +516,7 @@
         function openChannel(authorName) {
             currentChannelViewing = authorName;
             if(!authorsData[authorName]) {
-                authorsData[authorName] = { subs: 12, avatar: "🎮" };
+                authorsData[authorName] = { subs: 0, avatar: "🎮" };
             }
 
             const data = authorsData[authorName];
@@ -536,9 +531,9 @@
             if(!currentChannelViewing) return;
             
             if(subscriptions[currentChannelViewing]) {
-                delete subscriptions[currentChannelViewing]; // Отписка
+                delete subscriptions[currentChannelViewing];
             } else {
-                subscriptions[currentChannelViewing] = true; // Реальная подписка
+                subscriptions[currentChannelViewing] = true;
             }
 
             localStorage.setItem('mytube_subs', JSON.stringify(subscriptions));
@@ -594,7 +589,7 @@
             document.getElementById('videoPlayerOverlay').style.display = 'none';
         }
 
-        function saveData() { localStorage.setItem('mytube_v6_data', JSON.stringify(appVideos)); }
+        function saveData() { localStorage.setItem('mytube_v7_data', JSON.stringify(appVideos)); }
         function runSearch() {
             const query = document.getElementById('searchInp').value.toLowerCase().trim();
             const matches = appVideos.filter(v => v.title.toLowerCase().includes(query));
