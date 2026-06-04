@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTube Premium — Uh_Games Edition</title>
+    <title>MyTube Premium</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -14,7 +14,7 @@
             overflow-x: hidden;
         }
         
-        /* ПОЛНОЭКРАННАЯ ЗАСТАВКА */
+        /* ЗАСТАВКА */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -29,247 +29,114 @@
             transition: opacity 0.5s ease;
         }
         .splash-overlay {
-            position: absolute;
-            top:0; left:0; width:100%; height:100%;
+            position: absolute; top:0; left:0; width:100%; height:100%;
             background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.3));
             z-index: 1;
         }
-        .splash-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
+        .splash-content { position: relative; z-index: 2; text-align: center; }
         .splash-title {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 4px 15px rgba(255,0,0,0.7);
-            margin-bottom: 15px;
+            font-size: 2.5em; font-weight: bold; color: #fff;
+            text-shadow: 0 4px 15px rgba(255,0,0,0.7); margin-bottom: 15px;
         }
         .splash-title span { color: #ff0000; }
         .loader-bar {
-            width: 200px;
-            height: 6px;
-            background-color: rgba(255,255,255,0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 0 auto;
+            width: 200px; height: 6px; background-color: rgba(255,255,255,0.2);
+            border-radius: 3px; overflow: hidden; margin: 0 auto;
         }
         .loader-progress {
-            width: 0%;
-            height: 100%;
-            background-color: #ff0000;
-            box-shadow: 0 0 10px #ff0000;
-            animation: loadProgress 2s linear forwards;
+            width: 0%; height: 100%; background-color: #ff0000;
+            box-shadow: 0 0 10px #ff0000; animation: loadProgress 1.5s linear forwards;
         }
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
+        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* ШАПКА САЙТА */
+        /* ШАПКА */
         header {
-            background-color: #212121;
-            padding: 12px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            background-color: #212121; padding: 12px 16px; display: flex;
+            flex-direction: column; gap: 10px; position: sticky; top: 0;
+            z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        @media(min-width: 600px) {
-            header { flex-direction: row; justify-content: space-between; align-items: center; }
-        }
+        @media(min-width: 600px) { header { flex-direction: row; justify-content: space-between; align-items: center; } }
         
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-        .logo {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #ff0000;
-            cursor: pointer;
-            letter-spacing: -0.5px;
-        }
-        .logo span {
-            color: #fff;
-            background-color: #ff0000;
-            padding: 2px 6px;
-            border-radius: 6px;
-            margin-right: 4px;
-        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-size: 1.4em; font-weight: bold; color: #ff0000; cursor: pointer; }
+        .logo span { background-color: #ff0000; color: #fff; padding: 2px 6px; border-radius: 6px; margin-right: 4px; }
         
-        .search-box {
-            display: flex;
-            width: 100%;
-            max-width: 500px;
-        }
+        .search-box { display: flex; width: 100%; max-width: 500px; }
         .search-box input {
-            flex: 1;
-            padding: 10px 14px;
-            background-color: #121212;
-            border: 1px solid #3c3c3c;
-            color: white;
-            border-radius: 20px 0 0 20px;
-            outline: none;
+            flex: 1; padding: 10px 14px; background-color: #121212;
+            border: 1px solid #3c3c3c; color: white; border-radius: 20px 0 0 20px; outline: none;
         }
         .search-box button {
-            background-color: #303030;
-            border: 1px solid #3c3c3c;
-            border-left: none;
-            color: white;
-            padding: 0 18px;
-            border-radius: 0 20px 20px 0;
-            cursor: pointer;
+            background-color: #303030; border: 1px solid #3c3c3c; border-left: none;
+            color: white; padding: 0 18px; border-radius: 0 20px 20px 0; cursor: pointer;
         }
 
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-controls { display: flex; align-items: center; gap: 10px; }
         .btn {
-            background-color: #cc0000;
-            color: white;
-            border: none;
-            padding: 9px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9em;
+            background-color: #cc0000; color: white; border: none;
+            padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.9em;
         }
         .btn-upload { background-color: #3a3a3a; }
         .btn-logout { background-color: #555; display: none; }
         
         /* ЛЕНТА ВИДЕО */
-        .container {
-            padding: 16px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .container { padding: 16px; max-width: 1200px; margin: 0 auto; }
         h2 { font-size: 1.2em; margin: 0 0 20px 0; color: #aaa; font-weight: 500; }
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 24px;
-        }
-        .video-card {
-            background-color: #161616;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 24px; }
+        .video-card { background-color: #161616; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
         .video-card:hover { transform: scale(1.02); }
-        .thumbnail-box {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background-size: cover;
-            background-position: center;
-            background-color: #222;
-        }
+        .thumbnail-box { position: relative; width: 100%; padding-top: 56.25%; background-size: cover; background-position: center; background-color: #222; }
         .video-info-block { padding: 12px; }
-        .video-title {
-            font-weight: 600;
-            margin: 0 0 6px 0;
-            font-size: 0.95em;
-            line-height: 1.4;
-            color: #f1f1f1;
-        }
-        .video-author {
-            color: #ff4d4d;
-            font-size: 0.85em;
-            font-weight: bold;
-            margin: 0 0 4px 0;
-        }
+        .video-title { font-weight: 600; margin: 0 0 6px 0; font-size: 0.95em; line-height: 1.4; color: #f1f1f1; }
+        .video-author { color: #ff4d4d; font-size: 0.85em; font-weight: bold; margin: 0 0 4px 0; }
         .video-author:hover { text-decoration: underline; }
         .video-stats { color: #aaa; font-size: 0.8em; margin: 0; }
 
         /* ПЛЕЕР */
         .player-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000000;
-            z-index: 2000;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000000; z-index: 2000; flex-direction: column; justify-content: center; align-items: center;
         }
         .player-container { width: 100%; max-width: 800px; position: relative; }
-        .video-wrapper-responsive {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            background-color: #000;
-        }
-        .video-wrapper-responsive iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        .video-wrapper-responsive { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; }
+        .video-wrapper-responsive iframe, .video-wrapper-responsive video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: none;
         }
         .player-back-btn {
-            position: absolute; top: -45px; left: 10px;
-            background: rgba(255,255,255,0.2);
-            color: white; border: none;
-            padding: 8px 16px; border-radius: 20px;
-            cursor: pointer; font-weight: bold;
+            position: absolute; top: -45px; left: 10px; background: rgba(255,255,255,0.2);
+            color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; z-index: 10;
         }
         .player-info-panel { padding: 16px; background-color: #121212; }
         .like-section { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
-        .like-btn {
-            background-color: #272727;
-            border: none; color: white;
-            padding: 8px 20px; border-radius: 18px;
-            cursor: pointer; font-weight: bold;
-        }
+        .like-btn { background-color: #272727; border: none; color: white; padding: 8px 20px; border-radius: 18px; cursor: pointer; font-weight: bold; }
         .like-btn.liked { background-color: #cc0000; }
-
-        /* ОКНО КАНАЛА */
-        .channel-header {
-            display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
-            padding-bottom: 15px; border-bottom: 1px solid #333;
-        }
-        .channel-avatar {
-            width: 60px; height: 60px; border-radius: 50%;
-            background-color: #ff0000; display: flex; align-items: center;
-            justify-content: center; font-size: 1.8em; font-weight: bold;
-        }
-        .sub-btn {
-            background-color: #ffffff; color: #000000;
-            border: none; padding: 8px 16px; border-radius: 18px;
-            font-weight: bold; cursor: pointer;
-        }
-        .sub-btn.subscribed { background-color: #3a3a3a; color: #ffffff; }
 
         /* МОДАЛКИ */
         .modal {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            justify-content: center; align-items: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85); justify-content: center; align-items: center;
             z-index: 1500; padding: 12px; box-sizing: border-box;
         }
-        .modal-content {
-            background-color: #212121; padding: 24px;
-            border-radius: 16px; width: 100%; max-width: 450px; box-sizing: border-box;
-        }
+        .modal-content { background-color: #212121; padding: 24px; border-radius: 16px; width: 100%; max-width: 450px; box-sizing: border-box; }
         .modal-content input {
-            width: 100%; padding: 12px; margin-bottom: 14px;
-            background-color: #121212; border: 1px solid #3c3c3c;
-            color: white; border-radius: 8px; box-sizing: border-box;
+            width: 100%; padding: 12px; margin-bottom: 14px; background-color: #121212;
+            border: 1px solid #3c3c3c; color: white; border-radius: 8px; box-sizing: border-box;
+        }
+        .file-input-label {
+            display: block; background-color: #303030; text-align: center;
+            padding: 16px 12px; border-radius: 8px; border: 2px dashed #ff0000;
+            cursor: pointer; margin-bottom: 14px; font-weight: bold; color: #ff4d4d;
         }
         .modal-close { background: none; border: none; color: #aaa; float: right; font-size: 1.6em; cursor: pointer; }
         .status-tag { font-size: 0.9em; color: #00ff66; font-weight: bold; }
+        
+        .channel-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333; }
+        .channel-avatar { width: 60px; height: 60px; border-radius: 50%; background-color: #ff0000; display: flex; align-items: center; justify-content: center; font-size: 1.8em; font-weight: bold; }
+        .sub-btn { background-color: #ffffff; color: #000000; border: none; padding: 8px 16px; border-radius: 18px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- ЗАСТАВКА -->
     <div id="splash-screen">
         <div class="splash-overlay"></div>
         <div class="splash-content">
@@ -278,7 +145,6 @@
         </div>
     </div>
 
-    <!-- ШАПКА -->
     <header>
         <div class="header-top">
             <div class="logo" onclick="resetSearch()"><span>My</span>Tube</div>
@@ -295,18 +161,17 @@
         </div>
     </header>
 
-    <!-- КОНТЕНТ -->
     <div class="container">
-        <h2>Официальные видео Uh_Games (Toilet Tower Defense)</h2>
+        <h2>Видео</h2>
         <div class="video-grid" id="videoContainer"></div>
     </div>
 
-    <!-- ПЛЕЕР -->
     <div id="videoPlayerOverlay" class="player-overlay">
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад</button>
             <div class="video-wrapper-responsive">
-                <iframe id="mainIframePlayer" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+                <iframe id="mainIframePlayer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <video id="mainLocalPlayer" controls playsinline></video>
             </div>
             <div class="player-info-panel">
                 <h3 id="playingVideoTitle" style="margin: 0 0 6px 0;">Название</h3>
@@ -320,10 +185,9 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА КАНАЛА -->
     <div id="channelModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('channelModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('channelModal')">×</button>
             <div class="channel-header">
                 <div class="channel-avatar" id="chAvatar">U</div>
                 <div>
@@ -335,25 +199,30 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА ВХОДА -->
     <div id="authModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
-            <h3>Создать аккаунт</h3>
+            <button class="modal-close" onclick="closeModal('authModal')">×</button>
+            <h3>Создать аккаунт / Войти</h3>
             <input type="text" id="uName" placeholder="Придумайте никнейм">
             <input type="password" id="uPass" placeholder="Пароль">
             <button class="btn" style="width: 100%; padding: 12px;" onclick="handleAuth()">Войти</button>
         </div>
     </div>
 
-    <!-- МОДАЛКА ВЫГРУЗКИ -->
+    <!-- НОВОЕ МЕНЮ ВЫГРУЗКИ ИЗ МЕДИАТЕКИ/КАМЕРЫ -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('uploadModal')">×</button>
             <h3>Выгрузить ролик</h3>
-            <input type="text" id="vTitle" placeholder="Название ролика">
-            <input type="text" id="vUrl" placeholder="Ссылка на YouTube или ID видео">
-            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать</button>
+            <input type="text" id="vTitle" placeholder="Введите название ролика">
+            
+            <!-- Эта кнопка вызовет системное меню iOS (Камера / Медиатека / Файлы) -->
+            <label class="file-input-label" for="galleryFile">📹 Выбрать: Камера или Медиатека</label>
+            <input type="file" id="galleryFile" accept="video/*" style="display: none;" onchange="fileSelected()">
+            
+            <p id="fileStatusLabel" style="color: #00ff66; font-size: 0.9em; text-align: center; margin-top: -5px; margin-bottom: 15px;"></p>
+            
+            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать на канал</button>
         </div>
     </div>
 
@@ -362,72 +231,24 @@
         let appVideos = [];
         let currentVideoPlaying = null;
         let currentChannelViewing = null;
+        let localVideoObjectURL = null; // Правильный способ работы с видео на телефоне
         let subscriptions = JSON.parse(localStorage.getItem('mytube_subs')) || {};
 
-        // РЕАЛЬНЫЕ ДАННЫЕ КАНАЛА UH_GAMES
-        const authorsData = {
-            "Uh_Games": { subs: 1140000, avatar: "🔥" }
-        };
+        const authorsData = { "Uh_Games": { subs: 1140000, avatar: "🔥" } };
 
-        // 6 НАСТОЯЩИХ, РАБОЧИХ РОЛИКОВ С КАНАЛА С ОРИГИНАЛЬНЫМИ КАРТИНКАМИ
         const builtInVideos = [
-            { 
-                id: 1, 
-                title: "САМЫЙ СУМАШЕДШИЙ ТРЕЙД В ЛЕГАСИ ТТД! ОЦЕНИВАЮ ИНВЕНТАРИ", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/p9I2p48n6Zg",
-                thumb: "https://img.youtube.com/vi/p9I2p48n6Zg/0.jpg",
-                views: 284000, likes: 14200, liked: false 
-            },
-            { 
-                id: 2, 
-                title: "ОБНОВА В ЛЕГАСИ ТТД! КАК ВЫБИТЬ НОВОГО МИФИКА И ОБЗОР КАРТЫ", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/QYI3u19tWnE",
-                thumb: "https://img.youtube.com/vi/QYI3u19tWnE/0.jpg",
-                views: 195000, likes: 9800, liked: false 
-            },
-            { 
-                id: 3, 
-                title: "Я С КРИКОМ ВЫБИЛ СЕКРЕТКУ В TOILET TOWER DEFENSE!", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/7D62mJbeN9A",
-                thumb: "https://img.youtube.com/vi/7D62mJbeN9A/0.jpg",
-                views: 412000, likes: 23000, liked: false 
-            },
-            { 
-                id: 4, 
-                title: "КУПИЛ ВСЕ МИФИКИ В ТТД И ПРОВЕРИЛ ИХ В БОЮ", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/X4f9_mI7T30",
-                thumb: "https://img.youtube.com/vi/X4f9_mI7T30/0.jpg",
-                views: 320000, likes: 18500, liked: false 
-            },
-            { 
-                id: 5, 
-                title: "КАК БЫСТРО ФАРМИТЬ МОНЕТЫ В ЛЕГАСИ ТТД БЕЗ РОБУКСОВ", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/Y-98N7-kZsc",
-                thumb: "https://img.youtube.com/vi/Y-98N7-kZsc/0.jpg",
-                views: 154000, likes: 7400, liked: false 
-            },
-            { 
-                id: 6, 
-                title: "РЕАКЦИЯ ИГРОКОВ НА ТОП ТРЕЙДЫ В TOILET TOWER DEFENSE", 
-                author: "Uh_Games", 
-                embedUrl: "https://www.youtube.com/embed/Z0_wEuxH8fU",
-                thumb: "https://img.youtube.com/vi/Z0_wEuxH8fU/0.jpg",
-                views: 210000, likes: 11000, liked: false 
-            }
+            { id: 1, title: "САМЫЙ СУМАШЕДШИЙ ТРЕЙД В ЛЕГАСИ ТТД!", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/SAsv8Fp9b4Q?rel=0", thumb: "https://img.youtube.com/vi/SAsv8Fp9b4Q/0.jpg", views: 284310, likes: 14205, liked: false, isLocal: false },
+            { id: 2, title: "ОБНОВА В ЛЕГАСИ ТТД! КАК ВЫБИТЬ НОВОГО МИФИКА", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/Pj1gN56vS70?rel=0", thumb: "https://img.youtube.com/vi/Pj1gN56vS70/0.jpg", views: 195400, likes: 9810, liked: false, isLocal: false },
+            { id: 3, title: "Я С КРИКОМ ВЫБИЛ СЕКРЕТКУ В TOILET TOWER DEFENSE!", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/pC8_L9U77b4?rel=0", thumb: "https://img.youtube.com/vi/pC8_L9U77b4/0.jpg", views: 412000, likes: 23140, liked: false, isLocal: false },
+            { id: 4, title: "КУПИЛ ВСЕ МИФИКИ В ТТД И ПРОВЕРИЛ ИХ", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/YpS86Ems_1Y?rel=0", thumb: "https://img.youtube.com/vi/YpS86Ems_1Y/0.jpg", views: 320150, likes: 18500, liked: false, isLocal: false },
+            { id: 5, title: "КАК БЫСТРО ФАРМИТЬ МОНЕТЫ В ЛЕГАСИ ТТД", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/84qXj85m6Y0?rel=0", thumb: "https://img.youtube.com/vi/84qXj85m6Y0/0.jpg", views: 154800, likes: 7420, liked: false, isLocal: false },
+            { id: 6, title: "РЕАКЦИЯ ИГРОКОВ НА ТОП ТРЕЙДЫ", author: "Uh_Games", embedUrl: "https://www.youtube.com/embed/Xm6_U0L3S38?rel=0", thumb: "https://img.youtube.com/vi/Xm6_U0L3S38/0.jpg", views: 210600, likes: 11300, liked: false, isLocal: false }
         ];
 
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
-            if(splash) {
-                splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 500);
-            }
-        }, 2000);
+            if(splash) { splash.style.opacity = '0'; setTimeout(() => { splash.style.display = 'none'; }, 500); }
+        }, 1500);
 
         window.onload = function() {
             if (loggedUser) {
@@ -435,13 +256,8 @@
                 document.getElementById('authBtn').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'block';
             }
-
-            const saved = localStorage.getItem('mytube_v8_data');
-            if(saved) {
-                appVideos = JSON.parse(saved);
-            } else {
-                appVideos = [...builtInVideos];
-            }
+            const saved = localStorage.getItem('mytube_v10_data');
+            if(saved) { appVideos = JSON.parse(saved); } else { appVideos = [...builtInVideos]; }
             displayVideos(appVideos);
         };
 
@@ -453,79 +269,67 @@
             if(!name) return;
             loggedUser = name;
             localStorage.setItem('mytube_logged_user', loggedUser);
-            
             document.getElementById('userStatus').innerText = "👤 " + loggedUser;
             document.getElementById('authBtn').style.display = 'none';
             document.getElementById('logoutBtn').style.display = 'block';
-            
-            if(!authorsData[loggedUser]) {
-                authorsData[loggedUser] = { subs: 0, avatar: "🎮" };
-            }
+            if(!authorsData[loggedUser]) { authorsData[loggedUser] = { subs: 0, avatar: "🎮" }; }
             closeModal('authModal');
         }
 
         function handleLogout() {
-            loggedUser = null;
-            localStorage.removeItem('mytube_logged_user');
+            loggedUser = null; localStorage.removeItem('mytube_logged_user');
             document.getElementById('userStatus').innerText = "Гость";
-            document.getElementById('authBtn').style.display = 'block';
-            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('authBtn').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'none';
+        }
+
+        // НОВЫЙ МЕХАНИЗМ ЧТЕНИЯ ВИДЕО (БЕЗ ЗАВИСАНИЙ И ОШИБОК ПАМЯТИ)
+        function fileSelected() {
+            const fileInput = document.getElementById('galleryFile');
+            const statusLabel = document.getElementById('fileStatusLabel');
+            
+            if(fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                statusLabel.innerText = "Файл успешно выбран: " + file.name;
+                // Создаем быструю прямую ссылку на файл внутри памяти телефона
+                localVideoObjectURL = URL.createObjectURL(file);
+            }
         }
 
         function handleUpload() {
-            if (!loggedUser) { 
-                alert("Выгрузка доступна только авторизованным пользователям! Пожалуйста, войдите."); 
-                return; 
-            }
+            if (!loggedUser) { alert("Войдите в аккаунт!"); return; }
             const title = document.getElementById('vTitle').value.trim();
-            let urlInput = document.getElementById('vUrl').value.trim();
 
-            if(!title || !urlInput) { alert("Заполните все поля формы!"); return; }
-
-            let videoId = urlInput;
-            if(urlInput.includes("watch?v=")) {
-                videoId = urlInput.split("v=")[1].split("&")[0];
-            } else if(urlInput.includes("youtu.be/")) {
-                videoId = urlInput.split("youtu.be/")[1].split("?")[0];
-            } else if(urlInput.includes("embed/")) {
-                videoId = urlInput.split("embed/")[1].split("?")[0];
-            }
-
-            const embedUrl = "https://www.youtube.com/embed/" + videoId;
-            const thumbUrl = "https://img.youtube.com/vi/" + videoId + "/0.jpg";
+            if(!title) { alert("Введите название ролика!"); return; }
+            if(!localVideoObjectURL) { alert("Выберите видео из галереи или снимите на камеру!"); return; }
 
             const newVid = {
                 id: Date.now(),
-                title: title,
-                author: loggedUser,
-                embedUrl: embedUrl,
-                thumb: thumbUrl,
-                views: 1, likes: 0, liked: false
+                title: title, author: loggedUser,
+                embedUrl: localVideoObjectURL, // Сохраняем локальную ссылку
+                thumb: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=500&auto=format&fit=crop",
+                views: 1, likes: 0, liked: false, isLocal: true
             };
 
             appVideos.unshift(newVid);
-            saveData();
-            displayVideos(appVideos);
-            closeModal('uploadModal');
+            saveData(); displayVideos(appVideos); closeModal('uploadModal');
             
-            document.getElementById('vTitle').value = "";
-            document.getElementById('vUrl').value = "";
+            document.getElementById('vTitle').value = ""; document.getElementById('galleryFile').value = "";
+            document.getElementById('fileStatusLabel').innerText = "";
+            localVideoObjectURL = null;
         }
 
         function displayVideos(list) {
             const container = document.getElementById('videoContainer');
             container.innerHTML = "";
             list.forEach(video => {
-                const card = document.createElement('div');
-                card.className = 'video-card';
+                const card = document.createElement('div'); card.className = 'video-card';
                 card.innerHTML = `
                     <div class="thumbnail-box" style="background-image: url('${video.thumb}')" onclick="startPlayer(${video.id})"></div>
                     <div class="video-info-block">
                         <p class="video-title" onclick="startPlayer(${video.id})">${video.title}</p>
                         <p class="video-author" onclick="openChannel('${video.author}')">${video.author}</p>
                         <p class="video-stats">👁 Просмотры: ${video.views.toLocaleString()} • 👍 ${video.likes.toLocaleString()}</p>
-                    </div>
-                `;
+                    </div>`;
                 container.appendChild(card);
             });
         }
@@ -534,106 +338,70 @@
             const video = appVideos.find(v => v.id === id);
             if(!video) return;
 
-            currentVideoPlaying = video;
-            video.views++;
-            saveData();
+            currentVideoPlaying = video; video.views++; saveData();
 
             document.getElementById('playingVideoTitle').innerText = video.title;
-            
             const authorLabel = document.getElementById('playingVideoAuthor');
-            authorLabel.innerText = "@" + video.author;
-            authorLabel.onclick = function() { openChannel(video.author); };
+            authorLabel.innerText = "@" + video.author; authorLabel.onclick = function() { openChannel(video.author); };
 
-            document.getElementById('mainIframePlayer').src = video.embedUrl;
-            updatePlayerStatsUI();
-            displayVideos(appVideos);
-            document.getElementById('videoPlayerOverlay').style.display = 'flex';
+            const iframePlayer = document.getElementById('mainIframePlayer');
+            const localPlayer = document.getElementById('mainLocalPlayer');
+
+            if(video.isLocal) {
+                iframePlayer.style.display = 'none'; iframePlayer.src = "";
+                localPlayer.style.display = 'block'; localPlayer.src = video.embedUrl; localPlayer.play();
+            } else {
+                localPlayer.style.display = 'none'; localPlayer.pause(); localPlayer.removeAttribute('src'); localPlayer.load();
+                iframePlayer.style.display = 'block'; iframePlayer.src = video.embedUrl;
+            }
+
+            updatePlayerStatsUI(); displayVideos(appVideos); document.getElementById('videoPlayerOverlay').style.display = 'flex';
         }
 
         function openChannel(authorName) {
             currentChannelViewing = authorName;
-            if(!authorsData[authorName]) {
-                authorsData[authorName] = { subs: 0, avatar: "🎮" };
-            }
-
+            if(!authorsData[authorName]) { authorsData[authorName] = { subs: 0, avatar: "🎮" }; }
             const data = authorsData[authorName];
-            document.getElementById('chName').innerText = authorName;
-            document.getElementById('chAvatar').innerText = data.avatar;
-            
-            updateChannelUI();
-            openModal('channelModal');
+            document.getElementById('chName').innerText = authorName; document.getElementById('chAvatar').innerText = data.avatar;
+            updateChannelUI(); openModal('channelModal');
         }
 
         function toggleSubscribe() {
             if(!currentChannelViewing) return;
-            
-            if(subscriptions[currentChannelViewing]) {
-                delete subscriptions[currentChannelViewing];
-            } else {
-                subscriptions[currentChannelViewing] = true;
-            }
-
-            localStorage.setItem('mytube_subs', JSON.stringify(subscriptions));
-            updateChannelUI();
+            if(subscriptions[currentChannelViewing]) { delete subscriptions[currentChannelViewing]; } else { subscriptions[currentChannelViewing] = true; }
+            localStorage.setItem('mytube_subs', JSON.stringify(subscriptions)); updateChannelUI();
         }
 
         function updateChannelUI() {
-            const btn = document.getElementById('subBtnSystem');
-            const subsLabel = document.getElementById('chSubs');
+            const btn = document.getElementById('subBtnSystem'); const subsLabel = document.getElementById('chSubs');
             const baseSubs = authorsData[currentChannelViewing].subs;
-
             if(subscriptions[currentChannelViewing]) {
-                btn.innerText = "Вы подписаны";
-                btn.style.backgroundColor = "#3a3a3a";
-                btn.style.color = "#ffffff";
-                subsLabel.innerText = (baseSubs + 1).toLocaleString() + " подписчиков";
+                btn.innerText = "Вы подписаны"; btn.style.backgroundColor = "#3a3a3a"; btn.style.color = "#ffffff"; subsLabel.innerText = (baseSubs + 1).toLocaleString() + " подписчиков";
             } else {
-                btn.innerText = "Подписаться";
-                btn.style.backgroundColor = "#ffffff";
-                btn.style.color = "#000000";
-                subsLabel.innerText = baseSubs.toLocaleString() + " подписчиков";
+                btn.innerText = "Подписаться"; btn.style.backgroundColor = "#ffffff"; btn.style.color = "#000000"; subsLabel.innerText = baseSubs.toLocaleString() + " подписчиков";
             }
         }
 
         function toggleLike() {
-            if(!currentVideoPlaying) return;
-            const video = appVideos.find(v => v.id === currentVideoPlaying.id);
-            if(video) {
-                if(video.liked) {
-                    video.likes--;
-                    video.liked = false;
-                } else {
-                    video.likes++;
-                    video.liked = true;
-                }
-                saveData();
-                updatePlayerStatsUI();
-                displayVideos(appVideos);
-            }
+            if(!currentVideoPlaying) return; const video = appVideos.find(v => v.id === currentVideoPlaying.id);
+            if(video) { video.liked ? (video.likes--, video.liked = false) : (video.likes++, video.liked = true); saveData(); updatePlayerStatsUI(); displayVideos(appVideos); }
         }
 
         function updatePlayerStatsUI() {
-            if(!currentVideoPlaying) return;
-            const video = appVideos.find(v => v.id === currentVideoPlaying.id);
+            if(!currentVideoPlaying) return; const video = appVideos.find(v => v.id === currentVideoPlaying.id);
             document.getElementById('likeCountLabel').innerText = video.likes.toLocaleString();
             document.getElementById('playingVideoStats').innerText = `👁 Всего просмотров: ${video.views.toLocaleString()}`;
-            
-            const btn = document.getElementById('likeBtnSystem');
-            if(video.liked) btn.classList.add('liked');
-            else btn.classList.remove('liked');
+            const btn = document.getElementById('likeBtnSystem'); video.liked ? btn.classList.add('liked') : btn.classList.remove('liked');
         }
 
         function closePlayer() {
             document.getElementById('mainIframePlayer').src = "";
+            const localPlayer = document.getElementById('mainLocalPlayer'); localPlayer.pause(); localPlayer.removeAttribute('src'); localPlayer.load();
             document.getElementById('videoPlayerOverlay').style.display = 'none';
         }
 
-        function saveData() { localStorage.setItem('mytube_v8_data', JSON.stringify(appVideos)); }
-        function runSearch() {
-            const query = document.getElementById('searchInp').value.toLowerCase().trim();
-            const matches = appVideos.filter(v => v.title.toLowerCase().includes(query));
-            displayVideos(matches);
-        }
+        function saveData() { localStorage.setItem('mytube_v10_data', JSON.stringify(appVideos)); }
+        function runSearch() { const query = document.getElementById('searchInp').value.toLowerCase().trim(); const matches = appVideos.filter(v => v.title.toLowerCase().includes(query)); displayVideos(matches); }
         function resetSearch() { document.getElementById('searchInp').value = ""; displayVideos(appVideos); }
     </script>
 </body>
