@@ -14,39 +14,22 @@
             overflow-x: hidden;
         }
         
-        /* ЗАСТАВКА */
+        /* ЗАСТАВКА (ПОФИКСЕНА) */
         #splash-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #121212 url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1000&auto=format&fit=crop') center center/cover no-repeat;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            padding-bottom: 80px;
-            box-sizing: border-box;
-            transition: opacity 0.5s ease;
+            z-index: 9999; display: flex; flex-direction: column; justify-content: flex-end;
+            align-items: center; padding-bottom: 80px; box-sizing: border-box; transition: opacity 0.5s ease;
         }
         .splash-overlay {
             position: absolute; top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.3));
-            z-index: 1;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.3)); z-index: 1;
         }
         .splash-content { position: relative; z-index: 2; text-align: center; }
-        .splash-title {
-            font-size: 2.5em; font-weight: bold; color: #fff;
-            text-shadow: 0 4px 15px rgba(255,0,0,0.7); margin-bottom: 15px;
-        }
+        .splash-title { font-size: 2.5em; font-weight: bold; color: #fff; text-shadow: 0 4px 15px rgba(255,0,0,0.7); margin-bottom: 15px; }
         .splash-title span { color: #ff0000; }
-        .loader-bar {
-            width: 200px; height: 6px; background-color: rgba(255,255,255,0.2);
-            border-radius: 3px; overflow: hidden; margin: 0 auto;
-        }
-        .loader-progress {
-            width: 0%; height: 100%; background-color: #ff0000;
-            box-shadow: 0 0 10px #ff0000; animation: loadProgress 1.2s linear forwards;
-        }
+        .loader-bar { width: 200px; height: 6px; background-color: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; margin: 0 auto; }
+        .loader-progress { width: 0%; height: 100%; background-color: #ff0000; box-shadow: 0 0 10px #ff0000; animation: loadProgress 1.2s linear forwards; }
         @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
 
         /* ШАПКА */
@@ -62,77 +45,56 @@
         .logo span { background-color: #ff0000; color: #fff; padding: 2px 6px; border-radius: 6px; margin-right: 4px; }
         
         .search-box { display: flex; width: 100%; max-width: 500px; }
-        .search-box input {
-            flex: 1; padding: 10px 14px; background-color: #121212;
-            border: 1px solid #3c3c3c; color: white; border-radius: 20px 0 0 20px; outline: none;
-        }
-        .search-box button {
-            background-color: #303030; border: 1px solid #3c3c3c; border-left: none;
-            color: white; padding: 0 18px; border-radius: 0 20px 20px 0; cursor: pointer;
-        }
+        .search-box input { flex: 1; padding: 10px 14px; background-color: #121212; border: 1px solid #3c3c3c; color: white; border-radius: 20px 0 0 20px; outline: none; }
+        .search-box button { background-color: #303030; border: 1px solid #3c3c3c; border-left: none; color: white; padding: 0 18px; border-radius: 0 20px 20px 0; cursor: pointer; }
 
         .header-controls { display: flex; align-items: center; gap: 10px; }
-        .btn {
-            background-color: #cc0000; color: white; border: none;
-            padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.9em;
-        }
+        .btn { background-color: #cc0000; color: white; border: none; padding: 9px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.9em; }
         .btn-upload { background-color: #3a3a3a; }
         .btn-logout { background-color: #555; display: none; }
         
-        /* ЛЕНТА ВИДЕО */
+        /* КОНТЕНТ (ЛЕНТА И КАНАЛ) */
         .container { padding: 16px; max-width: 1200px; margin: 0 auto; }
-        h2 { font-size: 1.2em; margin: 0 0 20px 0; color: #aaa; font-weight: 500; }
+        .page-header { font-size: 1.2em; margin: 0 0 20px 0; color: #f1f1f1; font-weight: bold; display: flex; align-items: center; gap: 15px; }
+        
+        /* ПРОФИЛЬ КАНАЛА */
+        #channelProfile { display: none; background-color: #212121; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .channel-info-large { display: flex; align-items: center; gap: 20px; }
+        .channel-avatar-large { width: 80px; height: 80px; border-radius: 50%; background-color: #ff0000; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: bold; }
+        .sub-btn { background-color: #ffffff; color: #000000; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .sub-btn.subscribed { background-color: #3a3a3a; color: #ffffff; }
+
+        /* КАРТОЧКИ ВИДЕО */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 24px; }
         .video-card { background-color: #161616; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
         .video-card:hover { transform: scale(1.02); }
         .thumbnail-box { position: relative; width: 100%; padding-top: 56.25%; background-size: cover; background-position: center; background-color: #222; }
         .video-info-block { padding: 12px; }
         .video-title { font-weight: 600; margin: 0 0 6px 0; font-size: 0.95em; line-height: 1.4; color: #f1f1f1; }
-        .video-author { color: #ff4d4d; font-size: 0.85em; font-weight: bold; margin: 0 0 4px 0; }
+        .video-author { color: #ff4d4d; font-size: 0.85em; font-weight: bold; margin: 0 0 4px 0; display: inline-block;}
         .video-author:hover { text-decoration: underline; }
         .video-stats { color: #aaa; font-size: 0.8em; margin: 0; }
 
-        /* НАДЁЖНЫЙ ПЛЕЕР ДЛЯ IOS */
-        .player-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000000; z-index: 2000; flex-direction: column; justify-content: center; align-items: center;
-        }
+        /* ПЛЕЕР */
+        .player-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000000; z-index: 2000; flex-direction: column; justify-content: center; align-items: center; }
         .player-container { width: 100%; max-width: 800px; position: relative; }
         .video-wrapper-responsive { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; }
-        .video-wrapper-responsive video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block;
-        }
-        .player-back-btn {
-            position: absolute; top: -45px; left: 10px; background: rgba(255,255,255,0.2);
-            color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; z-index: 10;
-        }
+        .video-wrapper-responsive video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block; object-fit: contain; }
+        .player-back-btn { position: absolute; top: -45px; left: 10px; background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; z-index: 10; }
         .player-info-panel { padding: 16px; background-color: #121212; }
         .like-section { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
         .like-btn { background-color: #272727; border: none; color: white; padding: 8px 20px; border-radius: 18px; cursor: pointer; font-weight: bold; }
         .like-btn.liked { background-color: #cc0000; }
 
         /* МОДАЛКИ */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85); justify-content: center; align-items: center;
-            z-index: 1500; padding: 12px; box-sizing: border-box;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1500; padding: 12px; box-sizing: border-box; }
         .modal-content { background-color: #212121; padding: 24px; border-radius: 16px; width: 100%; max-width: 450px; box-sizing: border-box; }
-        .modal-content input {
-            width: 100%; padding: 12px; margin-bottom: 14px; background-color: #121212;
-            border: 1px solid #3c3c3c; color: white; border-radius: 8px; box-sizing: border-box;
-        }
-        .file-input-label {
-            display: block; background-color: #303030; text-align: center;
-            padding: 16px 12px; border-radius: 8px; border: 2px dashed #ff0000;
-            cursor: pointer; margin-bottom: 14px; font-weight: bold; color: #ff4d4d;
-        }
+        .modal-content input { width: 100%; padding: 12px; margin-bottom: 14px; background-color: #121212; border: 1px solid #3c3c3c; color: white; border-radius: 8px; box-sizing: border-box; }
+        .file-input-label { display: block; background-color: #303030; text-align: center; padding: 16px 12px; border-radius: 8px; border: 2px dashed #ff0000; cursor: pointer; margin-bottom: 14px; font-weight: bold; color: #ff4d4d; }
         .modal-close { background: none; border: none; color: #aaa; float: right; font-size: 1.6em; cursor: pointer; }
         .status-tag { font-size: 0.9em; color: #00ff66; font-weight: bold; }
         
-        .channel-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333; }
-        .channel-avatar { width: 60px; height: 60px; border-radius: 50%; background-color: #ff0000; display: flex; align-items: center; justify-content: center; font-size: 1.8em; font-weight: bold; }
-        .sub-btn { background-color: #ffffff; color: #000000; border: none; padding: 8px 16px; border-radius: 18px; font-weight: bold; cursor: pointer; }
+        #hiddenCanvas { display: none; } /* Для умных превью */
     </style>
 </head>
 <body>
@@ -147,10 +109,10 @@
 
     <header>
         <div class="header-top">
-            <div class="logo" onclick="resetSearch()"><span>My</span>Tube</div>
+            <div class="logo" onclick="goHome()"><span>My</span>Tube</div>
             <div class="header-controls">
                 <span id="userStatus" class="status-tag">Гость</span>
-                <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Выгрузить</button>
+                <button class="btn btn-upload" onclick="openModal('uploadModal')">🎬 Загрузить</button>
                 <button class="btn" id="authBtn" onclick="openModal('authModal')">Войти</button>
                 <button class="btn btn-logout" id="logoutBtn" onclick="handleLogout()">Выйти</button>
             </div>
@@ -162,10 +124,24 @@
     </header>
 
     <div class="container">
-        <h2>Официальный канал Uh_Games (1.14 млн подписчиков)</h2>
+        
+        <!-- Профиль канала (скрыт по умолчанию) -->
+        <div id="channelProfile">
+            <div class="channel-info-large">
+                <div class="channel-avatar-large" id="cpAvatar">U</div>
+                <div>
+                    <h2 id="cpName" style="margin: 0 0 5px 0;">Имя Канала</h2>
+                    <p style="color: #aaa; margin: 0 0 10px 0;"><span id="cpSubs">0</span> подписчиков</p>
+                    <button id="cpSubBtn" class="sub-btn" onclick="toggleChannelSub()">Подписаться</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header" id="pageTitle">Все видео</div>
         <div class="video-grid" id="videoContainer"></div>
     </div>
 
+    <!-- Плеер -->
     <div id="videoPlayerOverlay" class="player-overlay">
         <div class="player-container">
             <button class="player-back-btn" onclick="closePlayer()">← Назад</button>
@@ -184,57 +160,324 @@
         </div>
     </div>
 
-    <div id="channelModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('channelModal')">×</button>
-            <div class="channel-header">
-                <div class="channel-avatar" id="chAvatar">U</div>
-                <div>
-                    <h3 id="chName" style="margin:0 0 4px 0;">Имя Канала</h3>
-                    <p id="chSubs" style="margin:0; color:#aaa; font-size:0.9em;">0 подписчиков</p>
-                </div>
-            </div>
-            <button id="subBtnSystem" class="sub-btn" style="width: 100%; padding: 12px;" onclick="toggleSubscribe()">Подписаться</button>
-        </div>
-    </div>
-
+    <!-- Вход -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('authModal')">×</button>
             <h3>Создать аккаунт / Войти</h3>
             <input type="text" id="uName" placeholder="Придумайте никнейм">
-            <input type="password" id="uPass" placeholder="Пароль">
             <button class="btn" style="width: 100%; padding: 12px;" onclick="handleAuth()">Войти</button>
         </div>
     </div>
 
+    <!-- Загрузка -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('uploadModal')">×</button>
             <h3>Выгрузить ролик</h3>
             <input type="text" id="vTitle" placeholder="Введите название ролика">
             
-            <label class="file-input-label" for="galleryFile">📸 Медиатека, Камера или Файлы</label>
+            <label class="file-input-label" for="galleryFile">📸 Выбрать видео (Авто-превью)</label>
             <input type="file" id="galleryFile" accept="video/*" style="display: none;" onchange="fileSelected()">
-            
             <p id="fileStatusLabel" style="color: #00ff66; font-size: 0.9em; text-align: center; margin-top: -5px; margin-bottom: 15px;"></p>
             
-            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать на сайт</button>
+            <button class="btn" style="width: 100%; padding: 12px;" onclick="handleUpload()">Опубликовать</button>
         </div>
     </div>
 
+    <!-- Скрытый холст для генерации умных превью -->
+    <canvas id="hiddenCanvas"></canvas>
+
     <script>
+        // 1. ЖЕЛЕЗОБЕТОННЫЙ ФИКС ЗАСТАВКИ
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splash-screen');
+            if(splash) {
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.style.display = 'none', 500);
+                }, 1200);
+            }
+            initApp();
+        });
+
+        // Базы данных (Имитация реального сервера через LocalStorage)
         let loggedUser = localStorage.getItem('mytube_logged_user') || null;
-        let appVideos = [];
+        let appVideos = JSON.parse(localStorage.getItem('mytube_real_videos')) || [];
+        let channelStats = JSON.parse(localStorage.getItem('mytube_real_channels')) || {};
+        
         let currentVideoPlaying = null;
-        let currentChannelViewing = null;
+        let currentViewingChannel = null;
         let localVideoObjectURL = null; 
-        let subscriptions = JSON.parse(localStorage.getItem('mytube_subs')) || {};
+        let generatedThumbnail = null;
 
-        const authorsData = { "Uh_Games": { subs: 1140000, avatar: "🔥" } };
+        // Тестовые ролики для новых пользователей
+        if(appVideos.length === 0) {
+            appVideos = [
+                { id: 1, title: "ЭТОТ ТРЕЙД СЛОМАЛ ЛЕГАСИ ТТД!", author: "Admin", videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", thumb: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500", views: 12, likes: 3, likedBy: [] },
+                { id: 2, title: "НОВЫЙ МИФИК УЖЕ В ИГРЕ!", author: "Admin", videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", thumb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500", views: 45, likes: 8, likedBy: [] }
+            ];
+            channelStats["Admin"] = { subs: 5, subbedBy: [] };
+            saveDB();
+        }
 
-        // 100% РАБОЧИЕ СТРИМ-ФАЙЛЫ ДЛЯ ПРОВЕРКИ ПЛЕЕРА (БЕЗ БЛОКИРОВОК)
-        const builtInVideos = [
-            { id: 1, title: "САМЫЙ СУМАШЕДШИЙ ТРЕЙД В ЛЕГАСИ ТТД! ОЦЕНИВАЮ ИНВЕНТАРИ", author: "Uh_Games", videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", thumb: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500", views: 284310, likes: 14205, liked: false },
-            { id: 2, title: "ОБНОВА В ЛЕГАСИ ТТД! КАК ВЫБИТЬ НОВОГО МИФИКА И ОБЗОР КАРТЫ", author: "Uh_Games", videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", thumb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500", views: 195400, likes: 9810, liked: false },
-            { id: 3, title: "Я С КРИКОМ ВЫБИЛ СЕКРЕТКУ В TOILET TOWER DEFENSE!", author: "Uh_Games", videoUrl: "
+        function initApp() {
+            if (loggedUser) {
+                document.getElementById('userStatus').innerText = "👤 " + loggedUser;
+                document.getElementById('authBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+            }
+            goHome();
+        }
+
+        function saveDB() {
+            localStorage.setItem('mytube_real_videos', JSON.stringify(appVideos));
+            localStorage.setItem('mytube_real_channels', JSON.stringify(channelStats));
+        }
+
+        // Авторизация
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function handleAuth() {
+            const name = document.getElementById('uName').value.trim();
+            if(!name) return;
+            loggedUser = name;
+            localStorage.setItem('mytube_logged_user', loggedUser);
+            if(!channelStats[loggedUser]) { channelStats[loggedUser] = { subs: 0, subbedBy: [] }; saveDB(); }
+            
+            document.getElementById('userStatus').innerText = "👤 " + loggedUser;
+            document.getElementById('authBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'block';
+            closeModal('authModal');
+            goHome();
+        }
+
+        function handleLogout() {
+            loggedUser = null; localStorage.removeItem('mytube_logged_user');
+            document.getElementById('userStatus').innerText = "Гость";
+            document.getElementById('authBtn').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'none';
+            goHome();
+        }
+
+        // 2. УМНЫЙ ИНТЕЛЛЕКТ ДЛЯ ПРЕВЬЮ (Генерация из видео)
+        function fileSelected() {
+            const fileInput = document.getElementById('galleryFile');
+            const statusLabel = document.getElementById('fileStatusLabel');
+            
+            if(fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                statusLabel.innerText = "Анализ видео и создание обложки...";
+                localVideoObjectURL = URL.createObjectURL(file);
+                
+                // Создаем невидимый плеер, чтобы вырезать красивый кадр
+                const snapVideo = document.createElement('video');
+                snapVideo.src = localVideoObjectURL;
+                snapVideo.muted = true;
+                snapVideo.playsInline = true;
+                
+                // Мотаем на 1.5 секунды, чтобы не поймать черный экран начала
+                snapVideo.currentTime = 1.5; 
+                
+                snapVideo.onloadeddata = () => {
+                    setTimeout(() => {
+                        try {
+                            const canvas = document.getElementById('hiddenCanvas');
+                            canvas.width = snapVideo.videoWidth / 2; // Уменьшаем для скорости работы телефона
+                            canvas.height = snapVideo.videoHeight / 2;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(snapVideo, 0, 0, canvas.width, canvas.height);
+                            generatedThumbnail = canvas.toDataURL('image/jpeg', 0.6);
+                            statusLabel.innerText = "Видео и обложка готовы!";
+                        } catch(e) {
+                            // Если Айфон заблокировал Canvas из-за памяти
+                            generatedThumbnail = "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=500";
+                            statusLabel.innerText = "Видео готово (стандартная обложка)";
+                        }
+                    }, 500); // Даем время прогрузить кадр
+                };
+            }
+        }
+
+        function handleUpload() {
+            if (!loggedUser) { alert("Сначала войди в аккаунт!"); return; }
+            const title = document.getElementById('vTitle').value.trim();
+
+            if(!title) { alert("Введи название!"); return; }
+            if(!localVideoObjectURL) { alert("Выбери видео!"); return; }
+
+            const newVid = {
+                id: Date.now(),
+                title: title, 
+                author: loggedUser,
+                videoUrl: localVideoObjectURL, 
+                thumb: generatedThumbnail || "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=500",
+                views: 0, likes: 0, likedBy: []
+            };
+
+            appVideos.unshift(newVid);
+            saveDB();
+            closeModal('uploadModal');
+            
+            // Сброс
+            document.getElementById('vTitle').value = ""; document.getElementById('galleryFile').value = "";
+            document.getElementById('fileStatusLabel').innerText = "";
+            localVideoObjectURL = null; generatedThumbnail = null;
+            
+            if(currentViewingChannel === loggedUser) { loadChannel(loggedUser); } else { goHome(); }
+        }
+
+        // Рендер Ленты
+        function displayVideos(list) {
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = "";
+            if(list.length === 0) { container.innerHTML = "<p style='color:#888;'>Здесь пока нет видео.</p>"; return; }
+            
+            list.forEach(video => {
+                const card = document.createElement('div'); card.className = 'video-card';
+                card.innerHTML = `
+                    <div class="thumbnail-box" style="background-image: url('${video.thumb}')" onclick="startPlayer(${video.id})"></div>
+                    <div class="video-info-block">
+                        <p class="video-title" onclick="startPlayer(${video.id})">${video.title}</p>
+                        <p class="video-author" onclick="loadChannel('${video.author}')">@${video.author}</p>
+                        <p class="video-stats">👁 ${video.views} • 👍 ${video.likes}</p>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        // 3. ПРОФИЛИ И РЕАЛЬНЫЕ ПОДПИСКИ
+        function goHome() {
+            currentViewingChannel = null;
+            document.getElementById('channelProfile').style.display = 'none';
+            document.getElementById('pageTitle').innerText = "Все видео";
+            displayVideos(appVideos);
+        }
+
+        function loadChannel(author) {
+            currentViewingChannel = author;
+            if(!channelStats[author]) { channelStats[author] = { subs: 0, subbedBy: [] }; saveDB(); }
+            
+            document.getElementById('pageTitle').innerText = `Видео от @${author}`;
+            document.getElementById('channelProfile').style.display = 'block';
+            
+            document.getElementById('cpAvatar').innerText = author.charAt(0).toUpperCase();
+            document.getElementById('cpName').innerText = author;
+            
+            updateChannelUI();
+            
+            const authorVideos = appVideos.filter(v => v.author === author);
+            displayVideos(authorVideos);
+        }
+
+        function toggleChannelSub() {
+            if(!loggedUser) { alert("Войди в аккаунт, чтобы подписаться!"); return; }
+            if(loggedUser === currentViewingChannel) { alert("Нельзя подписаться на самого себя!"); return; }
+            
+            let stats = channelStats[currentViewingChannel];
+            const isSubbed = stats.subbedBy.includes(loggedUser);
+            
+            if(isSubbed) {
+                stats.subbedBy = stats.subbedBy.filter(u => u !== loggedUser);
+                stats.subs--;
+            } else {
+                stats.subbedBy.push(loggedUser);
+                stats.subs++;
+            }
+            saveDB();
+            updateChannelUI();
+        }
+
+        function updateChannelUI() {
+            if(!currentViewingChannel) return;
+            const stats = channelStats[currentViewingChannel];
+            document.getElementById('cpSubs').innerText = stats.subs;
+            
+            const btn = document.getElementById('cpSubBtn');
+            if(loggedUser && stats.subbedBy.includes(loggedUser)) {
+                btn.innerText = "Вы подписаны"; btn.classList.add('subscribed');
+            } else {
+                btn.innerText = "Подписаться"; btn.classList.remove('subscribed');
+            }
+        }
+
+        // Плеер и Лайки
+        function startPlayer(id) {
+            const video = appVideos.find(v => v.id === id);
+            if(!video) return;
+
+            currentVideoPlaying = video; 
+            
+            // Настоящие просмотры
+            video.views++; 
+            saveDB();
+
+            document.getElementById('playingVideoTitle').innerText = video.title;
+            const authorLabel = document.getElementById('playingVideoAuthor');
+            authorLabel.innerText = "@" + video.author; 
+            authorLabel.onclick = function() { closePlayer(); loadChannel(video.author); };
+
+            const videoPlayer = document.getElementById('mainVideoPlayer');
+            videoPlayer.src = video.videoUrl;
+            videoPlayer.play().catch(e => console.log("Требуется тап по экрану"));
+
+            updatePlayerStatsUI(); 
+            
+            // Обновляем задний фон в зависимости от того, где мы находимся
+            if(currentViewingChannel) { loadChannel(currentViewingChannel); } else { displayVideos(appVideos); }
+            
+            document.getElementById('videoPlayerOverlay').style.display = 'flex';
+        }
+
+        function toggleLike() {
+            if(!loggedUser) { alert("Для оценки видео нужно войти!"); return; }
+            if(!currentVideoPlaying) return; 
+            
+            const video = appVideos.find(v => v.id === currentVideoPlaying.id);
+            const isLiked = video.likedBy.includes(loggedUser);
+
+            if(isLiked) {
+                video.likedBy = video.likedBy.filter(u => u !== loggedUser);
+                video.likes--;
+            } else {
+                video.likedBy.push(loggedUser);
+                video.likes++;
+            }
+            saveDB(); 
+            updatePlayerStatsUI();
+            if(currentViewingChannel) { loadChannel(currentViewingChannel); } else { displayVideos(appVideos); }
+        }
+
+        function updatePlayerStatsUI() {
+            if(!currentVideoPlaying) return; 
+            const video = appVideos.find(v => v.id === currentVideoPlaying.id);
+            
+            document.getElementById('likeCountLabel').innerText = video.likes;
+            document.getElementById('playingVideoStats').innerText = `👁 ${video.views} просмотров`;
+            
+            const btn = document.getElementById('likeBtnSystem'); 
+            if(loggedUser && video.likedBy.includes(loggedUser)) {
+                btn.classList.add('liked');
+            } else {
+                btn.classList.remove('liked');
+            }
+        }
+
+        function closePlayer() {
+            const videoPlayer = document.getElementById('mainVideoPlayer'); 
+            videoPlayer.pause(); 
+            videoPlayer.removeAttribute('src'); 
+            videoPlayer.load();
+            document.getElementById('videoPlayerOverlay').style.display = 'none';
+        }
+        
+        function runSearch() { 
+            const query = document.getElementById('searchInp').value.toLowerCase().trim(); 
+            currentViewingChannel = null; document.getElementById('channelProfile').style.display = 'none';
+            document.getElementById('pageTitle').innerText = `Поиск: ${query}`;
+            const matches = appVideos.filter(v => v.title.toLowerCase().includes(query) || v.author.toLowerCase().includes(query)); 
+            displayVideos(matches); 
+        }
+    </script>
+</body>
+</html>
