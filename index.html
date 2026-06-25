@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAUMOV MARKET | PLAYEROK STYLE</title>
+    <title>GAME MARKET | OFFICIAL 2026</title>
     <style>
         :root {
             --bg: #0A0A0A;
@@ -20,19 +20,13 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; outline: none; }
         body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); }
 
-        /* ВЕРХНЯЯ ПАНЕЛЬ СТИЛЬ PLAYEROK */
+        /* ВЕРХНЯЯ ПАНЕЛЬ */
         .header {
-            background-color: #000000;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #222;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background-color: #000000; padding: 15px 20px; display: flex;
+            justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100;
         }
-        .logo { font-size: 20px; font-weight: 900; color: var(--text); letter-spacing: 0.5px; }
+        .logo { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; }
         .logo span { color: var(--accent); }
         
         .nav-group { display: flex; gap: 8px; }
@@ -43,11 +37,11 @@
         }
         .nav-btn:hover { background: var(--accent); border-color: white; }
 
-        /* ОСНОВНОЙ КОНТЕНТ */
+        /* КОНТЕНТ */
         .container { padding: 25px 20px; max-width: 900px; margin: 0 auto; }
         .grid-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 12px; }
 
-        /* СЕТКА КНОПОК ИГР (БЕЗ КАРТИНОК) */
+        /* СЕТКА ИГР */
         .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         .game-card {
             background: var(--card); border: 1px solid #222; border-radius: 12px;
@@ -57,23 +51,22 @@
         .game-card:hover { border-color: var(--accent); background: var(--card-hover); transform: translateY(-2px); }
         .game-card span { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* СИСТЕМА ИНТЕРФЕЙСОВ (МОДАЛКИ) */
+        /* ОКНА МОДАЛОК */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto; }
         .m-content { max-width: 850px; margin: 0 auto; padding: 20px; padding-bottom: 60px; }
-        
         .m-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 20px; }
         .m-header h2 { font-size: 24px; font-weight: 900; margin: 0; }
         
         .close-btn { background: #222; border: 1px solid #444; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 13px; }
         .close-btn:hover { background: var(--red); border-color: var(--red); }
 
-        /* ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР */
+        /* КАЛЬКУЛЯТОРЫ */
         .calc-box { background: #111; padding: 25px; border-radius: 14px; border: 2px solid var(--accent); text-align: center; margin-bottom: 25px; }
         .calc-box p { margin: 0 0 10px 0; font-size: 15px; color: var(--sub-text); font-weight: 600; }
         .calc-input { background: #000; border: 1px solid #333; color: white; font-size: 26px; width: 80%; padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 15px; font-weight: 700; }
         .calc-res { font-size: 30px; font-weight: 900; color: var(--green); margin-bottom: 15px; }
 
-        /* СПИСОК СТРОК ТОВАРОВ */
+        /* СТРОКИ С ТОВАРАМИ */
         .item-row {
             display: flex; justify-content: space-between; align-items: center;
             background: #121212; padding: 16px 20px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #222;
@@ -89,18 +82,14 @@
             padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 13px; 
             border: none; cursor: pointer; text-align: center;
         }
-        .buy-link:hover { opacity: 0.9; }
 
-        /* СТИЛЬ ДЛЯ ОТЗЫВОВ И НОВОСТЕЙ */
         .info-card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid var(--accent); }
-        .info-card h3 { margin: 0 0 8px 0; font-size: 16px; font-weight: 700; }
-        .info-card p { margin: 0; font-size: 14px; color: var(--sub-text); line-height: 1.4; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo">NAUMOV<span>.OK</span></div>
+        <div class="logo">GAME<span> MARKET</span></div>
         <div class="nav-group">
             <button class="nav-btn" onclick="show('main')">Магазин</button>
             <button class="nav-btn" onclick="show('m-news')">Новости</button>
@@ -108,8 +97,9 @@
         </div>
     </div>
 
-    <div id="main" class="container" style="display: block;">
-        <div class="grid-title">ПОПУЛЯРНЫЕ ИГРЫ И СЕРВИСЫ</div>
+    <!-- ГЛАВНЫЙ МАРКЕТ -->
+    <div id="main" class="container">
+        <div class="grid-title">АКТУАЛЬНЫЕ ТОВАРЫ</div>
         <div class="game-grid">
             <div class="game-card" onclick="show('m-rbx')"><span>ROBLOX</span></div>
             <div class="game-card" onclick="show('m-stars')"><span>TG STARS</span></div>
@@ -121,180 +111,139 @@
         </div>
     </div>
 
+    <!-- ROBLOX -->
     <div id="m-rbx" class="modal">
         <div class="m-content">
-            <div class="m-header"><h2>ROBLOX SERVICES</h2><button class="close-btn" onclick="hide('m-rbx')">ЗАКРЫТЬ</button></div>
+            <div class="m-header"><h2>ROBLOX</h2><button class="close-btn" onclick="hide('m-rbx')">ЗАКРЫТЬ</button></div>
             <div class="calc-box">
-                <p>Укажите желаемое количество Robux:</p>
+                <p>Введите количество Robux (Курс снижен: 0.85 ₽):</p>
                 <input type="number" id="rb-in" class="calc-input" placeholder="0" oninput="cRb()">
                 <div class="calc-res"><span id="rb-out">0</span> ₽</div>
-                <button class="buy-link" style="width: 220px; font-size: 15px;" onclick="send('Robux', 'rb-in')">КУПИТЬ ROBUX</button>
+                <button class="buy-link" style="width: 220px;" onclick="send('Robux', 'rb-in')">КУПИТЬ</button>
             </div>
             <div class="item-row">
-                <div class="item-info"><span class="item-name">Blox Fruits: Kitsune Fruit</span><span class="item-desc">Передача физического фрукта трейдом в игре</span></div>
-                <div class="buy-group"><span class="price">2505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            </div>
-            <div class="item-row">
-                <div class="item-info"><span class="item-name">Adopt Me: Fly Ride Potion</span><span class="item-desc">Мгновенная выдача предмета на сервере</span></div>
-                <div class="buy-group"><span class="price">355 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
+                <div class="item-info"><span class="item-name">Blox Fruits: Kitsune Fruit</span></div>
+                <div class="buy-group"><span class="price">1990 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
             </div>
         </div>
     </div>
 
+    <!-- TG STARS -->
     <div id="m-stars" class="modal">
         <div class="m-content">
             <div class="m-header"><h2>TELEGRAM STARS</h2><button class="close-btn" onclick="hide('m-stars')">ЗАКРЫТЬ</button></div>
             <div class="calc-box" style="border-color: var(--gold);">
-                <p>Укажите количество Звёзд Telegram:</p>
+                <p>Введите количество Звёзд (Курс снижен: 1.9 ₽):</p>
                 <input type="number" id="st-in" class="calc-input" placeholder="0" oninput="cSt()">
                 <div class="calc-res" style="color: var(--gold);"><span id="st-out">0</span> ₽</div>
-                <button class="buy-link" style="width: 220px; font-size: 15px; background: var(--gold); color: #000;" onclick="send('Stars', 'st-in')">КУПИТЬ ЗВЁЗДЫ</button>
+                <button class="buy-link" style="width: 220px; background: var(--gold); color: #000;" onclick="send('Stars', 'st-in')">КУПИТЬ</button>
             </div>
         </div>
     </div>
 
+    <!-- GENSHIN -->
     <div id="m-genshin" class="modal">
         <div class="m-content">
             <div class="m-header"><h2>GENSHIN IMPACT</h2><button class="close-btn" onclick="hide('m-genshin')">ЗАКРЫТЬ</button></div>
-            <div class="item-row">
-                <div class="item-info"><span class="item-name">Благословение полой луны (30 дней)</span><span class="item-desc">Быстрое пополнение по UID + Ключ</span></div>
-                <div class="buy-group"><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            </div>
-            <div class="item-row">
-                <div class="item-info"><span class="item-name">Боевой пропуск: Жемчужный гимн</span><span class="item-desc">Активация пропуска на текущий сезон</span></div>
-                <div class="buy-group"><span class="price">1205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            </div>
-            <div class="item-row">
-                <div class="item-info"><span class="item-name">Боевой пропуск: Жемчужный хор</span><span class="item-desc">Максимальный пасс + карточка и декор</span></div>
-                <div class="buy-group"><span class="price">2405 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            </div>
-            <div class="item-row"><div class="item-info"><span class="item-name">60 Кристаллов сотворения</span><span class="item-desc">Донат по UID</span></div><div class="buy-group"><span class="price">155 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">300 Кристаллов сотворения</span><span class="item-desc">Донат по UID</span></div><div class="buy-group"><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">980 Кристаллов сотворения</span><span class="item-desc">Донат по UID</span></div><div class="buy-group"><span class="price">1505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">1980 Кристаллов сотворения</span><span class="item-desc">Донат по UID</span></div><div class="buy-group"><span class="price">2905 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">3280 Кристаллов сотворения</span><span class="item-desc">Донат по UID</span></div><div class="buy-group"><span class="price">4605 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">6480 Кристаллов сотворения</span><span class="item-desc">Самый крупный пак по UID</span></div><div class="buy-group"><span class="price">9505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Благословение луны (30 дней)</span><div class="buy-group"><span class="price">410 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Жемчужный гимн (БП)</span><div class="buy-group"><span class="price">890 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Жемчужный хор (БП+)</span><div class="buy-group"><span class="price">1790 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>6480 Кристаллов</span><div class="buy-group"><span class="price">7200 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
         </div>
     </div>
 
+    <!-- PUBG MOBILE -->
     <div id="m-pubg" class="modal">
         <div class="m-content">
             <div class="m-header"><h2>PUBG MOBILE</h2><button class="close-btn" onclick="hide('m-pubg')">ЗАКРЫТЬ</button></div>
-            <div class="item-row">
-                <div class="item-info"><span class="item-name">Royale Pass (Elite Upgrade)</span><span class="item-desc">Активация базового боевого пропуска</span></div>
-                <div class="buy-group"><span class="price">855 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            </div>
-            <div class="item-row">
-                <div class="item-info"><span class="item-name">Royale Pass (Elite Plus Upgrade)</span><span class="item-desc">Премиум-версия с мгновенными уровнями</span></div>
-                <div class="buy-group"><span class="price">2105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div>
-            </div>
-            <div class="item-row"><div class="item-info"><span class="item-name">60 UC</span><span class="item-desc">Пополнение по игровому ID</span></div><div class="buy-group"><span class="price">155 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">325 UC</span><span class="item-desc">Пополнение по игровому ID</span></div><div class="buy-group"><span class="price">555 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">660 UC</span><span class="item-desc">Пополнение по игровому ID</span></div><div class="buy-group"><span class="price">1105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">1800 UC</span><span class="item-desc">Пополнение по игровому ID</span></div><div class="buy-group"><span class="price">2605 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">3850 UC</span><span class="item-desc">Большой набор валюты по ID</span></div><div class="buy-group"><span class="price">5205 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">8100 UC</span><span class="item-desc">Максимальный пак UC по ID</span></div><div class="buy-group"><span class="price">9805 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Royale Pass Elite</span><div class="buy-group"><span class="price">690 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Royale Pass Plus</span><div class="buy-group"><span class="price">1590 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>8100 UC</span><div class="buy-group"><span class="price">7600 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
         </div>
     </div>
 
+    <!-- BRAWL STARS (РАСШИРЕННЫЙ) -->
     <div id="m-bs" class="modal">
         <div class="m-content">
             <div class="m-header"><h2>BRAWL STARS</h2><button class="close-btn" onclick="hide('m-bs')">ЗАКРЫТЬ</button></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">Brawl Pass Plus</span><span class="item-desc">Активация через Supercell ID</span></div><div class="buy-group"><span class="price">1455 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">170 Гемов</span><span class="item-desc">Официальный донат на аккаунт</span></div><div class="buy-group"><span class="price">1105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">950 Гемов</span><span class="item-desc">Огромный набор гемов</span></div><div class="buy-group"><span class="price">6105 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Brawl Pass (Обычный)</span><div class="buy-group"><span class="price">590 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Brawl Pass Plus</span><div class="buy-group"><span class="price">990 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>30 Гемов</span><div class="buy-group"><span class="price">140 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>80 Гемов</span><div class="buy-group"><span class="price">320 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>170 Гемов</span><div class="buy-group"><span class="price">590 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>360 Гемов</span><div class="buy-group"><span class="price">1250 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>950 Гемов</span><div class="buy-group"><span class="price">2990 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>2000 Гемов</span><div class="buy-group"><span class="price">5700 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
         </div>
     </div>
 
+    <!-- DISCORD (РАСШИРЕННЫЙ) -->
     <div id="m-dc" class="modal">
         <div class="m-content">
-            <div class="m-header"><h2>DISCORD NITRO</h2><button class="close-btn" onclick="hide('m-dc')">ЗАКРЫТЬ</button></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">Nitro Full (1 Месяц)</span><span class="item-desc">2 буста, кастомные эмодзи и баннеры</span></div><div class="buy-group"><span class="price">655 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">Nitro Full (1 Год)</span><span class="item-desc">Годовая подписка со скидкой</span></div><div class="buy-group"><span class="price">4505 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="m-header"><h2>DISCORD SERVICES</h2><button class="close-btn" onclick="hide('m-dc')">ЗАКРЫТЬ</button></div>
+            <div class="item-row"><span>Discord Nitro Basic (1 Месяц)</span><div class="buy-group"><span class="price">190 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Discord Nitro Basic (1 Год)</span><div class="buy-group"><span class="price">1690 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Discord Nitro Full (1 Месяц)</span><div class="buy-group"><span class="price">390 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Discord Nitro Full (1 Год)</span><div class="buy-group"><span class="price">3490 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Украшение профиля (Любое)</span><div class="buy-group"><span class="price">450 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>2 Серверных Буста (на 1 мес)</span><div class="buy-group"><span class="price">150 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
         </div>
     </div>
 
+    <!-- SPOTIFY (РАСШИРЕННЫЙ) -->
     <div id="m-spot" class="modal">
         <div class="m-content">
             <div class="m-header"><h2>SPOTIFY PREMIUM</h2><button class="close-btn" onclick="hide('m-spot')">ЗАКРЫТЬ</button></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">Spotify Premium Индивидуальный (1 мес)</span><span class="item-desc">Активация на ваш регион</span></div><div class="buy-group"><span class="price">355 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
-            <div class="item-row"><div class="item-info"><span class="item-name">Spotify Premium Индивидуальный (12 мес)</span><span class="item-desc">Подписка на целый год без слётов</span></div><div class="buy-group"><span class="price">2805 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Индивидуальный Premium (1 мес)</span><div class="buy-group"><span class="price">190 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Индивидуальный Premium (3 мес)</span><div class="buy-group"><span class="price">490 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Индивидуальный Premium (6 мес)</span><div class="buy-group"><span class="price">890 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Индивидуальный Premium (12 мес)</span><div class="buy-group"><span class="price">1590 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
+            <div class="item-row"><span>Семейный Premium Family (1 мес)</span><div class="buy-group"><span class="price">290 ₽</span><a href="https://t.me/BlameJohn2014" class="buy-link">Купить</a></div></div>
         </div>
     </div>
 
+    <!-- ОТЗЫВЫ -->
     <div id="m-rev" class="modal">
         <div class="m-content">
-            <div class="m-header"><h2>ОТЗЫВЫ ПОКУПАТЕЛЕЙ</h2><button class="close-btn" onclick="hide('m-rev')">ЗАКРЫТЬ</button></div>
-            <div class="info-card">
-                <h3>Артем (★★★★★)</h3>
-                <p>Купил 1000 робуксов через калькулятор. Всё пришло за 5 минут, курс отличный, продавец топ!</p>
-            </div>
-            <div class="info-card">
-                <h3>Кирилл (★★★★★)</h3>
-                <p>Брал Жемчужный гимн в Геншин. Пополнили быстро по UID, никаких проблем. Буду брать ещё.</p>
-            </div>
-            <div class="info-card">
-                <h3>Влад_БС (★★★★★)</h3>
-                <p>Самый удобный маркет! Интерфейс как на плеерке, всё понятно без лишней фигни.</p>
-            </div>
+            <div class="m-header"><h2>ОТЗЫВЫ</h2><button class="close-btn" onclick="hide('m-rev')">ЗАКРЫТЬ</button></div>
+            <div class="info-card"><p><strong>Артем:</strong> Взял нитро на год, цены реально упали! Сделали за пару минут.</p></div>
+            <div class="info-card"><p><strong>Денис:</strong> Купил БП в бравле, всё супер, рекомендую Game Market.</p></div>
         </div>
     </div>
 
+    <!-- НОВОСТИ -->
     <div id="m-news" class="modal">
         <div class="m-content">
-            <div class="m-header"><h2>НОВОСТИ И ОБНОВЛЕНИЯ</h2><button class="close-btn" onclick="hide('m-news')">ЗАКРЫТЬ</button></div>
-            <div class="info-card">
-                <h3>Глобальный перезапуск в стиле PlayerOK (2026)</h3>
-                <p>Мы полностью переработали интерфейс сайта! Теперь он работает на чистом коде, без тяжелых картинок, максимально быстро. Добавлен удобный калькулятор валют и расширены категории Genshin и PUBG.</p>
-            </div>
-            <div class="info-card">
-                <h3>Стабильные цены и поддержка</h3>
-                <p>Все цены обновлены на актуальный сезон 2026 года. Напоминаем, что покупка происходит в ручном режиме через нашего оператора в Telegram.</p>
-            </div>
+            <div class="m-header"><h2>НОВОСТИ</h2><button class="close-btn" onclick="hide('m-news')">ЗАКРЫТЬ</button></div>
+            <div class="info-card"><p><strong>Ребрендинг:</strong> Добро пожаловать в GAME MARKET! Мы расширили каталоги Discord, Brawl Stars и Spotify, а также снизили цены для наших постоянных покупателей!</p></div>
         </div>
     </div>
 
     <script>
-        // Функция переключения окон через шапку
         function show(id) {
-            // Скрываем абсолютно все окна
             document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-            
-            if (id === 'main') {
-                // Показываем только главную витрину
-                document.getElementById('main').style.display = 'block';
-            } else {
-                // Скрываем главную и выводим нужную модалку
-                document.getElementById('main').style.display = 'none';
-                document.getElementById(id).style.display = 'block';
-            }
+            document.getElementById('main').style.display = (id === 'main') ? 'block' : 'none';
+            if(id !== 'main') document.getElementById(id).style.display = 'block';
             window.scrollTo(0, 0);
         }
-
-        // Функция закрытия окон (возврат на маркет)
         function hide(id) {
             document.getElementById(id).style.display = 'none';
             document.getElementById('main').style.display = 'block';
         }
 
-        // РАСЧЕТ КАЛЬКУЛЯТОРОВ
+        // Новые сниженные курсы калькуляторов
         function cRb() {
             let num = document.getElementById('rb-in').value;
-            document.getElementById('rb-out').innerText = num ? Math.ceil(num * 1.05) : 0;
+            document.getElementById('rb-out').innerText = num ? Math.ceil(num * 0.85) : 0;
         }
-        
         function cSt() {
             let num = document.getElementById('st-in').value;
-            document.getElementById('st-out').innerText = num ? Math.ceil(num * 2.5) : 0;
+            document.getElementById('st-out').innerText = num ? Math.ceil(num * 1.9) : 0;
         }
-
-        // ГЕНЕРАЦИЯ ССЫЛКИ В ТГ ПРИ КЛИКЕ НА КУПИТЬ ИЗ КАЛЬКУЛЯТОРА
         function send(gameName, inputElementId) {
             let amount = document.getElementById(inputElementId).value;
             if (amount > 0) {
                 window.location.href = "https://t.me/BlameJohn2014?text=Привет!+Я+хочу+купить+" + amount + "+" + gameName;
-            } else {
-                alert("Пожалуйста, введите количество товара перед покупкой!");
             }
         }
     </script>
