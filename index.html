@@ -3,128 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME MARKET | OFFICIAL 2026</title>
+    <title>GAME MARKET | GLOBAL UPDATE 2026</title>
     <style>
         :root {
-            --bg: #0A0A0A;
-            --card: #161616;
-            --card-hover: #1F1F1F;
-            --text: #FFFFFF;
-            --sub-text: #888888;
-            --accent: #24A1DE;
-            --green: #2ecc71;
-            --red: #e74c3c;
-            --gold: #FFD700;
+            --bg: #070708;
+            --surface: #121215;
+            --surface-hover: #1a1a1f;
+            --border: #23232b;
+            --text: #F3F4F6;
+            --sub-text: #9CA3AF;
+            --accent: #3B82F6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --green: #10B981;
+            --gold: #F59E0B;
         }
 
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; outline: none; }
-        body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); }
+        * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; outline: none; }
+        body { margin: 0; background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
 
+        /* ШАПКА */
         .header {
-            background-color: #000000; padding: 15px 20px; display: flex;
-            justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100;
+            background: rgba(7, 7, 8, 0.85); backdrop-filter: blur(12px);
+            padding: 18px 30px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
         }
-        .logo { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; }
-        .logo span { color: var(--accent); }
-        
-        .nav-group { display: flex; gap: 8px; }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo { font-weight: 900; font-size: 22px; letter-spacing: 1px; color: #fff; text-transform: uppercase; }
+        .logo span { color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); }
+        .update-badge { background: rgba(59, 130, 246, 0.15); color: var(--accent); font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+        .nav-group { display: flex; gap: 10px; }
         .nav-btn {
-            background: #1a1a1a; border: 1px solid #333; color: white;
-            padding: 8px 16px; border-radius: 8px; font-weight: 700;
-            font-size: 13px; cursor: pointer; transition: 0.2s;
+            background: var(--surface); border: 1px solid var(--border); color: var(--sub-text);
+            padding: 9px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s;
         }
-        .nav-btn:hover { background: var(--accent); border-color: white; }
+        .nav-btn:hover { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
 
-        .container { padding: 25px 20px; max-width: 900px; margin: 0 auto; }
-        .grid-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 12px; }
+        /* КОНТЕЙНЕРЫ И СЕТКИ */
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ''; display: block; width: 4px; height: 20px; background: var(--accent); border-radius: 2px; }
 
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .game-card {
-            background: var(--card); border: 1px solid #222; border-radius: 12px;
-            padding: 40px 10px; text-align: center; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .game-card:hover { border-color: var(--accent); background: var(--card-hover); transform: translateY(-2px); }
-        .game-card span { font-weight: 800; font-size: 14px; text-transform: uppercase; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto; }
-        .m-content { max-width: 850px; margin: 0 auto; padding: 20px; padding-bottom: 60px; }
-        .m-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 20px; }
-        .close-btn { background: #222; border: 1px solid #444; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 800; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px; }
         
-        .calc-box { background: #111; padding: 25px; border-radius: 14px; border: 2px solid var(--accent); text-align: center; margin-bottom: 25px; }
-        .calc-input { background: #000; border: 1px solid #333; color: white; font-size: 26px; width: 80%; padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 15px; font-weight: 700; }
-        .calc-res { font-size: 30px; font-weight: 900; color: var(--green); margin-bottom: 15px; }
+        .card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+            padding: 35px 20px; text-align: center; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .card:hover { border-color: var(--accent); background: var(--surface-hover); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card h3 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0.5px; }
 
-        .item-row { display: flex; justify-content: space-between; align-items: center; background: #121212; padding: 16px 20px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #222; }
-        .price { color: var(--green); font-weight: 900; font-size: 18px; }
-        .buy-link { background: var(--accent); color: white; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 13px; border: none; }
-        .section-title { font-size: 18px; font-weight: 800; margin: 20px 0 10px 0; color: var(--accent); text-transform: uppercase; }
-        .info-card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid var(--accent); }
+        /* МОДАЛЬНЫЕ ОКНА */
+        .modal { display: none; }
+        .m-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .m-header h2 { margin: 0; font-size: 24px; font-weight: 900; }
+
+        /* ТОВАРЫ И СТРОКИ */
+        .item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--surface); padding: 18px 22px; margin-bottom: 12px;
+            border-radius: 12px; border: 1px solid var(--border); transition: 0.2s;
+        }
+        .item:hover { border-color: #333; }
+        .item-info { display: flex; flex-direction: column; gap: 3px; }
+        .item-name { font-weight: 700; font-size: 15px; }
+        .item-desc { font-size: 12px; color: var(--sub-text); }
+        
+        .price { color: var(--green); font-weight: 900; font-size: 17px; }
+        
+        .buy-btn {
+            background: var(--accent); color: white; text-decoration: none;
+            padding: 10px 20px; border-radius: 10px; font-weight: 800; font-size: 13px;
+            border: none; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px var(--accent-glow);
+        }
+        .buy-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* КАЛЬКУЛЯТОРЫ */
+        .calc-box {
+            background: var(--surface); padding: 30px; border-radius: 16px;
+            border: 1px solid var(--border); text-align: center; margin-bottom: 25px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .calc-box p { margin: 0 0 15px 0; color: var(--sub-text); font-weight: 600; font-size: 14px; }
+        .calc-input {
+            background: #000; color: #fff; padding: 14px; border: 1px solid var(--border);
+            width: 220px; font-size: 22px; border-radius: 12px; text-align: center; font-weight: 800; margin-bottom: 20px;
+        }
+        .calc-input:focus { border-color: var(--accent); }
+        .calc-res { font-size: 32px; font-weight: 900; color: var(--green); margin-bottom: 20px; }
+
+        /* ИНФО КАРТЫ */
+        .info-card {
+            background: var(--surface); border: 1px solid var(--border); padding: 22px;
+            border-radius: 14px; margin-bottom: 14px; border-left: 4px solid var(--accent);
+        }
+        .info-card h3 { margin: 0 0 6px 0; font-size: 16px; font-weight: 800; }
+        .info-card p { margin: 0; color: var(--sub-text); font-size: 14px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo">GAME<span> MARKET</span></div>
+        <div class="logo-box">
+            <div class="logo">GAME<span> MARKET</span></div>
+            <div class="update-badge">v2.0 UPDATE</div>
+        </div>
         <div class="nav-group">
-            <button class="nav-btn" onclick="show('main')">Магазин</button>
-            <button class="nav-btn" onclick="show('m-news')">Новости</button>
-            <button class="nav-btn" onclick="show('m-rev')">Отзывы</button>
-            <button class="nav-btn" onclick="show('m-guarantee')">Гарантии</button>
+            <button class="nav-btn" onclick="openPage('main')">Главная</button>
+            <button class="nav-btn" onclick="openPage('guarantee')">Гарантии</button>
         </div>
     </div>
 
+    <!-- ГЛАВНАЯ СТРАНИЦА -->
     <div id="main" class="container">
-        <div class="grid-title">ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ 🔥</div>
-        <div class="info-card" style="background: linear-gradient(90deg, #161616, #24A1DE20);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div><h3 style="color: var(--accent); margin:0;">Nitro Full на месяц</h3><p>Специальная цена!</p></div>
-                <a href="https://t.me/BlameJohn2014" class="buy-link">Купить за 320 ₽</a>
-            </div>
-        </div>
-
-        <div class="grid-title">КАТЕГОРИИ</div>
-        <div class="game-grid">
-            <div class="game-card" onclick="show('m-rbx')"><span>ROBLOX</span></div>
-            <div class="game-card" onclick="show('m-stars')"><span>TG STARS</span></div>
-            <div class="game-card" onclick="show('m-genshin')"><span>GENSHIN</span></div>
-            <div class="game-card" onclick="show('m-pubg')"><span>PUBG MOBILE</span></div>
-            <div class="game-card" onclick="show('m-bs')"><span>BRAWL STARS</span></div>
-            <div class="game-card" onclick="show('m-dc')"><span>DISCORD</span></div>
-            <div class="game-card" onclick="show('m-spot')"><span>SPOTIFY</span></div>
+        <div class="section-title">ВЫБЕРИТЕ КАТЕГОРИЮ</div>
+        <div class="grid">
+            <div class="card" onclick="openPage('rbx')"><h3>ROBLOX</h3></div>
+            <div class="card" onclick="openPage('stars')"><h3>TG STARS</h3></div>
+            <div class="card" onclick="openPage('genshin')"><h3>GENSHIN IMPACT</h3></div>
+            <div class="card" onclick="openPage('pubg')"><h3>PUBG MOBILE</h3></div>
+            <div class="card" onclick="openPage('bs')"><h3>BRAWL STARS</h3></div>
+            <div class="card" onclick="openPage('dc')"><h3>DISCORD</h3></div>
+            <div class="card" onclick="openPage('spot')"><h3>SPOTIFY</h3></div>
         </div>
     </div>
 
-    <!-- МОДАЛКИ (ЦЕНЫ ПОДНЯТЫ) -->
-    <div id="m-rbx" class="modal"><div class="m-content"><div class="m-header"><h2>ROBLOX</h2><button class="close-btn" onclick="hide('m-rbx')">ЗАКРЫТЬ</button></div><div class="calc-box"><p>Курс: 0.85 ₽ за 1 Robux</p><input type="number" id="rb-in" class="calc-input" oninput="cRb()"><div class="calc-res"><span id="rb-out">0</span> ₽</div><button class="buy-link" onclick="send('Robux', 'rb-in')">КУПИТЬ</button></div></div></div>
+    <!-- РАЗДЕЛ ROBLOX -->
+    <div id="rbx" class="modal container">
+        <div class="m-header"><h2>ROBLOX</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="calc-box">
+            <p>Введите количество Robux (Курс с учетом обновления):</p>
+            <input type="number" id="rb-in" class="calc-input" placeholder="0" oninput="calcRb()">
+            <div class="calc-res"><span id="rb-out">0</span> ₽</div>
+            <button class="buy-btn" style="width: 200px; padding: 14px;" onclick="go('Robux', 'rb-in')">КУПИТЬ В ТГ</button>
+        </div>
+        <div class="item">
+            <div class="item-info"><span class="item-name">Blox Fruits: Kitsune Fruit</span></div>
+            <div style="display:flex; align-items:center; gap: 15px;"><span class="price">1655 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Blox Fruits Kitsune', 1655)">Купить</a></div>
+        </div>
+    </div>
 
-    <div id="m-stars" class="modal"><div class="m-content"><div class="m-header"><h2>TELEGRAM STARS</h2><button class="close-btn" onclick="hide('m-stars')">ЗАКРЫТЬ</button></div><div class="calc-box"><p>Курс: 1.9 ₽ за 1 Star</p><input type="number" id="st-in" class="calc-input" oninput="cSt()"><div class="calc-res"><span id="st-out">0</span> ₽</div><button class="buy-link" onclick="send('Stars', 'st-in')">КУПИТЬ</button></div></div></div>
+    <!-- РАЗДЕЛ TG STARS -->
+    <div id="stars" class="modal container">
+        <div class="m-header"><h2>TELEGRAM STARS</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="calc-box">
+            <p>Введите количество Звёзд:</p>
+            <input type="number" id="st-in" class="calc-input" placeholder="0" oninput="calcSt()">
+            <div class="calc-res" style="color: var(--gold);"><span id="st-out">0</span> ₽</div>
+            <button class="buy-btn" style="width: 200px; padding: 14px; background: var(--gold); color: #000;" onclick="go('Telegram Stars', 'st-in')">КУПИТЬ В ТГ</button>
+        </div>
+    </div>
 
-    <div id="m-genshin" class="modal"><div class="m-content"><div class="m-header"><h2>GENSHIN IMPACT</h2><button class="close-btn" onclick="hide('m-genshin')">ЗАКРЫТЬ</button></div>
-        <div class="item-row"><span>Луна (30 дней)</span><span class="price">420 ₽</span></div>
-        <div class="item-row"><span>Жемчужный гимн (БП)</span><span class="price">890 ₽</span></div>
-        <div class="item-row"><span>6480 Кристаллов</span><span class="price">6800 ₽</span></div>
-        <div class="section-title">Услуги</div>
-        <div class="item-row"><span>Бездна (36★)</span><span class="price">390 ₽</span></div>
-        <div class="item-row"><span>Зачистка региона (100%)</span><span class="price">890 ₽</span></div>
-    </div></div>
+    <!-- РАЗДЕЛ GENSHIN IMPACT -->
+    <div id="genshin" class="modal container">
+        <div class="m-header"><h2>GENSHIN IMPACT</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="section-title" style="font-size:16px;">Донат по UID</div>
+        <div class="item"><span>Благословение полой луны (30 дней)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">370 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Луна Genshin', 370)">Купить</a></div></div>
+        <div class="item"><span>Жемчужный гимн (БП)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">795 ₽</span><a href="#" class="buy-btn" onclick="goFixed('БП Жемчужный гимн', 795)">Купить</a></div></div>
+        <div class="item"><span>6480 Кристаллов сотворения</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">6305 ₽</span><a href="#" class="buy-btn" onclick="goFixed('6480 Кристаллов Genshin', 6305)">Купить</a></div></div>
+        
+        <div class="section-title" style="font-size:16px; margin-top: 25px;">Услуги и Буст</div>
+        <div class="item"><div class="item-info"><span class="item-name">Витая Бездна (9-12 этаж на 36★)</span></div><div style="display:flex; align-items:center; gap: 15px;"><span class="price">355 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Бездна Genshin', 355)">Купить</a></div></div>
+        <div class="item"><div class="item-info"><span class="item-name">Зачистка любого региона на 100%</span></div><div style="display:flex; align-items:center; gap: 15px;"><span class="price">795 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Зачистка 100% Genshin', 795)">Купить</a></div></div>
+    </div>
 
-    <div id="m-guarantee" class="modal"><div class="m-content"><div class="m-header"><h2>ГАРАНТИИ</h2><button class="close-btn" onclick="hide('m-guarantee')">ЗАКРЫТЬ</button></div><div class="info-card"><h3>✅ Безопасность</h3><p>Честная сделка и поддержка 24/7.</p></div></div></div>
+    <!-- РАЗДЕЛ PUBG MOBILE -->
+    <div id="pubg" class="modal container">
+        <div class="m-header"><h2>PUBG MOBILE</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="item"><span>Royale Pass Elite</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">585 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Royale Pass Elite PUBG', 585)">Купить</a></div></div>
+        <div class="item"><span>8100 UC</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">6505 ₽</span><a href="#" class="buy-btn" onclick="goFixed('8100 UC PUBG', 6505)">Купить</a></div></div>
+    </div>
+
+    <!-- РАЗДЕЛ BRAWL STARS -->
+    <div id="bs" class="modal container">
+        <div class="m-header"><h2>BRAWL STARS</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="item"><span>Brawl Pass (Обычный)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">495 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Brawl Pass', 495)">Купить</a></div></div>
+        <div class="item"><span>2000 Гемов</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">4905 ₽</span><a href="#" class="buy-btn" onclick="goFixed('2000 Гемов Brawl Stars', 4905)">Купить</a></div></div>
+    </div>
+
+    <!-- РАЗДЕЛ DISCORD -->
+    <div id="dc" class="modal container">
+        <div class="m-header"><h2>DISCORD SERVICES</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="item"><span>Discord Nitro Basic (1 Месяц)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">145 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Nitro Basic 1 мес', 145)">Купить</a></div></div>
+        <div class="item"><span>Discord Nitro Full (1 Год)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">2855 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Nitro Full 1 год', 2855)">Купить</a></div></div>
+    </div>
+
+    <!-- РАЗДЕЛ SPOTIFY -->
+    <div id="spot" class="modal container">
+        <div class="m-header"><h2>SPOTIFY PREMIUM</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="item"><span>Индивидуальный Premium (1 мес)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">145 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Spotify 1 мес', 145)">Купить</a></div></div>
+        <div class="item"><span>Индивидуальный Premium (12 мес)</span><div style="display:flex; align-items:center; gap: 15px;"><span class="price">1295 ₽</span><a href="#" class="buy-btn" onclick="goFixed('Spotify 12 мес', 1295)">Купить</a></div></div>
+    </div>
+
+    <!-- РАЗДЕЛ ГАРАНТИИ -->
+    <div id="guarantee" class="modal container">
+        <div class="m-header"><h2>ГАРАНТИИ И БЕЗОПАСНОСТЬ</h2><button class="nav-btn" onclick="openPage('main')">Назад</button></div>
+        <div class="info-card">
+            <h3>⚡ Быстрая выдача</h3>
+            <p>Все заказы обрабатываются оператором в кратчайшие сроки после подтверждения перевода.</p>
+        </div>
+        <div class="info-card">
+            <h3>🛡 Безопасность сделки</h3>
+            <p>Мы дорожим репутацией нашего маркетплейса и гарантируем честное выполнение каждого заказа.</p>
+        </div>
+    </div>
 
     <script>
-        function show(id) {
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-            document.getElementById('main').style.display = (id === 'main') ? 'block' : 'none';
-            if(id !== 'main') document.getElementById(id).style.display = 'block';
+        function openPage(pageId) {
+            document.querySelectorAll('.container').forEach(el => el.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+            window.scrollTo(0, 0);
         }
-        function hide(id) { document.getElementById(id).style.display = 'none'; document.getElementById('main').style.display = 'block'; }
-        
-        // Обновленные курсы
-        function cRb() { let v = document.getElementById('rb-in').value; document.getElementById('rb-out').innerText = v ? Math.ceil(v * 0.85) : 0; }
-        function cSt() { let v = document.getElementById('st-in').value; document.getElementById('st-out').innerText = v ? Math.ceil(v * 1.9) : 0; }
-        function send(n, i) { let v = document.getElementById(i).value; if(v>0) window.location.href = "https://t.me/BlameJohn2014?text=Хочу+купить+"+v+"+"+n; }
+
+        function calcRb() {
+            let v = document.getElementById('rb-in').value;
+            // Новый курс с учетом поднятия цены
+            document.getElementById('rb-out').innerText = v ? Math.ceil(v * 0.75) : 0;
+        }
+
+        function calcSt() {
+            let v = document.getElementById('st-in').value;
+            document.getElementById('st-out').innerText = v ? Math.ceil(v * 1.70) : 0;
+        }
+
+        function go(name, inputId) {
+            let val = document.getElementById(inputId).value;
+            if(val > 0) {
+                let text = "Привет! Хочу купить " + val + " " + name;
+                window.location.href = "https://t.me/BlameJohn2014?text=" + encodeURIComponent(text);
+            }
+        }
+
+        function goFixed(name, price) {
+            let text = "Привет! Хочу купить " + name + " за " + price + " руб.";
+            window.location.href = "https://t.me/BlameJohn2014?text=" + encodeURIComponent(text);
+        }
     </script>
+
 </body>
 </html>
